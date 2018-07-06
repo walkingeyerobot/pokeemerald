@@ -195,5 +195,5 @@ enum CostumesByTrainerType
 	Flint,
 	Lucian,
 	Cynthia,
+	NUMBER_OF_COSTUMES
 };
-#define NUMBER_OF_COSTUMES Cynthia

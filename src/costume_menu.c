@@ -14,15 +14,26 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
-u8 gCostumeSpriteId[7];
+static EWRAM_DATA struct SpriteTemplate sSpriteTemplateBase = {};
+u8 gCostumeSpriteId[8];
 u16 selection;
-s8 slot;
+u8 sScrollBarState;
+
+#define NONE 0
+#define SCROLL_LEFT 1
+#define SCROLL_RIGHT 2
 
 // static declarations
 
 static void CreateOverworldScrollBar(void);
 static void UpdateSpritePositions(void);
 static void HandleKeyPresses(void);
+static void UpdateBackgroundGraphics(void);
+static void UpdateSlotNumbers(struct Sprite *sprite);
+static void SpriteCallback_UpdateSpritePosition(struct Sprite *sprite);
+static void TrainerSpriteCallback(struct Sprite *sprite);
+static void CreateTrainerSprite(void);
+static void SetSpriteTemplateParameters(void);
 
 //.rodata
 
@@ -45,107 +56,83 @@ const struct BgTemplate gBgTemplates_CostumeScreen[] =
 
 static const struct OamData sOamData_CostumeSlots =
 {
-    .y = 0,						//top of sprite
+    .y = 0,                        //top of sprite
     .affineMode = 0,
     .objMode = 0,
     .mosaic = 0,
-    .bpp = 0,					// .4bpp if 0, .8bpp if 1?
-    .shape = 0,					// square, wide, tall
-    .x = 0,						// left of sprite
+    .bpp = 0,                    // .4bpp if 0, .8bpp if 1?
+    .shape = 0,                    // square, wide, tall
+    .x = 0,                        // left of sprite
     .matrixNum = 0,
-    .size = 2,					//0 = 8x8, 1 = 16x16, 2 = 32x32, 3 = 64x64? (if shape is square)
+    .size = 2,                    //0 = 8x8, 1 = 16x16, 2 = 32x32, 3 = 64x64? (if shape is square)
     .tileNum = 0,
-    .priority = 0,				//draw order, higher = drawn earlier
+    .priority = 0,                //draw order, higher = drawn earlier
     .paletteNum = 0,
     .affineParam = 0,
 };
 
-const u8 gGraphics_Costume_Red[] = INCBIN_U8("graphics/costume_screen/overworlds/red.4bpp.lz");
-const u8 gPalette_Costume_Red[] = INCBIN_U8("graphics/costume_screen/overworlds/red.gbapal.lz");
-const u8 gGraphics_Costume_Lyra[] = INCBIN_U8("graphics/costume_screen/overworlds/lyra.4bpp.lz");
-const u8 gPalette_Costume_Lyra[] = INCBIN_U8("graphics/costume_screen/overworlds/lyra.gbapal.lz");
-const u8 gGraphics_Costume_Lance[] = INCBIN_U8("graphics/costume_screen/overworlds/lance.4bpp.lz");
-const u8 gPalette_Costume_Lance[] = INCBIN_U8("graphics/costume_screen/overworlds/lance.gbapal.lz");
-const u8 gGraphics_Costume_Misty[] = INCBIN_U8("graphics/costume_screen/overworlds/misty.4bpp.lz");
-const u8 gPalette_Costume_Misty[] = INCBIN_U8("graphics/costume_screen/overworlds/misty.gbapal.lz");
+static const struct OamData sOamData_TrainerSprite =
+{
+    .y = 0,                      //top of sprite
+    .affineMode = 0,
+    .objMode = 0,
+    .mosaic = 0,
+    .bpp = 0,                    // .4bpp if 0, .8bpp if 1?
+    .shape = 0,                  // square, wide, tall
+    .x = 0,                      // left of sprite
+    .matrixNum = 0,
+    .size = 3,                   //0 = 8x8, 1 = 16x16, 2 = 32x32, 3 = 64x64? (if shape is square)
+    .tileNum = 0,
+    .priority = 0,               //draw order, higher = drawn earlier
+    .paletteNum = 0,
+    .affineParam = 0,
+};
+
+const u8 gGraphics_Costume_Red[] =     INCBIN_U8("graphics/costume_screen/overworlds/red.4bpp.lz");
+const u8 gPalette_Costume_Red[] =      INCBIN_U8("graphics/costume_screen/overworlds/red.gbapal.lz");
+const u8 gGraphics_Costume_Lyra[] =    INCBIN_U8("graphics/costume_screen/overworlds/lyra.4bpp.lz");
+const u8 gPalette_Costume_Lyra[] =     INCBIN_U8("graphics/costume_screen/overworlds/lyra.gbapal.lz");
+const u8 gGraphics_Costume_Lance[] =   INCBIN_U8("graphics/costume_screen/overworlds/lance.4bpp.lz");
+const u8 gPalette_Costume_Lance[] =    INCBIN_U8("graphics/costume_screen/overworlds/lance.gbapal.lz");
+const u8 gGraphics_Costume_Misty[] =   INCBIN_U8("graphics/costume_screen/overworlds/misty.4bpp.lz");
+const u8 gPalette_Costume_Misty[] =    INCBIN_U8("graphics/costume_screen/overworlds/misty.gbapal.lz");
 const u8 gGraphics_Costume_RocketM[] = INCBIN_U8("graphics/costume_screen/overworlds/rocket_m.4bpp.lz");
-const u8 gPalette_Costume_RocketM[] = INCBIN_U8("graphics/costume_screen/overworlds/rocket_m.gbapal.lz");
+const u8 gPalette_Costume_RocketM[] =  INCBIN_U8("graphics/costume_screen/overworlds/rocket_m.gbapal.lz");
 const u8 gGraphics_Costume_RocketF[] = INCBIN_U8("graphics/costume_screen/overworlds/rocket_f.4bpp.lz");
-const u8 gPalette_Costume_RocketF[] = INCBIN_U8("graphics/costume_screen/overworlds/rocket_f.gbapal.lz");
+const u8 gPalette_Costume_RocketF[] =  INCBIN_U8("graphics/costume_screen/overworlds/rocket_f.gbapal.lz");
 const u8 gGraphics_Costume_ProfOak[] = INCBIN_U8("graphics/costume_screen/overworlds/prof_oak.4bpp.lz");
-const u8 gPalette_Costume_ProfOak[] = INCBIN_U8("graphics/costume_screen/overworlds/prof_oak.gbapal.lz");
+const u8 gPalette_Costume_ProfOak[] =  INCBIN_U8("graphics/costume_screen/overworlds/prof_oak.gbapal.lz");
 
-#define GFX_TAG_COSTUME_RED 10000
-#define GFX_TAG_COSTUME_LYRA 10001
-#define GFX_TAG_COSTUME_LANCE 10002
-#define GFX_TAG_COSTUME_MISTY 10003
-#define GFX_TAG_COSTUME_ROCKET_M 10004
-#define GFX_TAG_COSTUME_ROCKET_F 10005
-#define GFX_TAG_COSTUME_PROF_OAK 10006
+const u8 gTrainerFrontSprite_Red[] =   INCBIN_U8("graphics/costume_screen/trainers/red.4bpp.lz");
+const u8 gPalette_Trainer_Red[] =      INCBIN_U8("graphics/costume_screen/trainers/red.gbapal.lz");
+const u8 gTrainerFrontSprite_Lyra[] =  INCBIN_U8("graphics/costume_screen/trainers/lyra.4bpp.lz");
+const u8 gPalette_Trainer_Lyra[] =     INCBIN_U8("graphics/costume_screen/trainers/lyra.gbapal.lz");
+const u8 gTrainerFrontSprite_Lance[] = INCBIN_U8("graphics/costume_screen/trainers/lance.4bpp.lz");
+const u8 gPalette_Trainer_Lance[] =    INCBIN_U8("graphics/costume_screen/trainers/lance.gbapal.lz");
+const u8 gTrainerFrontSprite_Misty[] = INCBIN_U8("graphics/costume_screen/trainers/misty.4bpp.lz");
+const u8 gPalette_Trainer_Misty[] =    INCBIN_U8("graphics/costume_screen/trainers/misty.gbapal.lz");
+const u8 gTrainerFrontSprite_RocketGruntM[] = INCBIN_U8("graphics/costume_screen/trainers/rocket_m.4bpp.lz");
+const u8 gPalette_Trainer_RocketM[] =  INCBIN_U8("graphics/costume_screen/trainers/rocket_m.gbapal.lz");
+const u8 gTrainerFrontSprite_RocketGruntF[] = INCBIN_U8("graphics/costume_screen/trainers/rocket_f.4bpp.lz");
+const u8 gPalette_Trainer_RocketF[] =  INCBIN_U8("graphics/costume_screen/trainers/rocket_f.gbapal.lz");
+const u8 gTrainerFrontSprite_ProfessorOak[] = INCBIN_U8("graphics/costume_screen/trainers/prof_oak.4bpp.lz");
+const u8 gPalette_Trainer_ProfOak[] =  INCBIN_U8("graphics/costume_screen/trainers/prof_oak.gbapal.lz");
 
-const struct CompressedSpriteSheet sCostumeOverworldSpriteTable[] =
-{
-// .data              .size            .tag
-	{gGraphics_Costume_Red, 512, 10000},                  // (32x32/2) = 512 = 0x200
-	{gGraphics_Costume_Lyra, 512, 10001},
-	{gGraphics_Costume_Lance, 512, 10002},
-	{gGraphics_Costume_Misty, 512, 10003},
-	{gGraphics_Costume_RocketM, 512, 10004},
-	{gGraphics_Costume_RocketF, 512, 10005},
-	{gGraphics_Costume_ProfOak, 512, 10006},
-// duplicates
-	{gGraphics_Costume_ProfOak, 512, 10006},
-	{gGraphics_Costume_ProfOak, 512, 10006},
-	{gGraphics_Costume_ProfOak, 512, 10006},
-	{gGraphics_Costume_ProfOak, 512, 10006},
-};
-
-const struct CompressedSpritePalette sCostumeOverworldPaletteTable[] =
-{
-	{gPalette_Costume_Red, 10000},
-	{gPalette_Costume_Lyra, 10001},
-	{gPalette_Costume_Lance, 10002},
-	{gPalette_Costume_Misty, 10003},
-	{gPalette_Costume_RocketM, 10004},
-	{gPalette_Costume_RocketF, 10005},
-	{gPalette_Costume_ProfOak, 10006},
-// duplicates
-	{gPalette_Costume_ProfOak, 10006},
-	{gPalette_Costume_ProfOak, 10006},
-	{gPalette_Costume_ProfOak, 10006},
-	{gPalette_Costume_ProfOak, 10006},
-};
-
-static const struct SpriteTemplate sSpriteTemplate_Costumes[] = 
-{
-//        .tileTag             .paletteTag             .oam                  .anims         .images        .affineAnims               .callback
-    {GFX_TAG_COSTUME_RED, GFX_TAG_COSTUME_RED, &sOamData_CostumeSlots, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy,},
-	{GFX_TAG_COSTUME_LYRA, GFX_TAG_COSTUME_LYRA, &sOamData_CostumeSlots, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy},
-	{GFX_TAG_COSTUME_LANCE, GFX_TAG_COSTUME_LANCE, &sOamData_CostumeSlots, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy},
-	{GFX_TAG_COSTUME_MISTY, GFX_TAG_COSTUME_MISTY, &sOamData_CostumeSlots, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy},
-	{GFX_TAG_COSTUME_ROCKET_M, GFX_TAG_COSTUME_ROCKET_M, &sOamData_CostumeSlots, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy},
-	{GFX_TAG_COSTUME_ROCKET_F, GFX_TAG_COSTUME_ROCKET_F, &sOamData_CostumeSlots, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy},
-	{GFX_TAG_COSTUME_PROF_OAK, GFX_TAG_COSTUME_PROF_OAK, &sOamData_CostumeSlots, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy},
-// duplicates
-	{GFX_TAG_COSTUME_PROF_OAK, GFX_TAG_COSTUME_PROF_OAK, &sOamData_CostumeSlots, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy},
-	{GFX_TAG_COSTUME_PROF_OAK, GFX_TAG_COSTUME_PROF_OAK, &sOamData_CostumeSlots, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy},
-	{GFX_TAG_COSTUME_PROF_OAK, GFX_TAG_COSTUME_PROF_OAK, &sOamData_CostumeSlots, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy},
-	{GFX_TAG_COSTUME_PROF_OAK, GFX_TAG_COSTUME_PROF_OAK, &sOamData_CostumeSlots, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy},
-};
+#include "data/costume_menu_tables.h"
 
 // .text
 
 void LoadBackgroundGraphics(void)
 {
-	LZ77UnCompVram(gGraphics_CostumeScreenBackground, (void *)VRAM);
+    LZ77UnCompVram(gGraphics_CostumeScreenBackground, (void *)VRAM);
     LoadPalette(gPalette_CostumeScreenBackground, 0x00, 0x20);
-	LZ77UnCompVram(gTilemap_CostumeScreenBackground, (u16 *)BG_SCREEN_ADDR(1));
-	
-	InitBgsFromTemplates(0, gBgTemplates_CostumeScreen, 1);
-	ShowBg(0);
-	HideBg(3);
-	HideBg(1);
-	HideBg(2);
+    LZ77UnCompVram(gTilemap_CostumeScreenBackground, (u16 *)BG_SCREEN_ADDR(1));
+    
+    InitBgsFromTemplates(0, gBgTemplates_CostumeScreen, 1);
+    ShowBg(0);
+    HideBg(3);
+    HideBg(1);
+    HideBg(2);
 }
 
 void CB2_CostumeMenu(void)
@@ -154,129 +141,182 @@ void CB2_CostumeMenu(void)
     {
         case 0:
         default:
-			ScanlineEffect_Stop();
+            ScanlineEffect_Stop();
             ResetTasks();
             ResetSpriteData();
             ResetPaletteFade();
             FreeAllSpritePalettes();
-			DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000)
+            DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000)
             gMain.state++;
             break;
         case 1:
-			LoadBackgroundGraphics();
-			//LoadOam();			
-			CreateOverworldScrollBar();
-			BuildOamBuffer();
+            selection = 0;            //selection = gSaveBlock2Ptr->costume
+            sScrollBarState = NONE;
+            LoadBackgroundGraphics();
+            CreateOverworldScrollBar();
+            SetSpriteTemplateParameters();
+            CreateTrainerSprite();
+            BuildOamBuffer();
             gMain.state++;
             break;
         case 2:
-			SetMainCallback2(HandleKeyPresses);
-			break;
+            SetMainCallback2(HandleKeyPresses);
+            break;
     }
+}
+
+u8 slotSize = 32;
+s16 xPos_initial = 24;
+s16 yPos = 136;
+
+static void CreateNewScrollBarSlot(s8 slot, u8 scrollDirection)
+{
+    u8 spriteId;
+
+    LoadCompressedObjectPic(&sCostumeOverworldSpriteTable[selection + slot]);
+    LoadCompressedObjectPalette(&sCostumeOverworldPaletteTable[selection + slot]);
+    spriteId = CreateSprite(&sSpriteTemplate_Costumes[selection + slot], xPos_initial + slot*slotSize, yPos, 0);
+    gSprites[spriteId].data[0] = slot;
+    sScrollBarState = scrollDirection;
 }
 
 static void HandleKeyPresses(void)
 {
-	if (gMain.newKeys & DPAD_RIGHT)
-	{
-		if (selection != NUMBER_OF_COSTUMES)
-		{
-			selection++;
-			PlaySE(SE_SELECT);
-			UpdateSpritePositions();
-		}
-		else
-			PlaySE(SE_PIN);
-	}
-	if (gMain.newKeys & DPAD_LEFT)
-	{
-		if (selection != 0)
-		{
-			selection--;
-			PlaySE(SE_SELECT);			
-			UpdateSpritePositions();
-		}
-		else
-			PlaySE(SE_PIN);
-	}
-	if (gMain.newKeys & R_BUTTON)
-	{
-		if (selection <= NUMBER_OF_COSTUMES - 7)
-			selection = selection + 7;
-		else if (selection == NUMBER_OF_COSTUMES)
-			PlaySE(SE_PIN);
-		else
-			selection = NUMBER_OF_COSTUMES;
-	}
-	if (gMain.newKeys & L_BUTTON)
-	{
-		if (selection >= 7)
-			selection = selection - 7;
-		else if (selection == 0)
-			PlaySE(SE_PIN);
-		else
-			selection = 0;
-	}
-	if (gMain.newKeys & A_BUTTON)
-	{
-		//pop-up confirmation menu first
-		PlaySE(SE_SELECT);
-	}
-	if (gMain.newKeys & B_BUTTON)
-	{
-		BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
-		PlaySE(SE_PC_OFF);
-		SetMainCallback2(CB2_ReturnToFieldWithOpenMenu);
-	}
-	if (gMain.heldKeys & DPAD_LEFT)
-	{
+if (sScrollBarState == NONE)
+{
+    if ((gMain.newKeys & DPAD_LEFT) && (selection != NUMBER_OF_COSTUMES))
+    {
+        CreateNewScrollBarSlot(7, SCROLL_LEFT);
+        selection++;
         PlaySE(SE_Z_SCROLL);
-	}
+    }
+    if ((gMain.newKeys & DPAD_RIGHT) && (selection != 0))
+    {
+        CreateNewScrollBarSlot(-1, SCROLL_RIGHT);
+        selection--;
+        PlaySE(SE_Z_SCROLL);
+    }
+    if (gMain.newKeys & A_BUTTON) // && (GetFlag(CostumeFlags(selection)) == TRUE)
+    {
+        //pop-up confirmation menu first
+        PlaySE(SE_SELECT);
+        //gSaveBlock2Ptr->costume = selection;
+        //gSaveBlock2Ptr->gender = gCostumes[selection].gender;
+    }
+    if (gMain.newKeys & (B_BUTTON | START_BUTTON))
+    {
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
+        PlaySE(SE_PC_OFF);
+        SetMainCallback2(CB2_ReturnToFieldWithOpenMenu);
+    }
+    else if (gMain.newKeys & (DPAD_LEFT | DPAD_RIGHT)) // | A_BUTTON))
+    {
+    PlaySE(SE_HAZURE);
+    }
+}
+    AnimateSprites();
+    BuildOamBuffer();
 }
 
-u8 XPos_initial = 24;
 
 static void CreateOverworldScrollBar(void)
 {
-	//s8 slot;
-	u8 XPos;
-	u16 DisplayedCostume;
-	u8 YPos = 136;
-	
-	for (slot = 0; slot <= 6; slot++)
-	{
-		XPos = XPos_initial + (slot * 32);
-		DisplayedCostume = selection + slot;
-		LoadCompressedObjectPic(&sCostumeOverworldSpriteTable[DisplayedCostume]);
-		LoadCompressedObjectPalette(&sCostumeOverworldPaletteTable[DisplayedCostume]);
-		gCostumeSpriteId[slot] = CreateSprite(&sSpriteTemplate_Costumes[DisplayedCostume], XPos, YPos, 0);
-	}
-}
+    s8 slot;
+    u8 xPos;
+    u16 displayedCostume;
 
+    for (slot = 0; slot <= 6; slot++)
+    {
+        xPos = xPos_initial + (slot * slotSize);
+        displayedCostume = selection + slot;
+        LoadCompressedObjectPic(&sCostumeOverworldSpriteTable[displayedCostume]);
+        LoadCompressedObjectPalette(&sCostumeOverworldPaletteTable[displayedCostume]);
+        gCostumeSpriteId[slot] = CreateSprite(&sSpriteTemplate_Costumes[displayedCostume], xPos, yPos, 0);
+        gSprites[gCostumeSpriteId[slot]].data[0] = slot;
+    }
+}
 
 static void UpdateSpritePositions(void)
 {
-	s8 slot;
-	
-	for (slot = 0; slot <=6; slot++)
-	{
-	DestroySprite(&gSprites[gCostumeSpriteId[slot]]);
-	}
-	
-	CreateOverworldScrollBar();
-}
-/*
-static void UpdateSpritePositions(void)
-{
-	//s8 slot;
+    s8 slot;
+    
+    for (slot = 0; slot <=6; slot++)
+    {
+    DestroySprite(&gSprites[gCostumeSpriteId[slot]]);
+    }
 
-	DestroySprite(&gSprites[gCostumeSpriteId[0]]);
-	DestroySprite(&gSprites[gCostumeSpriteId[1]]);
-	DestroySprite(&gSprites[gCostumeSpriteId[2]]);
-	DestroySprite(&gSprites[gCostumeSpriteId[3]]);
-	DestroySprite(&gSprites[gCostumeSpriteId[4]]);
-	DestroySprite(&gSprites[gCostumeSpriteId[5]]);
-	DestroySprite(&gSprites[gCostumeSpriteId[6]]);
-	CreateOverworldScrollBar();
+    CreateOverworldScrollBar();
 }
-*/
+
+static void UpdateSlotNumbers(struct Sprite *sprite)
+{
+    if (sScrollBarState == SCROLL_LEFT)
+        {
+        sprite->data[0]--;
+        sprite->callback = SpriteCallback_UpdateSpritePosition;
+        }
+    if (sScrollBarState == SCROLL_RIGHT)
+        {
+        sprite->data[0]++;
+        sprite->callback = SpriteCallback_UpdateSpritePosition;
+        }
+}
+
+static void SpriteCallback_UpdateSpritePosition(struct Sprite *sprite)
+{
+    // data[0] represents what slot within the scroll bar the sprite is in.
+    // UpdateSlotNumbers() increments/decrements data[0] depending on the 
+    // button press in order for this callback to compare the current
+    // position of the sprite to its next slot position
+
+    if (sprite->pos1.x > (xPos_initial + sprite->data[0]*slotSize))        //DPAD_LEFT
+        {
+        sprite->pos1.x -= 2;
+        }
+    if (sprite->pos1.x < (xPos_initial + sprite->data[0]*slotSize))        //DPAD_RIGHT
+        {
+        sprite->pos1.x += 2;
+        }
+    if (sprite->pos1.x <= xPos_initial - slotSize || sprite->pos1.x >= xPos_initial + (7*slotSize))
+		// Need to add a check to see if other members of the gSprites array have the same paletteTag.
+        {
+        FreeSpritePalette(sprite);
+        DestroySprite(sprite);
+        }
+    else if (sprite->pos1.x == xPos_initial + sprite->data[0]*slotSize)
+        {
+        sScrollBarState = NONE;
+        sprite->callback = UpdateSlotNumbers;
+        }
+}
+
+static void SetSpriteTemplateParameters(void)
+{
+    sSpriteTemplateBase.anims = gDummySpriteAnimTable;
+    sSpriteTemplateBase.images = NULL;
+    sSpriteTemplateBase.affineAnims = gDummySpriteAffineAnimTable;
+    sSpriteTemplateBase.oam = &sOamData_TrainerSprite;
+    sSpriteTemplateBase.callback = TrainerSpriteCallback;
+}
+
+static void CreateTrainerSprite(void)
+{
+    u8 spriteId;
+
+    sSpriteTemplateBase.tileTag = sCostumeTrainerSpriteTable[selection].tag;
+    sSpriteTemplateBase.paletteTag = sCostumeTrainerPaletteTable[selection].tag;
+    LoadCompressedObjectPic(&sCostumeTrainerSpriteTable[selection]);
+    LoadCompressedObjectPalette(&sCostumeTrainerPaletteTable[selection]);
+    spriteId = CreateSprite(&sSpriteTemplateBase, 200, 48, 0);
+    gSprites[spriteId].data[1] = selection;
+}
+
+static void TrainerSpriteCallback(struct Sprite *sprite)
+{
+    if (sprite->data[1] != selection)
+    {
+        FreeSpritePalette(sprite);
+        DestroySprite(sprite);
+        CreateTrainerSprite();
+    }
+}
