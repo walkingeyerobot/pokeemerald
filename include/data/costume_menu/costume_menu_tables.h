@@ -237,4 +237,31 @@ const struct CompressedSpritePalette sCostumeTrainerPaletteTable[NUMBER_OF_COSTU
     {gPalette_Trainer_ProfOak, COSTUME_TAG_T_PROF_OAK},
 };
 
+const struct SpriteTemplate sSpriteTemplate_CostumesTrainers[NUMBER_OF_COSTUMES] = 
+{
+//        .tileTag                 .paletteTag                   .oam                  .anims         .images        .affineAnims               .callback
+    {COSTUME_TAG_T_RED,      COSTUME_TAG_T_RED,      &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_LYRA,     COSTUME_TAG_T_LYRA,     &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_LANCE,    COSTUME_TAG_T_LANCE,    &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_MISTY,    COSTUME_TAG_T_MISTY,    &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_ROCKET_M, COSTUME_TAG_T_ROCKET_M, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_ROCKET_F, COSTUME_TAG_T_ROCKET_F, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+// duplicates
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+    {COSTUME_TAG_T_PROF_OAK, COSTUME_TAG_T_PROF_OAK, &sOamData_TrainerSprite, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, TrainerSpriteCallback},
+};
+
 #endif //GUARD_DATA_COSTUME_MENU_TABLES_H

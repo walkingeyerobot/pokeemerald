@@ -34,6 +34,9 @@ static void SpriteCallback_UpdateSpritePosition(struct Sprite *sprite);
 static void TrainerSpriteCallback(struct Sprite *sprite);
 static void CreateTrainerSprite(void);
 static void SetSpriteTemplateParameters(void);
+static void FreeSpriteTilesIfUnused(u16);
+static void FreeSpritePaletteIfUnused(u8);
+static void LoadCostumeNameAndDescription(void);
 
 //.rodata
 
@@ -50,6 +53,15 @@ const struct BgTemplate gBgTemplates_CostumeScreen[] =
         .screenSize = 0,
         .paletteMode = 0,
         .priority = 3,
+        .baseTile = 0
+    },
+    {
+        .bg = 1,
+        .charBaseIndex = 1,
+        .mapBaseIndex = 5,
+        .screenSize = 0,
+        .paletteMode = 0,
+        .priority = 1,
         .baseTile = 0
     },
 };
@@ -81,11 +93,33 @@ static const struct OamData sOamData_TrainerSprite =
     .shape = 0,                  // square, wide, tall
     .x = 0,                      // left of sprite
     .matrixNum = 0,
-    .size = 3,                   //0 = 8x8, 1 = 16x16, 2 = 32x32, 3 = 64x64? (if shape is square)
+    .size = 3,                   //0 = 8x8, 1 = 16x16, 2 = 32x32, 3 = 64x64 (if shape is square)
     .tileNum = 0,
     .priority = 0,               //draw order, higher = drawn earlier
     .paletteNum = 0,
     .affineParam = 0,
+};
+
+static const struct WindowTemplate sWindowTemplate_CostumeMenu[] = 
+{
+    {  // NAME_WINDOW
+        .priority = 1,                    // bg layer
+        .tilemapLeft = 1,                 // x position, in no. of tiles
+        .tilemapTop = 5,                  // y position
+        .width = 10,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 0,
+    },
+    {// DESCRIPTION_WINDOW
+        .priority = 1,
+        .tilemapLeft = 1,
+        .tilemapTop = 11,
+        .width = 28,
+        .height = 5,
+        .paletteNum = 0,
+        .baseBlock = 0,
+    },
 };
 
 const u8 gGraphics_Costume_Red[] =     INCBIN_U8("graphics/costume_screen/overworlds/red.4bpp.lz");
@@ -118,7 +152,9 @@ const u8 gPalette_Trainer_RocketF[] =  INCBIN_U8("graphics/costume_screen/traine
 const u8 gTrainerFrontSprite_ProfessorOak[] = INCBIN_U8("graphics/costume_screen/trainers/prof_oak.4bpp.lz");
 const u8 gPalette_Trainer_ProfOak[] =  INCBIN_U8("graphics/costume_screen/trainers/prof_oak.gbapal.lz");
 
-#include "data/costume_menu_tables.h"
+#include "data/costume_menu/costume_menu_tables.h"
+#include "data/costume_menu/costume_descriptions.h"
+#include "data/costume_menu/costumes.h"
 
 // .text
 
@@ -128,10 +164,10 @@ void LoadBackgroundGraphics(void)
     LoadPalette(gPalette_CostumeScreenBackground, 0x00, 0x20);
     LZ77UnCompVram(gTilemap_CostumeScreenBackground, (u16 *)BG_SCREEN_ADDR(1));
     
-    InitBgsFromTemplates(0, gBgTemplates_CostumeScreen, 1);
+    InitBgsFromTemplates(0, gBgTemplates_CostumeScreen, ARRAY_COUNT(gBgTemplates_CostumeScreen));
     ShowBg(0);
+    ShowBg(1);
     HideBg(3);
-    HideBg(1);
     HideBg(2);
 }
 
@@ -156,6 +192,7 @@ void CB2_CostumeMenu(void)
             CreateOverworldScrollBar();
             SetSpriteTemplateParameters();
             CreateTrainerSprite();
+            LoadCostumeNameAndDescription();
             BuildOamBuffer();
             gMain.state++;
             break;
@@ -173,7 +210,11 @@ static void CreateNewScrollBarSlot(s8 slot, u8 scrollDirection)
 {
     u8 spriteId;
 
-    LoadCompressedObjectPic(&sCostumeOverworldSpriteTable[selection + slot]);
+    // Only load the sprite pic into VRAM if it isn't already there.
+    if (GetSpriteTileStartByTag(sCostumeOverworldSpriteTable[selection + slot].tag) == 0xFFFF)
+    {
+        LoadCompressedObjectPic(&sCostumeOverworldSpriteTable[selection + slot]);
+    }
     LoadCompressedObjectPalette(&sCostumeOverworldPaletteTable[selection + slot]);
     spriteId = CreateSprite(&sSpriteTemplate_Costumes[selection + slot], xPos_initial + slot*slotSize, yPos, 0);
     gSprites[spriteId].data[0] = slot;
@@ -270,24 +311,26 @@ static void SpriteCallback_UpdateSpritePosition(struct Sprite *sprite)
     // position of the sprite to its next slot position
 
     if (sprite->pos1.x > (xPos_initial + sprite->data[0]*slotSize))        //DPAD_LEFT
-        {
+    {
         sprite->pos1.x -= 2;
-        }
+    }
     if (sprite->pos1.x < (xPos_initial + sprite->data[0]*slotSize))        //DPAD_RIGHT
-        {
+    {
         sprite->pos1.x += 2;
-        }
+    }
     if (sprite->pos1.x <= xPos_initial - slotSize || sprite->pos1.x >= xPos_initial + (7*slotSize))
-		// Need to add a check to see if other members of the gSprites array have the same paletteTag.
-        {
-        FreeSpritePalette(sprite);
+    {
+        u8 paletteNum = sprite->oam.paletteNum; 
+        u16 sheetTileStart = sprite->sheetTileStart;
         DestroySprite(sprite);
-        }
+        FreeSpritePaletteIfUnused(paletteNum);
+        FreeSpriteTilesIfUnused(sheetTileStart);
+    }
     else if (sprite->pos1.x == xPos_initial + sprite->data[0]*slotSize)
-        {
+    {
         sScrollBarState = NONE;
         sprite->callback = UpdateSlotNumbers;
-        }
+    }
 }
 
 static void SetSpriteTemplateParameters(void)
@@ -302,11 +345,14 @@ static void SetSpriteTemplateParameters(void)
 static void CreateTrainerSprite(void)
 {
     u8 spriteId;
+    u8 index;
 
     sSpriteTemplateBase.tileTag = sCostumeTrainerSpriteTable[selection].tag;
     sSpriteTemplateBase.paletteTag = sCostumeTrainerPaletteTable[selection].tag;
-    LoadCompressedObjectPic(&sCostumeTrainerSpriteTable[selection]);
     LoadCompressedObjectPalette(&sCostumeTrainerPaletteTable[selection]);
+    index = IndexOfSpritePaletteTag(sSpriteTemplateBase.paletteTag);
+    DmaCopy16(3, &gPlttBufferUnfaded[0x100 + index * 16], (void *)PLTT + 0x200 + index * 32, 0x40);
+    LoadCompressedObjectPic(&sCostumeTrainerSpriteTable[selection]);
     spriteId = CreateSprite(&sSpriteTemplateBase, 200, 48, 0);
     gSprites[spriteId].data[1] = selection;
 }
@@ -316,7 +362,63 @@ static void TrainerSpriteCallback(struct Sprite *sprite)
     if (sprite->data[1] != selection)
     {
         FreeSpritePalette(sprite);
+        FreeSpriteTiles(sprite);
         DestroySprite(sprite);
         CreateTrainerSprite();
     }
+}
+
+static void FreeSpriteTilesIfUnused(u16 tileStart)
+{
+    u8 i;
+    u16 tag = GetSpriteTileTagByTileStart(tileStart);
+
+    if (tag != 0xFFFF)
+    {
+        for (i = 0; i < MAX_SPRITES; i++)
+            if (gSprites[i].inUse && gSprites[i].usingSheet && tileStart == gSprites[i].sheetTileStart)
+                return;
+        FreeSpriteTilesByTag(tag);
+    }
+}
+
+static void FreeSpritePaletteIfUnused(u8 paletteNum)
+{
+    u8 i;
+    u16 tag = GetSpritePaletteTagByPaletteNum(paletteNum);
+
+    if (tag != 0xFFFF)
+    {
+        for (i = 0; i < MAX_SPRITES; i++)
+            if (gSprites[i].inUse && gSprites[i].oam.paletteNum == paletteNum)
+                return;
+        FreeSpritePaletteByTag(tag);
+    }
+}
+
+const u8 sFontColourTable[3] =
+{
+    0,1,2 // fgColour, bgColour and shadowColour
+};
+extern const u16 gUnknown_0860F074[];
+
+#define NAME_WINDOW 0
+#define DESCRIPTION_WINDOW 1
+
+static void LoadCostumeNameAndDescription(void)
+{
+    InitWindows(sWindowTemplate_CostumeMenu);
+    DeactivateAllTextPrinters();
+    LoadPalette(&gUnknown_0860F074, 0xF0, 0x20);
+
+    FillWindowPixelBuffer(NAME_WINDOW, 0);
+    PutWindowTilemap(NAME_WINDOW);
+    box_print(NAME_WINDOW, 1, 0, 0, sFontColourTable, 1, gCostumes[selection].name);
+    CopyWindowToVram(NAME_WINDOW, 3);
+
+    FillWindowPixelBuffer(DESCRIPTION_WINDOW, 0);
+    PutWindowTilemap(DESCRIPTION_WINDOW);
+    box_print(DESCRIPTION_WINDOW, 1, 0, 0, sFontColourTable, 1, gCostumes[selection].description);
+    CopyWindowToVram(DESCRIPTION_WINDOW, 3);
+    RunTextPrinters();
 }
