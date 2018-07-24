@@ -1666,4 +1666,99 @@ const u32 gEventObjectPic_HoOh_0[] = INCBIN_U32("graphics/event_objects/pics/pok
 const u32 gEventObjectPic_HoOh_1[] = INCBIN_U32("graphics/event_objects/pics/pokemon/ho_oh/1.4bpp");
 const u16 gEventObjectPalette31[] = INCBIN_U16("graphics/event_objects/palettes/field_object_palette_31.gbapal");
 
+// Costumes
+
+const u32 gEventObjectPic_RedCostume_0[] = INCBIN_U32("graphics/costume_screen/red/0.4bpp");
+const u32 gEventObjectPic_RedCostume_1[] = INCBIN_U32("graphics/costume_screen/red/1.4bpp");
+const u32 gEventObjectPic_RedCostume_2[] = INCBIN_U32("graphics/costume_screen/red/2.4bpp");
+const u32 gEventObjectPic_RedCostume_3[] = INCBIN_U32("graphics/costume_screen/red/3.4bpp");
+const u32 gEventObjectPic_RedCostume_4[] = INCBIN_U32("graphics/costume_screen/red/4.4bpp");
+const u32 gEventObjectPic_RedCostume_5[] = INCBIN_U32("graphics/costume_screen/red/5.4bpp");
+const u32 gEventObjectPic_RedCostume_6[] = INCBIN_U32("graphics/costume_screen/red/6.4bpp");
+const u32 gEventObjectPic_RedCostume_7[] = INCBIN_U32("graphics/costume_screen/red/7.4bpp");
+const u32 gEventObjectPic_RedCostume_8[] = INCBIN_U32("graphics/costume_screen/red/8.4bpp");
+const u16 gEventObjectPalette_Red[] = INCBIN_U16("graphics/costume_screen/red/0.gbapal");
+
+const u32 gEventObjectPic_LeafCostume_0[] = INCBIN_U32("graphics/costume_screen/leaf/0.4bpp");
+const u32 gEventObjectPic_LeafCostume_1[] = INCBIN_U32("graphics/costume_screen/leaf/1.4bpp");
+const u32 gEventObjectPic_LeafCostume_2[] = INCBIN_U32("graphics/costume_screen/leaf/2.4bpp");
+const u32 gEventObjectPic_LeafCostume_3[] = INCBIN_U32("graphics/costume_screen/leaf/3.4bpp");
+const u32 gEventObjectPic_LeafCostume_4[] = INCBIN_U32("graphics/costume_screen/leaf/4.4bpp");
+const u32 gEventObjectPic_LeafCostume_5[] = INCBIN_U32("graphics/costume_screen/leaf/5.4bpp");
+const u32 gEventObjectPic_LeafCostume_6[] = INCBIN_U32("graphics/costume_screen/leaf/6.4bpp");
+const u32 gEventObjectPic_LeafCostume_7[] = INCBIN_U32("graphics/costume_screen/leaf/7.4bpp");
+const u32 gEventObjectPic_LeafCostume_8[] = INCBIN_U32("graphics/costume_screen/leaf/8.4bpp");
+const u16 gEventObjectPalette_Leaf[] = INCBIN_U16("graphics/costume_screen/leaf/0.gbapal");
+
+const u32 gEventObjectPic_EthanCostume_0[] = INCBIN_U32("graphics/costume_screen/ethan/0.4bpp");
+const u32 gEventObjectPic_EthanCostume_1[] = INCBIN_U32("graphics/costume_screen/ethan/1.4bpp");
+const u32 gEventObjectPic_EthanCostume_2[] = INCBIN_U32("graphics/costume_screen/ethan/2.4bpp");
+const u32 gEventObjectPic_EthanCostume_3[] = INCBIN_U32("graphics/costume_screen/ethan/3.4bpp");
+const u32 gEventObjectPic_EthanCostume_4[] = INCBIN_U32("graphics/costume_screen/ethan/4.4bpp");
+const u32 gEventObjectPic_EthanCostume_5[] = INCBIN_U32("graphics/costume_screen/ethan/5.4bpp");
+const u32 gEventObjectPic_EthanCostume_6[] = INCBIN_U32("graphics/costume_screen/ethan/6.4bpp");
+const u32 gEventObjectPic_EthanCostume_7[] = INCBIN_U32("graphics/costume_screen/ethan/7.4bpp");
+const u32 gEventObjectPic_EthanCostume_8[] = INCBIN_U32("graphics/costume_screen/ethan/8.4bpp");
+const u16 gEventObjectPalette_Ethan[] = INCBIN_U16("graphics/costume_screen/ethan/0.gbapal");
+
+const u32 gEventObjectPic_EthanCostume_Field_0[] = INCBIN_U32("graphics/costume_screen/ethan/field_move/0.4bpp");
+const u32 gEventObjectPic_EthanCostume_Field_1[] = INCBIN_U32("graphics/costume_screen/ethan/field_move/1.4bpp");
+const u32 gEventObjectPic_EthanCostume_Field_2[] = INCBIN_U32("graphics/costume_screen/ethan/field_move/2.4bpp");
+const u32 gEventObjectPic_EthanCostume_Field_3[] = INCBIN_U32("graphics/costume_screen/ethan/field_move/3.4bpp");
+
+const u32 gEventObjectPic_LyraCostume_0[] = INCBIN_U32("graphics/costume_screen/lyra/0.4bpp");
+const u32 gEventObjectPic_LyraCostume_1[] = INCBIN_U32("graphics/costume_screen/lyra/1.4bpp");
+const u32 gEventObjectPic_LyraCostume_2[] = INCBIN_U32("graphics/costume_screen/lyra/2.4bpp");
+const u32 gEventObjectPic_LyraCostume_3[] = INCBIN_U32("graphics/costume_screen/lyra/3.4bpp");
+const u32 gEventObjectPic_LyraCostume_4[] = INCBIN_U32("graphics/costume_screen/lyra/4.4bpp");
+const u32 gEventObjectPic_LyraCostume_5[] = INCBIN_U32("graphics/costume_screen/lyra/5.4bpp");
+const u32 gEventObjectPic_LyraCostume_6[] = INCBIN_U32("graphics/costume_screen/lyra/6.4bpp");
+const u32 gEventObjectPic_LyraCostume_7[] = INCBIN_U32("graphics/costume_screen/lyra/7.4bpp");
+const u32 gEventObjectPic_LyraCostume_8[] = INCBIN_U32("graphics/costume_screen/lyra/8.4bpp");
+const u16 gEventObjectPalette_Lyra[] = INCBIN_U16("graphics/costume_screen/lyra/0.gbapal");
+
+const u32 gEventObjectPic_BrendanCostume_0[] = INCBIN_U32("graphics/costume_screen/brendan/0.4bpp");
+const u32 gEventObjectPic_BrendanCostume_1[] = INCBIN_U32("graphics/costume_screen/brendan/1.4bpp");
+const u32 gEventObjectPic_BrendanCostume_2[] = INCBIN_U32("graphics/costume_screen/brendan/2.4bpp");
+const u32 gEventObjectPic_BrendanCostume_3[] = INCBIN_U32("graphics/costume_screen/brendan/3.4bpp");
+const u32 gEventObjectPic_BrendanCostume_4[] = INCBIN_U32("graphics/costume_screen/brendan/4.4bpp");
+const u32 gEventObjectPic_BrendanCostume_5[] = INCBIN_U32("graphics/costume_screen/brendan/5.4bpp");
+const u32 gEventObjectPic_BrendanCostume_6[] = INCBIN_U32("graphics/costume_screen/brendan/6.4bpp");
+const u32 gEventObjectPic_BrendanCostume_7[] = INCBIN_U32("graphics/costume_screen/brendan/7.4bpp");
+const u32 gEventObjectPic_BrendanCostume_8[] = INCBIN_U32("graphics/costume_screen/brendan/8.4bpp");
+const u16 gEventObjectPalette_Brendan[] = INCBIN_U16("graphics/costume_screen/brendan/0.gbapal");
+
+const u32 gEventObjectPic_MayCostume_0[] = INCBIN_U32("graphics/costume_screen/may/0.4bpp");
+const u32 gEventObjectPic_MayCostume_1[] = INCBIN_U32("graphics/costume_screen/may/1.4bpp");
+const u32 gEventObjectPic_MayCostume_2[] = INCBIN_U32("graphics/costume_screen/may/2.4bpp");
+const u32 gEventObjectPic_MayCostume_3[] = INCBIN_U32("graphics/costume_screen/may/3.4bpp");
+const u32 gEventObjectPic_MayCostume_4[] = INCBIN_U32("graphics/costume_screen/may/4.4bpp");
+const u32 gEventObjectPic_MayCostume_5[] = INCBIN_U32("graphics/costume_screen/may/5.4bpp");
+const u32 gEventObjectPic_MayCostume_6[] = INCBIN_U32("graphics/costume_screen/may/6.4bpp");
+const u32 gEventObjectPic_MayCostume_7[] = INCBIN_U32("graphics/costume_screen/may/7.4bpp");
+const u32 gEventObjectPic_MayCostume_8[] = INCBIN_U32("graphics/costume_screen/may/8.4bpp");
+const u16 gEventObjectPalette_May[] = INCBIN_U16("graphics/costume_screen/may/0.gbapal");
+
+const u32 gEventObjectPic_LucasCostume_0[] = INCBIN_U32("graphics/costume_screen/lucas/0.4bpp");
+const u32 gEventObjectPic_LucasCostume_1[] = INCBIN_U32("graphics/costume_screen/lucas/1.4bpp");
+const u32 gEventObjectPic_LucasCostume_2[] = INCBIN_U32("graphics/costume_screen/lucas/2.4bpp");
+const u32 gEventObjectPic_LucasCostume_3[] = INCBIN_U32("graphics/costume_screen/lucas/3.4bpp");
+const u32 gEventObjectPic_LucasCostume_4[] = INCBIN_U32("graphics/costume_screen/lucas/4.4bpp");
+const u32 gEventObjectPic_LucasCostume_5[] = INCBIN_U32("graphics/costume_screen/lucas/5.4bpp");
+const u32 gEventObjectPic_LucasCostume_6[] = INCBIN_U32("graphics/costume_screen/lucas/6.4bpp");
+const u32 gEventObjectPic_LucasCostume_7[] = INCBIN_U32("graphics/costume_screen/lucas/7.4bpp");
+const u32 gEventObjectPic_LucasCostume_8[] = INCBIN_U32("graphics/costume_screen/lucas/8.4bpp");
+const u16 gEventObjectPalette_Lucas[] = INCBIN_U16("graphics/costume_screen/lucas/0.gbapal");
+
+const u32 gEventObjectPic_DawnCostume_0[] = INCBIN_U32("graphics/costume_screen/dawn/0.4bpp");
+const u32 gEventObjectPic_DawnCostume_1[] = INCBIN_U32("graphics/costume_screen/dawn/1.4bpp");
+const u32 gEventObjectPic_DawnCostume_2[] = INCBIN_U32("graphics/costume_screen/dawn/2.4bpp");
+const u32 gEventObjectPic_DawnCostume_3[] = INCBIN_U32("graphics/costume_screen/dawn/3.4bpp");
+const u32 gEventObjectPic_DawnCostume_4[] = INCBIN_U32("graphics/costume_screen/dawn/4.4bpp");
+const u32 gEventObjectPic_DawnCostume_5[] = INCBIN_U32("graphics/costume_screen/dawn/5.4bpp");
+const u32 gEventObjectPic_DawnCostume_6[] = INCBIN_U32("graphics/costume_screen/dawn/6.4bpp");
+const u32 gEventObjectPic_DawnCostume_7[] = INCBIN_U32("graphics/costume_screen/dawn/7.4bpp");
+const u32 gEventObjectPic_DawnCostume_8[] = INCBIN_U32("graphics/costume_screen/dawn/8.4bpp");
+const u16 gEventObjectPalette_Dawn[] = INCBIN_U16("graphics/costume_screen/dawn/0.gbapal");
+
 #endif //GUARD_EVENT_OBJECT_GFX_H

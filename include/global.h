@@ -406,6 +406,8 @@ struct BattleFrontier
     /*0xEF9*/ u8 field_EF9[51];
 };
 
+#include "constants/costumes.h"
+
 struct SaveBlock2
 {
     /*0x00*/ u8 playerName[PLAYER_NAME_LENGTH];
@@ -443,7 +445,10 @@ struct SaveBlock2
     /*0x21C*/ u8 field_21C[1032];
     /*0x624*/ u16 contestLinkResults[20]; // 4 positions for 5 categories, possibly a struct or a 2d array
     /*0x64C*/ struct BattleFrontier frontier;
-}; // sizeof=0xF2C
+// sizeof=0xF2C
+              u8 costume;
+              u8 costumeFlags[NUMBER_OF_COSTUMES];
+}; 
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
 

@@ -1,6 +1,13 @@
 #ifndef GUARD_EVENT_OBJECT_GRAPHICS_INFO_H
 #define GUARD_EVENT_OBJECT_GRAPHICS_INFO_H
-
+/*
+#define overworld_ const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_
+#define BaseOam gEventObjectBaseOam
+#define SpriteOamTables gEventObjectSpriteOamTables
+#define ImageAnimTable gEventObjectImageAnimTable
+#define PicTable gEventObjectPicTable
+*/
+//.tileTag, .paletteTag1, .paletteTag2, .size, .width, .height, .paletteSlot, .shadowSize, .inanimate, .disableReflectionPaletteLoad, .tracks, .oam, .subspriteTables, .anims, .images, .affineAnims
 const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_BrendanNormal = {0xFFFF, 0x1100, 0x1102, 512, 16, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_16x32, gEventObjectSpriteOamTables_16x32, gEventObjectImageAnimTable_BrendanMayNormal, gEventObjectPicTable_BrendanNormal, gDummySpriteAffineAnimTable};
 const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_BrendanMachBike = {0xFFFF, 0x1100, 0x1102, 512, 32, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_BIKE_TIRE, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_BrendanMachBike, gDummySpriteAffineAnimTable};
 const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_BrendanAcroBike = {0xFFFF, 0x1100, 0x1102, 512, 32, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_BIKE_TIRE, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_AcroBike, gEventObjectPicTable_BrendanAcroBike, gDummySpriteAffineAnimTable};
@@ -246,5 +253,19 @@ const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_RubySapphireBrenda
 const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_RubySapphireMay = {0xFFFF, 0x1123, 0x11FF, 256, 16, 32, 10, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_16x32, gEventObjectSpriteOamTables_16x32, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_RubySapphireMay, gDummySpriteAffineAnimTable};
 const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_Lugia = {0xFFFF, 0x1121, 0x11FF, 512, 32, 32, 10, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Lugia, gDummySpriteAffineAnimTable};
 const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_HoOh = {0xFFFF, 0x1120, 0x11FF, 512, 32, 32, 10, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_HoOh, gEventObjectPicTable_HoOh, gDummySpriteAffineAnimTable};
+
+// Costumes
+//                                                                                       .tileTag, .paletteTag1, .paletteTag2
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_RedCostume =              {0xFFFF, 0x1124, 0x1102, 512, 32, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_RedCostume, gDummySpriteAffineAnimTable};
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_LeafCostume =             {0xFFFF, 0x1125, 0x1102, 512, 32, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_LeafCostume, gDummySpriteAffineAnimTable};
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_EthanCostume =            {0xFFFF, 0x1126, 0x1102, 512, 32, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_EthanCostume, gDummySpriteAffineAnimTable};
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_LyraCostume =             {0xFFFF, 0x1127, 0x1102, 512, 32, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_LyraCostume, gDummySpriteAffineAnimTable};
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_BrendanCostume =          {0xFFFF, 0x1128, 0x1102, 512, 32, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_BrendanCostume, gDummySpriteAffineAnimTable};
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_MayCostume =              {0xFFFF, 0x1129, 0x1102, 512, 32, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_MayCostume, gDummySpriteAffineAnimTable};
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_LucasCostume =            {0xFFFF, 0x1130, 0x1102, 512, 32, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_LucasCostume, gDummySpriteAffineAnimTable};
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_DawnCostume =             {0xFFFF, 0x1131, 0x1102, 512, 32, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_DawnCostume, gDummySpriteAffineAnimTable};
+//const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_ProfessorOakCostume =     {0xFFFF, 0x1100, 0x1102, 512, 32, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_ProfessorOakCostume, gDummySpriteAffineAnimTable};
+
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_EthanCostumeFieldMove =   {0xFFFF, 0x1126, 0x1102, 512, 32, 32, 0, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_FieldMove_GenIV, gEventObjectPicTable_EthanCostumeFieldMove, gDummySpriteAffineAnimTable};
 
 #endif //GUARD_EVENT_OBJECT_GRAPHICS_INFO_H

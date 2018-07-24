@@ -412,6 +412,16 @@ const struct SpritePalette gUnknown_0850BBC8[] = {
     {gEventObjectPalette32, 0x1121},
     {gEventObjectPalette33, 0x1122},
     {gEventObjectPalette34, 0x1123},
+
+    {gEventObjectPalette_Red, 0x1124},
+    {gEventObjectPalette_Leaf, 0x1125},
+    {gEventObjectPalette_Ethan, 0x1126},
+    {gEventObjectPalette_Lyra, 0x1127},
+    {gEventObjectPalette_Brendan, 0x1128},
+    {gEventObjectPalette_May, 0x1129},
+    {gEventObjectPalette_Lucas, 0x1130},
+    {gEventObjectPalette_Dawn, 0x1131},
+
     {NULL,                  0x0000},
 };
 

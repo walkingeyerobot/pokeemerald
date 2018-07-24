@@ -240,13 +240,27 @@
 #define EVENT_OBJ_GFX_LINK_RS_MAY                236
 #define EVENT_OBJ_GFX_LUGIA                      237
 #define EVENT_OBJ_GFX_HOOH                       238
-#define EVENT_OBJ_GFX_BARD_2                     239
-#define EVENT_OBJ_GFX_HIPSTER                    240
-#define EVENT_OBJ_GFX_TRADER                     241
-#define EVENT_OBJ_GFX_STORYTELLER                242
-#define EVENT_OBJ_GFX_GIDDY                      243
-#define EVENT_OBJ_GFX_PLACEHOLDER_1              244
-#define EVENT_OBJ_GFX_PLACEHOLDER_2              245
+
+#define EVENT_OBJ_COSTUME_RED            239
+#define EVENT_OBJ_COSTUME_LEAF           240
+#define EVENT_OBJ_COSTUME_ETHAN          241
+#define EVENT_OBJ_COSTUME_LYRA           242
+#define EVENT_OBJ_COSTUME_BRENDAN        243
+#define EVENT_OBJ_COSTUME_MAY            244
+#define EVENT_OBJ_COSTUME_LUCAS          245
+#define EVENT_OBJ_COSTUME_DAWN           246
+
+#define EVENT_OBJ_COSTUME_ETHAN_FIELD    247
+
+#define EVENT_OBJ_GFX_BARD_2                     248
+#define EVENT_OBJ_GFX_HIPSTER                    249
+#define EVENT_OBJ_GFX_TRADER                     250
+#define EVENT_OBJ_GFX_STORYTELLER                251
+#define EVENT_OBJ_GFX_GIDDY                      252
+#define EVENT_OBJ_GFX_PLACEHOLDER_1              253
+#define EVENT_OBJ_GFX_PLACEHOLDER_2              254
+
+
 
 #define SHADOW_SIZE_S   0
 #define SHADOW_SIZE_M   1

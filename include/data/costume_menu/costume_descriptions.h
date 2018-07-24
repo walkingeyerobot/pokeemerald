@@ -54,18 +54,18 @@ const u8 gText_CostumeName_Cyrus[] = _("Cyrus");
 // Misc characters
 
 // Main characters
-const u8 gText_CostumeDescription_Red[] = _("Red description");
-const u8 gText_CostumeDescription_Leaf[] = _("Leaf description");
-const u8 gText_CostumeDescription_Ethan[] = _("Ethan description");
-const u8 gText_CostumeDescription_Kris[] = _("Kris description");
-const u8 gText_CostumeDescription_Lyra[] = _("Lyra description");
+const u8 gText_CostumeDescription_Red[] =     _("Red, the champion of the Kanto region now\nresides atop Mt. Silver where he hones his\nskills in order to become a Pokemon master.");
+const u8 gText_CostumeDescription_Leaf[] =    _("Leaf description");
+const u8 gText_CostumeDescription_Ethan[] =   _("Ethan description");
+const u8 gText_CostumeDescription_Kris[] =    _("Kris description");
+const u8 gText_CostumeDescription_Lyra[] =    _("Lyra description");
 const u8 gText_CostumeDescription_Brendan[] = _("Brendan description");
-const u8 gText_CostumeDescription_May[] = _("May description");
-const u8 gText_CostumeDescription_Lucas[] = _("Lucas description");
-const u8 gText_CostumeDescription_Dawn[] = _("Dawn description");
+const u8 gText_CostumeDescription_May[] =     _("May description");
+const u8 gText_CostumeDescription_Lucas[] =   _("Lucas description");
+const u8 gText_CostumeDescription_Dawn[] =    _("Dawn description");
 // Professors
-const u8 gText_CostumeDescription_ProfessorOak[] = _("Professor Oak description");
-const u8 gText_CostumeDescription_ProfessorElm[] = _("Professor Elm description");
+const u8 gText_CostumeDescription_ProfessorOak[] =   _("Professor Oak description");
+const u8 gText_CostumeDescription_ProfessorElm[] =   _("Professor Elm description");
 const u8 gText_CostumeDescription_ProfessorBirch[] = _("Professor Birch description");
 const u8 gText_CostumeDescription_ProfessorRowan[] = _("Professor Rowan description");
 // Rivals

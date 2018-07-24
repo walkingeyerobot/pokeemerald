@@ -1,3 +1,2 @@
 selection
-gCostumeSpriteId
 sScrollBarState

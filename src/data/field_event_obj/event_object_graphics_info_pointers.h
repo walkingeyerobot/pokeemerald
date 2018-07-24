@@ -249,6 +249,17 @@ const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_UnusedMauvilleOldM
 const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_UnusedMauvilleOldMan2;
 
 
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_RedCostume;
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_LeafCostume;
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_EthanCostume;
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_LyraCostume;
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_BrendanCostume;
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_MayCostume;
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_LucasCostume;
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_DawnCostume;
+
+const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_EthanCostumeFieldMove;
+
 const struct EventObjectGraphicsInfo *const gEventObjectGraphicsInfoPointers[] = {
 	&gEventObjectGraphicsInfo_BrendanNormal,
 	&gEventObjectGraphicsInfo_BrendanMachBike,
@@ -489,6 +500,18 @@ const struct EventObjectGraphicsInfo *const gEventObjectGraphicsInfoPointers[] =
 	&gEventObjectGraphicsInfo_RubySapphireMay,
 	&gEventObjectGraphicsInfo_Lugia,
 	&gEventObjectGraphicsInfo_HoOh,
+
+&gEventObjectGraphicsInfo_RedCostume,
+&gEventObjectGraphicsInfo_LeafCostume,
+&gEventObjectGraphicsInfo_EthanCostume,
+&gEventObjectGraphicsInfo_LyraCostume,
+&gEventObjectGraphicsInfo_BrendanCostume,
+&gEventObjectGraphicsInfo_MayCostume,
+&gEventObjectGraphicsInfo_LucasCostume,
+&gEventObjectGraphicsInfo_DawnCostume,
+
+&gEventObjectGraphicsInfo_EthanCostumeFieldMove,
+
 };
 
 const struct EventObjectGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {

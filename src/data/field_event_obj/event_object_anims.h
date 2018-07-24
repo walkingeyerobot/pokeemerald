@@ -1173,4 +1173,15 @@ const struct UnkStruct_085094AC gUnknown_085094AC[] = {
     },
 };
 
+const union AnimCmd gEventObjectImageAnim_FieldMove_GenIV[] =
+{
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_FRAME(1, 4),
+    ANIMCMD_FRAME(2, 4),
+    ANIMCMD_FRAME(3, 8),
+    ANIMCMD_END,
+};
+const union AnimCmd *const gEventObjectImageAnimTable_FieldMove_GenIV[] = {
+    gEventObjectImageAnim_FieldMove_GenIV,
+};
 #endif //GUARD_EVENT_OBJECT_ANIMS_H

@@ -2176,4 +2176,101 @@ const struct SpriteFrameImage gEventObjectPicTable_RubySapphireMay[] = {
     obj_frame_tiles(gEventObjectPic_RubySapphireMay_8),
 };
 
+// Costumes
+
+const struct SpriteFrameImage gEventObjectPicTable_RedCostume[] = {
+    obj_frame_tiles(gEventObjectPic_RedCostume_0),
+    obj_frame_tiles(gEventObjectPic_RedCostume_1),
+    obj_frame_tiles(gEventObjectPic_RedCostume_2),
+    obj_frame_tiles(gEventObjectPic_RedCostume_3),
+    obj_frame_tiles(gEventObjectPic_RedCostume_4),
+    obj_frame_tiles(gEventObjectPic_RedCostume_5),
+    obj_frame_tiles(gEventObjectPic_RedCostume_6),
+    obj_frame_tiles(gEventObjectPic_RedCostume_7),
+    obj_frame_tiles(gEventObjectPic_RedCostume_8),
+};
+const struct SpriteFrameImage gEventObjectPicTable_LeafCostume[] = {
+    obj_frame_tiles(gEventObjectPic_LeafCostume_0),
+    obj_frame_tiles(gEventObjectPic_LeafCostume_1),
+    obj_frame_tiles(gEventObjectPic_LeafCostume_2),
+    obj_frame_tiles(gEventObjectPic_LeafCostume_3),
+    obj_frame_tiles(gEventObjectPic_LeafCostume_4),
+    obj_frame_tiles(gEventObjectPic_LeafCostume_5),
+    obj_frame_tiles(gEventObjectPic_LeafCostume_6),
+    obj_frame_tiles(gEventObjectPic_LeafCostume_7),
+    obj_frame_tiles(gEventObjectPic_LeafCostume_8),
+};
+const struct SpriteFrameImage gEventObjectPicTable_EthanCostume[] = {
+    obj_frame_tiles(gEventObjectPic_EthanCostume_0),
+    obj_frame_tiles(gEventObjectPic_EthanCostume_1),
+    obj_frame_tiles(gEventObjectPic_EthanCostume_2),
+    obj_frame_tiles(gEventObjectPic_EthanCostume_3),
+    obj_frame_tiles(gEventObjectPic_EthanCostume_4),
+    obj_frame_tiles(gEventObjectPic_EthanCostume_5),
+    obj_frame_tiles(gEventObjectPic_EthanCostume_6),
+    obj_frame_tiles(gEventObjectPic_EthanCostume_7),
+    obj_frame_tiles(gEventObjectPic_EthanCostume_8),
+};
+const struct SpriteFrameImage gEventObjectPicTable_LyraCostume[] = {
+    obj_frame_tiles(gEventObjectPic_LyraCostume_0),
+    obj_frame_tiles(gEventObjectPic_LyraCostume_1),
+    obj_frame_tiles(gEventObjectPic_LyraCostume_2),
+    obj_frame_tiles(gEventObjectPic_LyraCostume_3),
+    obj_frame_tiles(gEventObjectPic_LyraCostume_4),
+    obj_frame_tiles(gEventObjectPic_LyraCostume_5),
+    obj_frame_tiles(gEventObjectPic_LyraCostume_6),
+    obj_frame_tiles(gEventObjectPic_LyraCostume_7),
+    obj_frame_tiles(gEventObjectPic_LyraCostume_8),
+};
+const struct SpriteFrameImage gEventObjectPicTable_BrendanCostume[] = {
+    obj_frame_tiles(gEventObjectPic_BrendanCostume_0),
+    obj_frame_tiles(gEventObjectPic_BrendanCostume_1),
+    obj_frame_tiles(gEventObjectPic_BrendanCostume_2),
+    obj_frame_tiles(gEventObjectPic_BrendanCostume_3),
+    obj_frame_tiles(gEventObjectPic_BrendanCostume_4),
+    obj_frame_tiles(gEventObjectPic_BrendanCostume_5),
+    obj_frame_tiles(gEventObjectPic_BrendanCostume_6),
+    obj_frame_tiles(gEventObjectPic_BrendanCostume_7),
+    obj_frame_tiles(gEventObjectPic_BrendanCostume_8),
+};
+const struct SpriteFrameImage gEventObjectPicTable_MayCostume[] = {
+    obj_frame_tiles(gEventObjectPic_MayCostume_0),
+    obj_frame_tiles(gEventObjectPic_MayCostume_1),
+    obj_frame_tiles(gEventObjectPic_MayCostume_2),
+    obj_frame_tiles(gEventObjectPic_MayCostume_3),
+    obj_frame_tiles(gEventObjectPic_MayCostume_4),
+    obj_frame_tiles(gEventObjectPic_MayCostume_5),
+    obj_frame_tiles(gEventObjectPic_MayCostume_6),
+    obj_frame_tiles(gEventObjectPic_MayCostume_7),
+    obj_frame_tiles(gEventObjectPic_MayCostume_8),
+};
+const struct SpriteFrameImage gEventObjectPicTable_LucasCostume[] = {
+    obj_frame_tiles(gEventObjectPic_LucasCostume_0),
+    obj_frame_tiles(gEventObjectPic_LucasCostume_1),
+    obj_frame_tiles(gEventObjectPic_LucasCostume_2),
+    obj_frame_tiles(gEventObjectPic_LucasCostume_3),
+    obj_frame_tiles(gEventObjectPic_LucasCostume_4),
+    obj_frame_tiles(gEventObjectPic_LucasCostume_5),
+    obj_frame_tiles(gEventObjectPic_LucasCostume_6),
+    obj_frame_tiles(gEventObjectPic_LucasCostume_7),
+    obj_frame_tiles(gEventObjectPic_LucasCostume_8),
+};
+const struct SpriteFrameImage gEventObjectPicTable_DawnCostume[] = {
+    obj_frame_tiles(gEventObjectPic_DawnCostume_0),
+    obj_frame_tiles(gEventObjectPic_DawnCostume_1),
+    obj_frame_tiles(gEventObjectPic_DawnCostume_2),
+    obj_frame_tiles(gEventObjectPic_DawnCostume_3),
+    obj_frame_tiles(gEventObjectPic_DawnCostume_4),
+    obj_frame_tiles(gEventObjectPic_DawnCostume_5),
+    obj_frame_tiles(gEventObjectPic_DawnCostume_6),
+    obj_frame_tiles(gEventObjectPic_DawnCostume_7),
+    obj_frame_tiles(gEventObjectPic_DawnCostume_8),
+};
+
+const struct SpriteFrameImage gEventObjectPicTable_EthanCostumeFieldMove[] = {
+    obj_frame_tiles(gEventObjectPic_EthanCostume_Field_0),
+    obj_frame_tiles(gEventObjectPic_EthanCostume_Field_1),
+    obj_frame_tiles(gEventObjectPic_EthanCostume_Field_2),
+    obj_frame_tiles(gEventObjectPic_EthanCostume_Field_3),
+};
 #endif //GUARD_EVENT_OBJECT_PIC_TABLES_H

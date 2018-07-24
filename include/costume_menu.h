@@ -1,9 +1,25 @@
+#ifndef GUARD_COSTUME_MENU_H
+#define GUARD_COSTUME_MENU_H
+
+#define NONE 0
+#define SCROLL_LEFT 1
+#define SCROLL_RIGHT 2
+
+#define NAME_WINDOW 0
+#define DESCRIPTION_WINDOW 1
+#define YES_NO_WINDOW 2
+#define CONFIRMATION_WINDOW 3
+
 struct Costume
 {
     const u8 *name;
     u8 gender;
     u8 series;
     const u8 *description;
+    u16 overworld;
+    u16 fieldMove;
+    u8 trainerFront;
+    u8 trainerBack;
 };
 
 enum Series
@@ -11,102 +27,4 @@ enum Series
     POKEMON,
 };
 
-enum CostumesByTrainerType
-{
-// Main characters
-    RED,
-    LEAF,
-    ETHAN,
-    KRIS,
-    LYRA,
-    BRENDAN,
-    MAY,
-    LUCAS,
-    DAWN,
-// Professors
-    PROFESSOR_OAK,
-    PROFESSOR_ELM,
-    PROFESSOR_BIRCH,
-    PROFESSOR_ROWAN,
-//Rivals
-    GARRY_OAK,
-    SILVER,
-    WALLY,
-    BARRY,
-//Villanous Teams
-    ROCKET_GRUNT_M,
-    ROCKET_GRUNT_F,
-    ROCKET_EXEC_ARCHER,
-    ROCKET_EXEC_ARIANA,
-    ROCKET_EXEC_PETREL,
-    ROCKET_EXEC_PROTON,
-    GIOVANNI,
-    AQUA_GRUNT_M,
-    AQUA_GRUNT_F,
-    AQUA_ADMIN_MATT,
-    AQUA_ADMIN_SHELLEY,
-    ARCHIE,
-    MAGMA_GRUNT_M,
-    MAGMA_GRUNT_F,
-    MAGMA_ADMIN_COURTNEY,
-    MAGMA_ADMIN_TABITHA,
-    MAXIE,
-    GALACTIC_GRUNT_M,
-    GALACTIC_GRUNT_F,
-    COMMANDER_SATURN,
-    COMMANDER_MARS,
-    COMMANDER_JUPITER,
-    COMMANDER_CHARON,
-    CYRUS,
-//Gym Leaders + E4 + Champions
-//    BROCK,
-    MISTY,
-/*    LT_SURGE,
-    ERIKA,
-    KOGA,
-    JANINE,
-    SABRINA,
-    BLAINE,
-    LORELEI,
-    BRUNO,
-    AGATHA,
-*/    LANCE,
-/*    FALKNER,
-    BUGSEY,
-    WHITNEY,
-    MORTY,
-    CHUCK,
-    JASMINE,
-    PRYCE,
-    CLAIR,
-    WILL,
-    KAREN,
-    ROXANNE,
-    BRAWLY,
-    WATTSON,
-    FLANNERY,
-    NORMAN,
-    WINONA,
-    TATE_AND_LIZA,
-    WALLACE,
-    JUAN,
-    SIDNEY,
-    PHOEBE,
-    GLACIA,
-    DRAKE,
-    STEVEN,
-    ROARK,
-    GARDENIA,
-    MAYLENE,
-    CRASHER_WAKE,
-    FANTINA,
-    BYRON,
-    CANDICE,
-    VOLKNER,
-    AARON,
-    BERTHA,
-    FLINT,
-    LUCIAN,
-    CYNTHIA,
-*/    NUMBER_OF_COSTUMES
-};
+#endif // GUARD_COSTUME_MENU_H
