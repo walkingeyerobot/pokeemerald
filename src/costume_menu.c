@@ -29,6 +29,7 @@ extern const struct CompressedSpritePalette gTrainerBackPicPaletteTable[];
 
 static EWRAM_DATA struct SpriteTemplate sSpriteTemplateBase = {};
 static EWRAM_DATA u8 gDisplayList[NUMBER_OF_COSTUMES] = {};
+static EWRAM_DATA u16 gGreyScalePaletteBuffer[0x20] = {0};
 u16 selection;
 u8 sScrollBarState;
 u8 ListMode;
@@ -64,6 +65,7 @@ static void CreateUnlockedCostumeList(void);
 static void UpdateDisplayMode(void);
 static void CreateDisplayList(void);
 static void CreateListModeIndicator(void);
+static void LoadCompressedObjectPaletteWithGreyscale(const struct CompressedSpritePalette *src);
 
 extern void TintPalette_GrayScale(u16 *palette, u16 count);
 
@@ -188,7 +190,7 @@ const struct CompressedSpriteSheet ListModeIndicators[3] =
 };
 const struct CompressedSpritePalette sListModeIndicatorsPalette = {gPalette_ListModeIndicators, 10000};
 
-static const struct SpriteTemplate sSpriteTemplate_StatisticsMenu[3] = 
+static const struct SpriteTemplate sSpriteTemplate_ListModeIndicators[3] = 
 {
     10000, 10000, &sOamData_ListModeIndicators, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy,
     10001, 10000, &sOamData_ListModeIndicators, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy,
@@ -386,6 +388,7 @@ static void CreateOverworldScrollBar(void)
     u16 displayedCostume;
     u8 spriteId;
     u8 maxSlot;
+    u8 index;
 
     maxSlot = 3;
     if (sMaxSelection < 3)
@@ -404,6 +407,13 @@ static void CreateOverworldScrollBar(void)
         {
             StartSpriteAnim(&gSprites[spriteId], 4);
         }
+        if (gSaveBlock2Ptr->costumeFlags[gDisplayList[selection + slot]] == FALSE)
+        {
+            index = IndexOfSpritePaletteTag(gSprites[spriteId].template->paletteTag);
+            CpuCopy16(&gPlttBufferUnfaded[0x100 + index * 16], gGreyScalePaletteBuffer, 32);
+            TintPalette_GrayScale(gGreyScalePaletteBuffer, 16);
+            LoadPalette(gGreyScalePaletteBuffer, 0x100 + gSprites[spriteId].oam.paletteNum * 16, 32);
+        }
     }
 }
 
@@ -411,11 +421,20 @@ static void CreateNewScrollBarSlot(s8 slot)
 {
     u8 spriteId;
     u16 displayedCostume;
+    u8 index;
 
     displayedCostume = gCostumes[gDisplayList[selection + slot]].overworld;
     spriteId = AddPseudoEventObject(displayedCostume, UpdateSlotNumbers, xPos_initial + slot*slotSize, yPos, 0);
     gSprites[spriteId].slotId = slot;
     gSprites[spriteId].costumeId = gDisplayList[selection + slot];
+
+    if (gSaveBlock2Ptr->costumeFlags[gDisplayList[selection + slot]] == FALSE)
+    {
+        index = IndexOfSpritePaletteTag(gSprites[spriteId].template->paletteTag);
+        CpuCopy16(&gPlttBufferUnfaded[0x100 + index * 16], gGreyScalePaletteBuffer, 32);
+        TintPalette_GrayScale(gGreyScalePaletteBuffer, 16);
+        LoadPalette(gGreyScalePaletteBuffer, 0x100 + gSprites[spriteId].oam.paletteNum * 16, 32);
+    }
 }
 
 static void UpdateSlotNumbers(struct Sprite *sprite)
@@ -500,7 +519,7 @@ static void CreateTrainerSprite(void)
     sSpriteTemplateBase.tileTag =  gTrainerFrontPicTable[displayedCostume].tag;
     sSpriteTemplateBase.paletteTag = gTrainerFrontPicPaletteTable[displayedCostume].tag;
 
-    LoadCompressedObjectPalette(&gTrainerFrontPicPaletteTable[displayedCostume]);
+    LoadCompressedObjectPaletteWithGreyscale(&gTrainerFrontPicPaletteTable[displayedCostume]);
     LoadCompressedObjectPic(&gTrainerFrontPicTable[displayedCostume]);
     spriteId = CreateSprite(&sSpriteTemplateBase, 200, 40, 0);
     gSprites[spriteId].costumeId = gDisplayList[selection];
@@ -515,6 +534,20 @@ static void TrainerSpriteCallback(struct Sprite *sprite)
         DestroySprite(sprite);
         CreateTrainerSprite();
     }
+}
+
+static void LoadCompressedObjectPaletteWithGreyscale(const struct CompressedSpritePalette *src)
+{
+    struct SpritePalette dest;
+
+    LZ77UnCompWram(src->data, gGreyScalePaletteBuffer);
+    if (gSaveBlock2Ptr->costumeFlags[gDisplayList[selection]] == FALSE)
+    {
+    TintPalette_GrayScale(gGreyScalePaletteBuffer, 16);
+    }
+    dest.data = (void*) gGreyScalePaletteBuffer;
+    dest.tag = src->tag;
+    LoadSpritePalette(&dest);
 }
 
 //-------------------------------
@@ -727,7 +760,7 @@ static void CreateListModeIndicator(void)
 
     LoadCompressedObjectPalette(&sListModeIndicatorsPalette);
     LoadCompressedObjectPic(&ListModeIndicators[ListMode - 1]);
-    spriteId = CreateSprite(&sSpriteTemplate_StatisticsMenu[ListMode - 1], 202 + ListMode*8, 7, 0);
+    spriteId = CreateSprite(&sSpriteTemplate_ListModeIndicators[ListMode - 1], 202 + ListMode*8, 7, 0);
 }
 //-------------------------------
 // Misc
