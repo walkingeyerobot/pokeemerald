@@ -28,8 +28,12 @@ extern const struct CompressedSpritePalette gTrainerFrontPicPaletteTable[];
 extern const struct CompressedSpritePalette gTrainerBackPicPaletteTable[];
 
 static EWRAM_DATA struct SpriteTemplate sSpriteTemplateBase = {};
+static EWRAM_DATA u8 gDisplayList[NUMBER_OF_COSTUMES] = {};
 u16 selection;
 u8 sScrollBarState;
+u8 ListMode;
+u8 sMaxSelection;
+u8 sListPosition;
 
 // static declarations
 
@@ -54,6 +58,12 @@ static void CloseMenuScreen(void);
 void UnlockCostumesByGender(u8 playerGender);
 static void PlayFieldMoveAnimation(u16 graphicsId);
 static u8 GetSpriteIdByXY(s16 x, s16 y);
+static void CreateStandardCostumeList(void);
+static void CreateCostumeListByGender(u8 playerGender);
+static void CreateUnlockedCostumeList(void);
+static void UpdateDisplayMode(void);
+static void CreateDisplayList(void);
+static void CreateListModeIndicator(void);
 
 extern void TintPalette_GrayScale(u16 *palette, u16 count);
 
@@ -62,6 +72,15 @@ extern void TintPalette_GrayScale(u16 *palette, u16 count);
 static const u8 gGraphics_CostumeScreenBackground[] = INCBIN_U8("graphics/costume_screen/background.4bpp.lz");
 static const u16 gPalette_CostumeScreenBackground[] = INCBIN_U16("graphics/costume_screen/background.gbapal");
 static const u16 gTilemap_CostumeScreenBackground[] = INCBIN_U16("graphics/costume_screen/background_tilemap.bin.lz");
+
+static const u8 gGraphics_CostumeMenuButtonBar[] = INCBIN_U8("graphics/costume_screen/button_bar.4bpp.lz");
+static const u16 gPalette_CostumeMenuButtonBar[] = INCBIN_U16("graphics/costume_screen/button_bar.gbapal");
+static const u16 gTilemap_CostumeMenuButtonBar[] = INCBIN_U16("graphics/costume_screen/button_bar_tilemap.bin.lz");
+
+static const u8 gGraphics_ListModeIndicatorMale[] = INCBIN_U8("graphics/costume_screen/list_mode_indicator_male.4bpp.lz");
+static const u8 gGraphics_ListModeIndicatorFemale[] = INCBIN_U8("graphics/costume_screen/list_mode_indicator_female.4bpp.lz");
+static const u8 gGraphics_ListModeIndicatorUnlocked[] = INCBIN_U8("graphics/costume_screen/list_mode_indicator_unlocked.4bpp.lz");
+static const u8 gPalette_ListModeIndicators[] = INCBIN_U8("graphics/costume_screen/list_mode_indicators.gbapal.lz");
 
 static const u8 gText_MaleSymbol[] = _("{COLOR LIGHT_BLUE}{SHADOW BLUE} ♂");
 static const u8 gText_FemaleSymbol[] = _("{COLOR RED}{SHADOW LIGHT_RED} ♀");
@@ -98,6 +117,15 @@ const struct BgTemplate gBgTemplates_CostumeScreen[] =
         .priority = 1,
         .baseTile = 0
     },
+   {
+        .bg = 3,
+        .charBaseIndex = 2,
+        .mapBaseIndex = 7,
+        .screenSize = 0,
+        .paletteMode = 0,
+        .priority = 2,
+        .baseTile = 0
+    },
 };
 
 static const struct OamData sOamData_CostumeSlots =
@@ -132,6 +160,39 @@ static const struct OamData sOamData_TrainerSprite =
     .priority = 0,
     .paletteNum = 9,
     .affineParam = 0,
+};
+
+static const struct OamData sOamData_ListModeIndicators =
+{
+    .y = 0,
+    .affineMode = 0,
+    .objMode = 0,
+    .mosaic = 0,
+    .bpp = 0,
+    .shape = 0,
+    .x = 0,
+    .matrixNum = 0,
+    .size = 0,
+    .tileNum = 0,
+    .priority = 0,
+    .paletteNum = 10,
+    .affineParam = 0,
+};
+
+const struct CompressedSpriteSheet ListModeIndicators[3] =
+{
+// .data, .size, .tag
+    gGraphics_ListModeIndicatorMale, 32, 10000,
+    gGraphics_ListModeIndicatorFemale, 32, 10001,
+    gGraphics_ListModeIndicatorUnlocked, 32, 10002,
+};
+const struct CompressedSpritePalette sListModeIndicatorsPalette = {gPalette_ListModeIndicators, 10000};
+
+static const struct SpriteTemplate sSpriteTemplate_StatisticsMenu[3] = 
+{
+    10000, 10000, &sOamData_ListModeIndicators, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy,
+    10001, 10000, &sOamData_ListModeIndicators, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy,
+    10002, 10000, &sOamData_ListModeIndicators, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy,
 };
 
 static const struct WindowTemplate sWindowTemplate_CostumeMenu[] = 
@@ -182,12 +243,16 @@ void LoadBackgroundGraphics(void)
     LoadPalette(gPalette_CostumeScreenBackground, 0x00, 0x20);
     LZ77UnCompVram(gTilemap_CostumeScreenBackground, (u16 *)BG_SCREEN_ADDR(1));
 
+    LZ77UnCompVram(gGraphics_CostumeMenuButtonBar, (void *)(VRAM + 0x8000));
+    LoadPalette(gPalette_CostumeMenuButtonBar, 0x10, 0x20);
+    LZ77UnCompVram(gTilemap_CostumeMenuButtonBar, (u16 *)BG_SCREEN_ADDR(7));
+
     InitBgsFromTemplates(0, gBgTemplates_CostumeScreen, ARRAY_COUNT(gBgTemplates_CostumeScreen));
     ResetAllBgsCoordinates();
     ShowBg(0);
     ShowBg(1);
     ShowBg(2);
-    HideBg(3);
+    ShowBg(3);
 }
 
 void VBlankCallback(void)
@@ -215,7 +280,9 @@ void CB2_CostumeMenu(void)
         case 1:
             selection = 0;            //selection = gSaveBlock2Ptr->costume
             sScrollBarState = NONE;
+            ListMode = LIST_STANDARD;
             LoadBackgroundGraphics();
+            CreateDisplayList();
             CreateOverworldScrollBar();
             SetSpriteTemplateParameters();
             CreateTrainerSprite();
@@ -239,9 +306,9 @@ static void HandleKeyPresses(void)
 {
     if (sScrollBarState == NONE)
     {
-        if ((gMain.newAndRepeatedKeys & DPAD_LEFT) && (selection != NUMBER_OF_COSTUMES - 1))
+        if ((gMain.newAndRepeatedKeys & DPAD_LEFT) && (selection != sMaxSelection - 1))
         {
-            if (selection < NUMBER_OF_COSTUMES - 4)
+            if (selection < sMaxSelection - 4)
             {
                 CreateNewScrollBarSlot(4);
             }
@@ -261,7 +328,7 @@ static void HandleKeyPresses(void)
             UpdateCostumeNameAndDescription();
             PlaySE(SE_Z_SCROLL);
         }
-        if ((gMain.newKeys & A_BUTTON)  && (gSaveBlock2Ptr->costumeFlags[selection] == TRUE))
+        if ((gMain.newKeys & A_BUTTON)  && (gSaveBlock2Ptr->costumeFlags[gDisplayList[selection]] == TRUE))
         {
             CreateConfirmationMenu();
             PlaySE(SE_SELECT);
@@ -274,10 +341,17 @@ static void HandleKeyPresses(void)
             SetMainCallback2(CloseMenuScreen);
         }
         if (gMain.newKeys & SELECT_BUTTON)
-		{
-		    PlaySE(SE_T_KAMI);
-			UnlockCostumesByGender(MALE); //for debug purposes
-		}
+        {
+            PlaySE(SE_T_KAMI);
+//            UnlockCostumesByGender(MALE); //for debug purposes
+            ResetSpriteData();
+            FreeAllSpritePalettes();
+            UpdateDisplayMode();
+            CreateDisplayList();
+            CreateOverworldScrollBar();
+            CreateTrainerSprite();
+            UpdateCostumeNameAndDescription();
+        }
         else if (gMain.newKeys & (DPAD_LEFT | DPAD_RIGHT | A_BUTTON))
         {
         PlaySE(SE_HAZURE);
@@ -311,14 +385,21 @@ static void CreateOverworldScrollBar(void)
     u8 xPos;
     u16 displayedCostume;
     u8 spriteId;
+    u8 maxSlot;
 
-    for (slot = 0; slot <= 3; slot++)
+    maxSlot = 3;
+    if (sMaxSelection < 3)
+    {
+        maxSlot = sMaxSelection - 1;
+    }
+
+    for (slot = 0; slot <= maxSlot; slot++)
     {
         xPos = xPos_initial + (slot * slotSize);
-        displayedCostume = gCostumes[selection + slot].overworld;
+        displayedCostume = gCostumes[gDisplayList[selection + slot]].overworld;
         spriteId = AddPseudoEventObject(displayedCostume, UpdateSlotNumbers, xPos, yPos, 0);
         gSprites[spriteId].slotId = slot;
-        gSprites[spriteId].costumeId = selection + slot;
+        gSprites[spriteId].costumeId = gDisplayList[selection + slot];
         if (gSprites[spriteId].slotId == 0)
         {
             StartSpriteAnim(&gSprites[spriteId], 4);
@@ -331,10 +412,10 @@ static void CreateNewScrollBarSlot(s8 slot)
     u8 spriteId;
     u16 displayedCostume;
 
-    displayedCostume = gCostumes[selection + slot].overworld;
+    displayedCostume = gCostumes[gDisplayList[selection + slot]].overworld;
     spriteId = AddPseudoEventObject(displayedCostume, UpdateSlotNumbers, xPos_initial + slot*slotSize, yPos, 0);
     gSprites[spriteId].slotId = slot;
-    gSprites[spriteId].costumeId = selection + slot;
+    gSprites[spriteId].costumeId = gDisplayList[selection + slot];
 }
 
 static void UpdateSlotNumbers(struct Sprite *sprite)
@@ -385,7 +466,7 @@ static void SpriteCallback_UpdateSpritePosition(struct Sprite *sprite)
     }
     else if (sprite->pos1.x == xPos_initial + sprite->slotId*slotSize)
     {
-        if ((sprite->slotId == 0) && (sprite->costumeId == selection))
+        if ((sprite->slotId == 0) && (sprite->costumeId == gDisplayList[selection]))
         {
             sprite->animNum = 4;
             sprite->animBeginning = TRUE;
@@ -414,7 +495,7 @@ static void SetSpriteTemplateParameters(void)
 static void CreateTrainerSprite(void)
 {
     u8 spriteId;
-    u16 displayedCostume = gCostumes[selection].trainerFront;
+    u16 displayedCostume = gCostumes[gDisplayList[selection]].trainerFront;
 
     sSpriteTemplateBase.tileTag =  gTrainerFrontPicTable[displayedCostume].tag;
     sSpriteTemplateBase.paletteTag = gTrainerFrontPicPaletteTable[displayedCostume].tag;
@@ -422,12 +503,12 @@ static void CreateTrainerSprite(void)
     LoadCompressedObjectPalette(&gTrainerFrontPicPaletteTable[displayedCostume]);
     LoadCompressedObjectPic(&gTrainerFrontPicTable[displayedCostume]);
     spriteId = CreateSprite(&sSpriteTemplateBase, 200, 40, 0);
-    gSprites[spriteId].costumeId = selection;
+    gSprites[spriteId].costumeId = gDisplayList[selection];
 }
 
 static void TrainerSpriteCallback(struct Sprite *sprite)
 {
-    if (sprite->costumeId != selection)
+    if (sprite->costumeId != gDisplayList[selection])
     {
         FreeSpritePalette(sprite);
         FreeSpriteTiles(sprite);
@@ -458,11 +539,11 @@ static void CreateTextbox(u8 windowId)
 
 static void AddGenderSymbols(void)
 {
-    if (gCostumes[selection].gender == MALE)
+    if (gCostumes[gDisplayList[selection]].gender == MALE)
     {
         StringAppend(gStringVar4, gText_MaleSymbol);
     }
-    else if (gCostumes[selection].gender == FEMALE)
+    else if (gCostumes[gDisplayList[selection]].gender == FEMALE)
     {
         StringAppend(gStringVar4, gText_FemaleSymbol);
     }
@@ -471,23 +552,22 @@ static void AddGenderSymbols(void)
 static void AddText(const u8 *text, const u8 *locked)
 {
     StringExpandPlaceholders(gStringVar4, text);
-    if (gSaveBlock2Ptr->costumeFlags[selection] == FALSE)
+    if (gSaveBlock2Ptr->costumeFlags[gDisplayList[selection]] == FALSE)
     {
         StringExpandPlaceholders(gStringVar4, locked);
     }
 }
 static void UpdateCostumeNameAndDescription(void)
 {
-    AddText(gCostumes[selection].name, gText_CostumeName_Locked);
+    AddText(gCostumes[gDisplayList[selection]].name, gText_CostumeName_Locked);
     AddGenderSymbols();
     CreateTextbox(NAME_WINDOW);
-    AddText(gCostumes[selection].description, gText_CostumeDescription_Locked);
+    AddText(gCostumes[gDisplayList[selection]].description, gText_CostumeDescription_Locked);
     CreateTextbox(DESCRIPTION_WINDOW);
 }
 
 static void CreateConfirmationMenu(void)
 {
-    ClearWindowTilemap(DESCRIPTION_WINDOW);
     SetWindowBorderStyle(CONFIRMATION_WINDOW, FALSE, 205, 14);
     PrintTextOnWindow(CONFIRMATION_WINDOW, 1, gText_ChangeCostume, 0, 1, 0, NULL);
     PutWindowTilemap(CONFIRMATION_WINDOW);
@@ -500,9 +580,9 @@ static void ProcessYesNoMenu(void)
     {
         case 0: // Yes
             PlaySE(MUS_ME_B_SMALL);
-            gSaveBlock2Ptr->costume = selection;
-            gSaveBlock2Ptr->playerGender = gCostumes[selection].gender;
-            PlayFieldMoveAnimation(gCostumes[selection].fieldMove);
+            gSaveBlock2Ptr->costume = gDisplayList[selection];
+            gSaveBlock2Ptr->playerGender = gCostumes[gDisplayList[selection]].gender;
+            PlayFieldMoveAnimation(gCostumes[gDisplayList[selection]].fieldMove);
             sub_8198070(CONFIRMATION_WINDOW, FALSE); //from menu.c
             ClearWindowTilemap(CONFIRMATION_WINDOW);
             SetMainCallback2(HandleKeyPresses);
@@ -560,6 +640,95 @@ void UnlockCostumesByGender(u8 playerGender)
         }
 }
 
+//----------------------------
+// Filter system
+// ---------------------------
+
+static void CreateStandardCostumeList(void)
+{
+    u8 i;
+
+    for (i = 0; i < NUMBER_OF_COSTUMES; i++)
+        if ((gCostumes[i].hidden == FALSE) || (gSaveBlock2Ptr->costumeFlags[i] == TRUE))
+        {
+            gDisplayList[sListPosition] = i;
+            sListPosition++;
+            sMaxSelection++;
+        }
+}
+
+static void CreateCostumeListByGender(u8 playerGender)
+{
+    u8 i;
+
+    for (i = 0; i < NUMBER_OF_COSTUMES; i++)
+        if ((gCostumes[i].gender == playerGender) && ((gCostumes[i].hidden == FALSE) || (gSaveBlock2Ptr->costumeFlags[i] == TRUE)))
+        {
+            gDisplayList[sListPosition] = i;
+            sListPosition++;
+            sMaxSelection++;
+        }
+}
+
+static void CreateUnlockedCostumeList(void)
+{
+    u8 i;
+
+    for (i = 0; i < NUMBER_OF_COSTUMES; i++)
+        if (gSaveBlock2Ptr->costumeFlags[i] == TRUE)
+        {
+            gDisplayList[sListPosition] = i;
+            sListPosition++;
+            sMaxSelection++;
+        }
+}
+
+static void UpdateDisplayMode(void)
+{
+    ListMode++;
+    if (ListMode > LIST_UNLOCKED)
+        {
+            ListMode = LIST_STANDARD;
+        }
+}
+
+static void CreateDisplayList(void)
+{
+    selection = 0;
+    sMaxSelection = 0;
+    sListPosition = 0;
+
+    switch (ListMode)
+    {
+        case LIST_STANDARD:
+        default:
+            CreateStandardCostumeList();
+            break;
+        case LIST_MALE:
+            CreateCostumeListByGender(MALE);
+            break;
+        case LIST_FEMALE:
+            CreateCostumeListByGender(FEMALE);
+            break;
+        case LIST_UNLOCKED:
+            CreateUnlockedCostumeList();
+            break;
+    }
+
+    if (ListMode > LIST_STANDARD)
+    {
+       CreateListModeIndicator();
+    } 
+}
+
+static void CreateListModeIndicator(void)
+{
+    u8 spriteId;
+
+    LoadCompressedObjectPalette(&sListModeIndicatorsPalette);
+    LoadCompressedObjectPic(&ListModeIndicators[ListMode - 1]);
+    spriteId = CreateSprite(&sSpriteTemplate_StatisticsMenu[ListMode - 1], 202 + ListMode*8, 7, 0);
+}
 //-------------------------------
 // Misc
 //-------------------------------

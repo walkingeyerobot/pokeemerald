@@ -64,41 +64,41 @@ const u8 gText_CostumeDescription_May[] =     _("May description");
 const u8 gText_CostumeDescription_Lucas[] =   _("Lucas description");
 const u8 gText_CostumeDescription_Dawn[] =    _("Dawn description");
 // Professors
-const u8 gText_CostumeDescription_ProfessorOak[] =   _("Professor Oak description");
+const u8 gText_CostumeDescription_ProfessorOak[] =   _("Once a top class trainer, Professor Oak is\nnow a prominent researcher and is known as\nthe authority on Pokemon-Human relations");
 const u8 gText_CostumeDescription_ProfessorElm[] =   _("Professor Elm description");
 const u8 gText_CostumeDescription_ProfessorBirch[] = _("Professor Birch description");
 const u8 gText_CostumeDescription_ProfessorRowan[] = _("Professor Rowan description");
 // Rivals
 const u8 gText_CostumeDescription_GarryOak[] = _("Garry Oak description");
-const u8 gText_CostumeDescription_Silver[] = _("Silver description");
-const u8 gText_CostumeDescription_Wally[] = _("Wally description");
-const u8 gText_CostumeDescription_Barry[] = _("Barry description");
+const u8 gText_CostumeDescription_Silver[] =   _("Silver description");
+const u8 gText_CostumeDescription_Wally[] =    _("Wally description");
+const u8 gText_CostumeDescription_Barry[] =    _("Barry description");
 // Standard Trainers
 // Villainous team
 const u8 gText_CostumeDescription_RocketGruntM[] = _("Rocket Grunt M description");
 const u8 gText_CostumeDescription_RocketGruntF[] = _("Rocket Grunt F description");
-const u8 gText_CostumeDescription_Archer[] = _("Archer description");
-const u8 gText_CostumeDescription_Ariana[] = _("Ariana description");
-const u8 gText_CostumeDescription_Petrel[] = _("Petrel description");
-const u8 gText_CostumeDescription_Proton[] = _("Proton description");
-const u8 gText_CostumeDescription_Giovanni[] = _("Giovanni description");
-const u8 gText_CostumeDescription_AquaGruntM[] = _("Aqua Grunt M description");
-const u8 gText_CostumeDescription_AquaGruntF[] = _("Aqua Grunt F description");
-const u8 gText_CostumeDescription_Matt[] = _("Matt description");
-const u8 gText_CostumeDescription_Shelley[] = _("Shelley description");
-const u8 gText_CostumeDescription_Archie[] = _("Archie description");
-const u8 gText_CostumeDescription_MagmaGruntM[] = _("MagmaGruntM description");
-const u8 gText_CostumeDescription_MagmaGruntF[] = _("MagmaGruntF description");
-const u8 gText_CostumeDescription_Courtney[] = _("Courtney description");
-const u8 gText_CostumeDescription_Tabitha[] = _("Tabitha description");
-const u8 gText_CostumeDescription_Maxie[] = _("Maxie description");
+const u8 gText_CostumeDescription_Archer[] =       _("Archer description");
+const u8 gText_CostumeDescription_Ariana[] =       _("Ariana description");
+const u8 gText_CostumeDescription_Petrel[] =       _("Petrel description");
+const u8 gText_CostumeDescription_Proton[] =       _("Proton description");
+const u8 gText_CostumeDescription_Giovanni[] =     _("As the leader of the infamous Team Rocket\nGiovanni will do whatever it takes to hunt\nrare Pokemon to sell to the highest bidder");
+const u8 gText_CostumeDescription_AquaGruntM[] =   _("Aqua Grunt M description");
+const u8 gText_CostumeDescription_AquaGruntF[] =   _("Aqua Grunt F description");
+const u8 gText_CostumeDescription_Matt[] =         _("Matt description");
+const u8 gText_CostumeDescription_Shelley[] =      _("Shelley description");
+const u8 gText_CostumeDescription_Archie[] =       _("Archie description");
+const u8 gText_CostumeDescription_MagmaGruntM[] =  _("MagmaGruntM description");
+const u8 gText_CostumeDescription_MagmaGruntF[] =  _("MagmaGruntF description");
+const u8 gText_CostumeDescription_Courtney[] =     _("Courtney description");
+const u8 gText_CostumeDescription_Tabitha[] =      _("Tabitha description");
+const u8 gText_CostumeDescription_Maxie[] =        _("Maxie description");
 const u8 gText_CostumeDescription_GalacticGruntM[] = _("GalacticGruntM description");
 const u8 gText_CostumeDescription_GalacticGruntF[] = _("GalacticGruntF description");
-const u8 gText_CostumeDescription_Saturn[] = _("Saturn description");
-const u8 gText_CostumeDescription_Mars[] = _("Mars description");
-const u8 gText_CostumeDescription_Jupiter[] = _("Jupiter description");
-const u8 gText_CostumeDescription_Charon[] = _("Charon description");
-const u8 gText_CostumeDescription_Cyrus[] = _("Cyrus description");
+const u8 gText_CostumeDescription_Saturn[] =       _("Saturn description");
+const u8 gText_CostumeDescription_Mars[] =         _("Mars description");
+const u8 gText_CostumeDescription_Jupiter[] =      _("Jupiter description");
+const u8 gText_CostumeDescription_Charon[] =       _("Charon description");
+const u8 gText_CostumeDescription_Cyrus[] =        _("Cyrus description");
 // Gym Leaders
 // Elite 4 + champion
 // Misc characters

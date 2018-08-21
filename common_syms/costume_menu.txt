@@ -1,2 +1,5 @@
 selection
 sScrollBarState
+ListMode
+sMaxSelection
+sListPosition
