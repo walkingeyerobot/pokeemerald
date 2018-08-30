@@ -3929,7 +3929,7 @@ static void TryDoEventsBeforeFirstTurn(void)
     if (gBattleTypeFlags & BATTLE_TYPE_ARENA)
     {
         StopCryAndClearCrySongs();
-        BattleScriptExecute(BattleScript_82DB8BE);
+        BattleScriptExecute(BattleScript_ArenaTurnBeginning);
     }
 }
 
@@ -3964,9 +3964,9 @@ void BattleTurnPassed(void)
     TurnValuesCleanUp(TRUE);
     if (gBattleOutcome == 0)
     {
-        if (UpdateTurnCounters())
+        if (DoFieldEndTurnEffects())
             return;
-        if (TurnBasedEffects())
+        if (DoBattlerEndTurnEffects())
             return;
     }
     if (HandleFaintedMonActions())
@@ -4008,7 +4008,7 @@ void BattleTurnPassed(void)
         gChosenMoveByBattler[i] = MOVE_NONE;
     }
 
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < MAX_BATTLERS_COUNT; i++)
         *(gBattleStruct->monToSwitchIntoId + i) = PARTY_SIZE;
 
     *(&gBattleStruct->field_91) = gAbsentBattlerFlags;
@@ -4019,7 +4019,7 @@ void BattleTurnPassed(void)
     if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
         BattleScriptExecute(BattleScript_82DB881);
     else if (gBattleTypeFlags & BATTLE_TYPE_ARENA && gBattleStruct->field_DA == 0)
-        BattleScriptExecute(BattleScript_82DB8BE);
+        BattleScriptExecute(BattleScript_ArenaTurnBeginning);
 }
 
 u8 IsRunningFromBattleImpossible(void)

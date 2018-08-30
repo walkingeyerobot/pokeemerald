@@ -1004,7 +1004,7 @@ static u8 SaveYesNoCallback(void)
 
 static u8 SaveConfirmInputCallback(void)
 {
-    switch (ProcessMenuInputNoWrap_())
+    switch (Menu_ProcessInputNoWrap_())
     {
     case 0: // Yes
         switch (gSaveFileStatus)
@@ -1064,7 +1064,7 @@ static u8 SaveConfirmOverwriteCallback(void)
 
 static u8 SaveOverwriteInputCallback(void)
 {
-    switch (ProcessMenuInputNoWrap_())
+    switch (Menu_ProcessInputNoWrap_())
     {
     case 0: // Yes
         sSaveDialogCallback = SaveSavingMessageCallback;
@@ -1188,7 +1188,7 @@ static u8 BattlePyramidRetireYesNoCallback(void)
 
 static u8 BattlePyramidRetireInputCallback(void)
 {
-    switch (ProcessMenuInputNoWrap_())
+    switch (Menu_ProcessInputNoWrap_())
     {
     case 0: // Yes
         return SAVE_CANCELED;

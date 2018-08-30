@@ -17,7 +17,7 @@
 #define sB_ANIM_TURN gBattleScripting + 0x18
 #define sB_ANIM_TARGETS_HIT gBattleScripting + 0x19
 #define sSTATCHANGER gBattleScripting + 0x1A
-#define sFIELD_1B gBattleScripting + 0x1B
+#define sSTAT_ANIM_PLAYED gBattleScripting + 0x1B
 #define sGIVEEXP_STATE gBattleScripting + 0x1C
 #define sBATTLE_STYLE gBattleScripting + 0x1D
 #define sLVLBOX_STATE gBattleScripting + 0x1E
@@ -71,6 +71,8 @@
 #define VARIOUS_WAIT_CRY                        18
 #define VARIOUS_RETURN_OPPONENT_MON1            19
 #define VARIOUS_RETURN_OPPONENT_MON2            20
+#define VARIOUS_VOLUME_DOWN                     21
+#define VARIOUS_VOLUME_UP                       22
 #define VARIOUS_SET_TELEPORT_OUTCOME            25
 #define VARIOUS_PLAY_TRAINER_DEFEATED_MUSIC     26
 
@@ -91,7 +93,16 @@
 // atk48
 #define ATK48_STAT_NEGATIVE         0x1
 #define ATK48_STAT_BY_TWO           0x2
-#define ATK48_BIT_x4                0x4
+#define ATK48_ONLY_MULTIPLE         0x4
 #define ATK48_DONT_CHECK_LOWER      0x8
+
+#define BIT_HP                      0x1
+#define BIT_ATK                     0x2
+#define BIT_DEF                     0x4
+#define BIT_SPEED                   0x8
+#define BIT_SPATK                   0x10
+#define BIT_SPDEF                   0x20
+#define BIT_ACC                     0x40
+#define BIT_EVASION                 0x80
 
 #endif // GUARD_CONSTANTS_BATTLE_SCRIPT_COMMANDS_H

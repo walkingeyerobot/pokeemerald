@@ -1585,7 +1585,7 @@ sub_81C7E58: @ 81C7E58
 	adds r0, r4, 0
 	movs r2, 0x20
 	bl LoadPalette
-	ldr r4, =0x0201c000
+	ldr r4, =gDecompressionBuffer
 	mov r0, r8
 	adds r1, r4, 0
 	bl LZ77UnCompWram
@@ -1667,7 +1667,7 @@ sub_81C7F24: @ 81C7F24
 	adds r0, r4, 0
 	movs r2, 0x20
 	bl LoadPalette
-	ldr r4, =0x0201d000
+	ldr r4, =gDecompressionBuffer+0x1000
 	adds r0, r6, 0
 	adds r1, r4, 0
 	bl LZ77UnCompWram
@@ -20169,7 +20169,7 @@ sub_81D1148: @ 81D1148
 	add r2, sp, 0x8
 	mov r0, sp
 	bl sub_81D0760
-	bl dp13_810BB8C
+	bl ResetAllPicSprites
 	movs r0, 0x28
 	movs r1, 0x68
 	bl sub_81D1184
@@ -20187,7 +20187,7 @@ sub_81D1148: @ 81D1148
 sub_81D1178: @ 81D1178
 	push {lr}
 	ldrh r0, [r0, 0x10]
-	bl sub_818D820
+	bl FreeAndDestroyMonPicSprite
 	pop {r0}
 	bx r0
 	thumb_func_end sub_81D1178
@@ -20213,7 +20213,7 @@ sub_81D1184: @ 81D1184
 	ldr r3, =0x0000ffff
 	str r3, [sp, 0xC]
 	movs r3, 0x1
-	bl sub_818D7D8
+	bl CreateMonPicSprite_HandleDeoxys
 	lsls r0, 16
 	lsrs r0, 16
 	ldr r1, =gSprites
@@ -20256,7 +20256,7 @@ sub_81D11FC: @ 81D11FC
 	push {r4,r5,lr}
 	adds r4, r0, 0
 	ldrh r0, [r4, 0x10]
-	bl sub_818D820
+	bl FreeAndDestroyMonPicSprite
 	movs r5, 0x20
 	negs r5, r5
 	adds r0, r5, 0
@@ -22585,7 +22585,7 @@ sub_81D2ACC: @ 81D2ACC
 	push {r7}
 	sub sp, 0xC
 	adds r4, r0, 0
-	bl sub_816137C
+	bl ShowHideHearts
 	movs r0, 0x1
 	movs r1, 0x11
 	bl FillWindowPixelBuffer
@@ -27036,7 +27036,7 @@ _081D4E1C:
 	thumb_func_start sub_81D4E30
 sub_81D4E30: @ 81D4E30
 	push {lr}
-	ldr r0, =0x0201c000
+	ldr r0, =gDecompressionBuffer
 	movs r2, 0x80
 	lsls r2, 6
 	movs r1, 0
@@ -27657,7 +27657,7 @@ _081D5386:
 	strb r0, [r4, 0x8]
 	b _081D548A
 _081D5390:
-	ldr r0, =0x0201c000
+	ldr r0, =gDecompressionBuffer
 	bl sub_81D3920
 	strb r0, [r4, 0xE]
 	ldrb r0, [r4, 0xE]
@@ -27683,7 +27683,7 @@ _081D53C0:
 	strb r0, [r4, 0x8]
 	b _081D548A
 _081D53C6:
-	ldr r0, =0x0201c000
+	ldr r0, =gDecompressionBuffer
 	bl sub_81D3AB0
 	cmp r0, 0
 	beq _081D53EC
