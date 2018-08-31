@@ -323,14 +323,14 @@ static void HandleKeyPresses(void)
         {
             if (selection > 3)
             {
-            CreateNewScrollBarSlot(-4);
+                CreateNewScrollBarSlot(-4);
             }
             sScrollBarState = SCROLL_RIGHT;
             selection--;
             UpdateCostumeNameAndDescription();
             PlaySE(SE_Z_SCROLL);
         }
-        if ((gMain.newKeys & A_BUTTON)  && (gSaveBlock2Ptr->costumeFlags[gDisplayList[selection]] == TRUE))
+        if ((gMain.newKeys & A_BUTTON) && (gSaveBlock2Ptr->costumeFlags[gDisplayList[selection]] == TRUE))
         {
             CreateConfirmationMenu();
             PlaySE(SE_SELECT);
@@ -412,7 +412,7 @@ static void CreateOverworldScrollBar(void)
             index = IndexOfSpritePaletteTag(gSprites[spriteId].template->paletteTag);
             CpuCopy16(&gPlttBufferUnfaded[0x100 + index * 16], gGreyScalePaletteBuffer, 32);
             TintPalette_GrayScale(gGreyScalePaletteBuffer, 16);
-            LoadPalette(gGreyScalePaletteBuffer, 0x100 + gSprites[spriteId].oam.paletteNum * 16, 32);
+            LoadPalette(gGreyScalePaletteBuffer, 0x100 + index * 16, 32);
         }
     }
 }
@@ -433,7 +433,7 @@ static void CreateNewScrollBarSlot(s8 slot)
         index = IndexOfSpritePaletteTag(gSprites[spriteId].template->paletteTag);
         CpuCopy16(&gPlttBufferUnfaded[0x100 + index * 16], gGreyScalePaletteBuffer, 32);
         TintPalette_GrayScale(gGreyScalePaletteBuffer, 16);
-        LoadPalette(gGreyScalePaletteBuffer, 0x100 + gSprites[spriteId].oam.paletteNum * 16, 32);
+        LoadPalette(gGreyScalePaletteBuffer, 0x100 + index * 16, 32);
     }
 }
 
@@ -543,7 +543,7 @@ static void LoadCompressedObjectPaletteWithGreyscale(const struct CompressedSpri
     LZ77UnCompWram(src->data, gGreyScalePaletteBuffer);
     if (gSaveBlock2Ptr->costumeFlags[gDisplayList[selection]] == FALSE)
     {
-    TintPalette_GrayScale(gGreyScalePaletteBuffer, 16);
+        TintPalette_GrayScale(gGreyScalePaletteBuffer, 16);
     }
     dest.data = (void*) gGreyScalePaletteBuffer;
     dest.tag = src->tag;
@@ -601,15 +601,17 @@ static void UpdateCostumeNameAndDescription(void)
 
 static void CreateConfirmationMenu(void)
 {
+    FillWindowPixelBuffer(CONFIRMATION_WINDOW, 0);
     SetWindowBorderStyle(CONFIRMATION_WINDOW, FALSE, 205, 14);
     PrintTextOnWindow(CONFIRMATION_WINDOW, 1, gText_ChangeCostume, 0, 1, 0, NULL);
     PutWindowTilemap(CONFIRMATION_WINDOW);
+    CopyWindowToVram(CONFIRMATION_WINDOW, 3);
     CreateYesNoMenu(&sWindowTemplate_CostumeMenu[2], 205, 14, 1);
 }
 
 static void ProcessYesNoMenu(void)
 {
-    switch (ProcessMenuInputNoWrap_())
+    switch (Menu_ProcessInputNoWrap_())
     {
         case 0: // Yes
             PlaySE(MUS_ME_B_SMALL);
