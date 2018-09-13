@@ -54,7 +54,10 @@ const u8 gText_CostumeName_Cyrus[] = _("Cyrus");
 // Misc characters
 
 // Main characters
-const u8 gText_CostumeDescription_Red[] =     _("Red, the champion of the Kanto region now\nresides atop Mt. Silver where he hones his\nskills in order to become a Pokemon master.");
+const u8 gText_CostumeDescription_Red[] = _(
+    "Red, the champion of the Kanto region now\n"
+    "resides atop Mt. Silver where he hones his\n"
+    "skills in order to become a Pokemon master.");
 const u8 gText_CostumeDescription_Leaf[] =    _("Leaf description");
 const u8 gText_CostumeDescription_Ethan[] =   _("Ethan description");
 const u8 gText_CostumeDescription_Kris[] =    _("Kris description");
@@ -64,7 +67,10 @@ const u8 gText_CostumeDescription_May[] =     _("May description");
 const u8 gText_CostumeDescription_Lucas[] =   _("Lucas description");
 const u8 gText_CostumeDescription_Dawn[] =    _("Dawn description");
 // Professors
-const u8 gText_CostumeDescription_ProfessorOak[] =   _("Once a top class trainer, Professor Oak is\nnow a prominent researcher and is known as\nthe authority on Pokemon-Human relations");
+const u8 gText_CostumeDescription_ProfessorOak[] = _(
+    "Once a top class trainer, Professor Oak is\n"
+    "now a prominent researcher and is known as\n"
+    "the authority on Pokemon-Human relations");
 const u8 gText_CostumeDescription_ProfessorElm[] =   _("Professor Elm description");
 const u8 gText_CostumeDescription_ProfessorBirch[] = _("Professor Birch description");
 const u8 gText_CostumeDescription_ProfessorRowan[] = _("Professor Rowan description");
@@ -81,7 +87,10 @@ const u8 gText_CostumeDescription_Archer[] =       _("Archer description");
 const u8 gText_CostumeDescription_Ariana[] =       _("Ariana description");
 const u8 gText_CostumeDescription_Petrel[] =       _("Petrel description");
 const u8 gText_CostumeDescription_Proton[] =       _("Proton description");
-const u8 gText_CostumeDescription_Giovanni[] =     _("As the leader of the infamous Team Rocket\nGiovanni will do whatever it takes to hunt\nrare Pokemon to sell to the highest bidder");
+const u8 gText_CostumeDescription_Giovanni[] = _(
+    "As the leader of the infamous Team Rocket\n"
+    "Giovanni will do whatever it takes to hunt\n"
+    "rare Pokemon to sell to the highest bidder");
 const u8 gText_CostumeDescription_AquaGruntM[] =   _("Aqua Grunt M description");
 const u8 gText_CostumeDescription_AquaGruntF[] =   _("Aqua Grunt F description");
 const u8 gText_CostumeDescription_Matt[] =         _("Matt description");

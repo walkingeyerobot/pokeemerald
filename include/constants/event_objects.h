@@ -241,26 +241,135 @@
 #define EVENT_OBJ_GFX_LUGIA                      237
 #define EVENT_OBJ_GFX_HOOH                       238
 
-#define EVENT_OBJ_COSTUME_RED            239
-#define EVENT_OBJ_COSTUME_LEAF           240
-#define EVENT_OBJ_COSTUME_ETHAN          241
-#define EVENT_OBJ_COSTUME_LYRA           242
-#define EVENT_OBJ_COSTUME_BRENDAN        243
-#define EVENT_OBJ_COSTUME_MAY            244
-#define EVENT_OBJ_COSTUME_LUCAS          245
-#define EVENT_OBJ_COSTUME_DAWN           246
+#define EVENT_OBJ_COSTUME_RED                    239
+#define EVENT_OBJ_GFX_RED_BIKE                   240
+#define EVENT_OBJ_GFX_RED_SURFING                241
+#define EVENT_OBJ_GFX_RED_FIELD_MOVE             242
+#define EVENT_OBJ_GFX_RED_FISHING                243
+#define EVENT_OBJ_GFX_RED_WATERING               244
+#define EVENT_OBJ_COSTUME_LEAF                   245
+#define EVENT_OBJ_GFX_LEAF_BIKE                  246
+#define EVENT_OBJ_GFX_LEAF_SURFING               247
+#define EVENT_OBJ_GFX_LEAF_FIELD_MOVE            248
+#define EVENT_OBJ_GFX_LEAF_FISHING               249
+#define EVENT_OBJ_GFX_LEAF_WATERING              250
+#define EVENT_OBJ_GFX_ETHAN                      251
+#define EVENT_OBJ_GFX_ETHAN_BIKE                 252
+#define EVENT_OBJ_GFX_ETHAN_SURFING              253
+#define EVENT_OBJ_GFX_ETHAN_FIELD_MOVE           254
+#define EVENT_OBJ_GFX_ETHAN_FISHING              255
+#define EVENT_OBJ_GFX_ETHAN_WATERING             256
+#define EVENT_OBJ_GFX_KRIS                       257
+#define EVENT_OBJ_GFX_KRIS_BIKE                  258
+#define EVENT_OBJ_GFX_KRIS_SURFING               259
+#define EVENT_OBJ_GFX_KRIS_FIELD_MOVE            260
+#define EVENT_OBJ_GFX_KRIS_FISHING               261
+#define EVENT_OBJ_GFX_KRIS_WATERING              262
+#define EVENT_OBJ_GFX_LYRA                       263
+#define EVENT_OBJ_GFX_LYRA_BIKE                  264
+#define EVENT_OBJ_GFX_LYRA_SURFING               265
+#define EVENT_OBJ_GFX_LYRA_FIELD_MOVE            266
+#define EVENT_OBJ_GFX_LYRA_FISHING               267
+#define EVENT_OBJ_GFX_LYRA_WATERING              268
+#define EVENT_OBJ_COSTUME_BRENDAN                269
+//#define EVENT_OBJ_GFX_BRENDAN_BIKE               270
+//#define EVENT_OBJ_GFX_BRENDAN_SURFING            271
+//#define EVENT_OBJ_GFX_BRENDAN_FIELD_MOVE         272
+//#define EVENT_OBJ_GFX_BRENDAN_FISHING            273
+//#define EVENT_OBJ_GFX_BRENDAN_WATERING           274
+#define EVENT_OBJ_COSTUME_MAY                    275
+//#define EVENT_OBJ_GFX_MAY_BIKE                   276
+//#define EVENT_OBJ_GFX_MAY_SURFING                277
+//#define EVENT_OBJ_GFX_MAY_FIELD_MOVE             278
+//#define EVENT_OBJ_GFX_MAY_FISHING                279
+//#define EVENT_OBJ_GFX_MAY_WATERING               280
+#define EVENT_OBJ_GFX_LUCAS                      281
+#define EVENT_OBJ_GFX_LUCAS_BIKE                 282
+#define EVENT_OBJ_GFX_LUCAS_SURFING              283
+#define EVENT_OBJ_GFX_LUCAS_FIELD_MOVE           284
+#define EVENT_OBJ_GFX_LUCAS_FISHING              285
+#define EVENT_OBJ_GFX_LUCAS_WATERING             286
+#define EVENT_OBJ_GFX_DAWN                       287
+#define EVENT_OBJ_GFX_DAWN_BIKE                  288
+#define EVENT_OBJ_GFX_DAWN_SURFING               289
+#define EVENT_OBJ_GFX_DAWN_FIELD_MOVE            290
+#define EVENT_OBJ_GFX_DAWN_FISHING               291
+#define EVENT_OBJ_GFX_DAWN_WATERING              292
+// Professors
+#define EVENT_OBJ_GFX_PROF_OAK                   293
+#define EVENT_OBJ_GFX_PROF_ELM                   294
+//#define EVENT_OBJ_GFX_PROF_BIRCH                 295
+#define EVENT_OBJ_GFX_PROF_ROWAN                 296
+// Rivals
+#define EVENT_OBJ_GFX_BLUE                       297
+#define EVENT_OBJ_GFX_SILVER                     298
+//#define EVENT_OBJ_GFX_WALLY                      299
+#define EVENT_OBJ_GFX_BARRY                      300
+// Team Rocket
+#define EVENT_OBJ_GFX_ROCKET_GRUNT_M             301
+#define EVENT_OBJ_GFX_ROCKET_GRUNT_F             302
+#define EVENT_OBJ_GFX_ARCHER                     303
+#define EVENT_OBJ_GFX_ARIANA                     304
+#define EVENT_OBJ_GFX_PETREL                     305
+#define EVENT_OBJ_GFX_PROTON                     306
+#define EVENT_OBJ_GFX_GIOVANNI                   307
+// Team Aqua
+#define EVENT_OBJ_GFX_AQUA_GRUNT_M               308
+#define EVENT_OBJ_GFX_AQUA_GRUNT_F               309
+#define EVENT_OBJ_GFX_MATT                       310
+#define EVENT_OBJ_GFX_SHELLEY                    311
+//#define EVENT_OBJ_GFX_ARCHIE                     312
+// Team Magma
+#define EVENT_OBJ_GFX_MAGMA_GRUNT_M              313
+#define EVENT_OBJ_GFX_MAGMA_GRUNT_F              314
+#define EVENT_OBJ_GFX_COURTNEY                   315
+#define EVENT_OBJ_GFX_TABITHA                    316
+//#define EVENT_OBJ_GFX_MAXIE                      317
+// Team Galactic
+#define EVENT_OBJ_GFX_GALACTIC_GRUNT_M           318
+#define EVENT_OBJ_GFX_GALACTIC_GRUNT_F           319
+#define EVENT_OBJ_GFX_JUPITER                    320
+#define EVENT_OBJ_GFX_MARS                       321
+#define EVENT_OBJ_GFX_SATURN                     322
+#define EVENT_OBJ_GFX_CHARON                     323
+#define EVENT_OBJ_GFX_CYRUS                      324
 
-#define EVENT_OBJ_COSTUME_ETHAN_FIELD    247
+#define EVENT_OBJ_COUNT EVENT_OBJ_GFX_CYRUS + 1
 
-#define EVENT_OBJ_GFX_BARD_2                     248
-#define EVENT_OBJ_GFX_HIPSTER                    249
-#define EVENT_OBJ_GFX_TRADER                     250
-#define EVENT_OBJ_GFX_STORYTELLER                251
-#define EVENT_OBJ_GFX_GIDDY                      252
-#define EVENT_OBJ_GFX_PLACEHOLDER_1              253
-#define EVENT_OBJ_GFX_PLACEHOLDER_2              254
+/*
+enum
+{
+    EVENT_OBJ_COSTUME_RED = 239,
+    EVENT_OBJ_COSTUME_LEAF,
+    EVENT_OBJ_COSTUME_ETHAN,
+    EVENT_OBJ_COSTUME_LYRA,
+    EVENT_OBJ_COSTUME_BRENDAN,
+    EVENT_OBJ_COSTUME_MAY,
+    EVENT_OBJ_COSTUME_LUCAS,
+    EVENT_OBJ_COSTUME_DAWN,
 
+    EVENT_OBJ_COSTUME_ETHAN_FIELD,
 
+    EVENT_OBJ_GFX_ROCKET_GRUNT_M,
+    EVENT_OBJ_GFX_ROCKET_GRUNT_F,
+
+    EVENT_OBJ_GFX_GALACTIC_GRUNT_M,
+    EVENT_OBJ_GFX_GALACTIC_GRUNT_F,
+    EVENT_OBJ_GFX_JUPITER,
+    EVENT_OBJ_GFX_MARS,
+    EVENT_OBJ_GFX_SATURN,
+    EVENT_OBJ_GFX_CYRUS,
+    EVENT_OBJ_COUNT,
+};
+*/
+
+#define EVENT_OBJ_GFX_BARD_2                     EVENT_OBJ_COUNT
+#define EVENT_OBJ_GFX_HIPSTER                    EVENT_OBJ_COUNT + 1
+#define EVENT_OBJ_GFX_TRADER                     EVENT_OBJ_COUNT + 2
+#define EVENT_OBJ_GFX_STORYTELLER                EVENT_OBJ_COUNT + 3
+#define EVENT_OBJ_GFX_GIDDY                      EVENT_OBJ_COUNT + 4
+#define EVENT_OBJ_GFX_PLACEHOLDER_1              EVENT_OBJ_COUNT + 5
+#define EVENT_OBJ_GFX_PLACEHOLDER_2              EVENT_OBJ_COUNT + 6
 
 #define SHADOW_SIZE_S   0
 #define SHADOW_SIZE_M   1

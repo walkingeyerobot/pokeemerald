@@ -28,7 +28,7 @@ extern const struct CompressedSpritePalette gTrainerFrontPicPaletteTable[];
 extern const struct CompressedSpritePalette gTrainerBackPicPaletteTable[];
 
 static EWRAM_DATA struct SpriteTemplate sSpriteTemplateBase = {};
-static EWRAM_DATA u8 gDisplayList[NUMBER_OF_COSTUMES] = {};
+static EWRAM_DATA u8 gDisplayList[NUMBER_OF_COSTUMES] = {0};
 static EWRAM_DATA u16 gGreyScalePaletteBuffer[0x20] = {0};
 u16 selection;
 u8 sScrollBarState;
@@ -308,24 +308,24 @@ static void HandleKeyPresses(void)
 {
     if (sScrollBarState == NONE)
     {
-        if ((gMain.newAndRepeatedKeys & DPAD_LEFT) && (selection != sMaxSelection - 1))
+        if ((gMain.newAndRepeatedKeys & DPAD_RIGHT) && (selection != sMaxSelection - 1))
         {
             if (selection < sMaxSelection - 4)
             {
                 CreateNewScrollBarSlot(4);
             }
-            sScrollBarState = SCROLL_LEFT;
+            sScrollBarState = SCROLL_RIGHT;
             selection++;
             UpdateCostumeNameAndDescription();
             PlaySE(SE_Z_SCROLL);
         }
-        if ((gMain.newAndRepeatedKeys & DPAD_RIGHT) && (selection != 0))
+        if ((gMain.newAndRepeatedKeys & DPAD_LEFT) && (selection != 0))
         {
             if (selection > 3)
             {
                 CreateNewScrollBarSlot(-4);
             }
-            sScrollBarState = SCROLL_RIGHT;
+            sScrollBarState = SCROLL_LEFT;
             selection--;
             UpdateCostumeNameAndDescription();
             PlaySE(SE_Z_SCROLL);
@@ -346,6 +346,7 @@ static void HandleKeyPresses(void)
         {
             PlaySE(SE_T_KAMI);
 //            UnlockCostumesByGender(MALE); //for debug purposes
+//            UnlockCostumesByGender(FEMALE); //for debug purposes
             ResetSpriteData();
             FreeAllSpritePalettes();
             UpdateDisplayMode();
@@ -439,13 +440,13 @@ static void CreateNewScrollBarSlot(s8 slot)
 
 static void UpdateSlotNumbers(struct Sprite *sprite)
 {
-    if (sScrollBarState == SCROLL_LEFT)
+    if (sScrollBarState == SCROLL_RIGHT)
     {
         sprite->slotId--;
         CheckIfSpriteIsAnimated(sprite);
         sprite->callback = SpriteCallback_UpdateSpritePosition;
     }
-    if (sScrollBarState == SCROLL_RIGHT)
+    if (sScrollBarState == SCROLL_LEFT)
     {
         sprite->slotId++;
         CheckIfSpriteIsAnimated(sprite);
@@ -467,11 +468,11 @@ static void SpriteCallback_UpdateSpritePosition(struct Sprite *sprite)
     // button press in order for this callback to compare the current
     // position of the sprite to its next slot position
 
-    if (sprite->pos1.x > (xPos_initial + sprite->slotId*slotSize))        //DPAD_LEFT
+    if (sprite->pos1.x > (xPos_initial + sprite->slotId*slotSize))        //DPAD_RIGHT
     {
         sprite->pos1.x -= 4;
     }
-    if (sprite->pos1.x < (xPos_initial + sprite->slotId*slotSize))        //DPAD_RIGHT
+    if (sprite->pos1.x < (xPos_initial + sprite->slotId*slotSize))        //DPAD_LEFT
     {
         sprite->pos1.x += 4;
     }
@@ -566,7 +567,7 @@ static void CreateTextbox(u8 windowId)
 {
     FillWindowPixelBuffer(windowId, 0);
     PutWindowTilemap(windowId);
-    box_print(windowId, 1, 0, 0, sFontColourTable, -1, gStringVar4);
+    AddTextPrinterParameterized3(windowId, 1, 0, 0, sFontColourTable, -1, gStringVar4);
     CopyWindowToVram(windowId, 3);
 }
 
@@ -603,7 +604,7 @@ static void CreateConfirmationMenu(void)
 {
     FillWindowPixelBuffer(CONFIRMATION_WINDOW, 0);
     SetWindowBorderStyle(CONFIRMATION_WINDOW, FALSE, 205, 14);
-    PrintTextOnWindow(CONFIRMATION_WINDOW, 1, gText_ChangeCostume, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(CONFIRMATION_WINDOW, 1, gText_ChangeCostume, 0, 1, 0, NULL);
     PutWindowTilemap(CONFIRMATION_WINDOW);
     CopyWindowToVram(CONFIRMATION_WINDOW, 3);
     CreateYesNoMenu(&sWindowTemplate_CostumeMenu[2], 205, 14, 1);

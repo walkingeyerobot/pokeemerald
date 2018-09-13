@@ -387,8 +387,7 @@ const union AnimCmd gEventObjectImageAnim_FieldMove[] =
     ANIMCMD_FRAME(0, 4),
     ANIMCMD_FRAME(1, 4),
     ANIMCMD_FRAME(2, 4),
-    ANIMCMD_FRAME(3, 4),
-    ANIMCMD_FRAME(4, 8),
+    ANIMCMD_FRAME(3, 8),
     ANIMCMD_END,
 };
 
@@ -971,7 +970,7 @@ const union AnimCmd *const gEventObjectImageAnimTable_Rayquaza2[] = {
     gEventObjectImageAnim_8509210,
 };
 
-const union AnimCmd *const gEventObjectImageAnimTable_BrendanMayNormal[] = {
+const union AnimCmd *const gEventObjectImageAnimTable_WalkRun[] = {
     gEventObjectImageAnim_FaceSouth,
     gEventObjectImageAnim_FaceNorth,
     gEventObjectImageAnim_FaceWest,
@@ -1148,7 +1147,7 @@ const struct UnkStruct_085094AC gUnknown_085094AC[] = {
         .animPos = {1, 3, 0, 2},
     },
     {
-        .anims = gEventObjectImageAnimTable_BrendanMayNormal,
+        .anims = gEventObjectImageAnimTable_WalkRun,
         .animPos = {1, 3, 0, 2},
     },
     {
@@ -1173,15 +1172,4 @@ const struct UnkStruct_085094AC gUnknown_085094AC[] = {
     },
 };
 
-const union AnimCmd gEventObjectImageAnim_FieldMove_GenIV[] =
-{
-    ANIMCMD_FRAME(0, 4),
-    ANIMCMD_FRAME(1, 4),
-    ANIMCMD_FRAME(2, 4),
-    ANIMCMD_FRAME(3, 8),
-    ANIMCMD_END,
-};
-const union AnimCmd *const gEventObjectImageAnimTable_FieldMove_GenIV[] = {
-    gEventObjectImageAnim_FieldMove_GenIV,
-};
 #endif //GUARD_EVENT_OBJECT_ANIMS_H

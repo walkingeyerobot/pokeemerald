@@ -1,8 +1,8 @@
 #ifndef GUARD_FIELD_EVENT_OBJ_H
 #define GUARD_FIELD_EVENT_OBJ_H
 
-#define NUM_OBJECT_GRAPHICS_INFO 248
-#define SPRITE_VAR 249
+#define NUM_OBJECT_GRAPHICS_INFO EVENT_OBJ_COUNT // 325
+#define SPRITE_VAR EVENT_OBJ_GFX_BARD_2 // 326
 
 enum SpinnerRunnerFollowPatterns
 {
@@ -101,7 +101,7 @@ void sub_80930E0(s16 *, s16 *, s16, s16);
 void EventObjectClearHeldMovement(struct EventObject *);
 void EventObjectClearHeldMovementIfActive(struct EventObject *);
 void TrySpawnEventObjects(s16, s16);
-u8 sprite_new(u8, u8, s16, s16, u8, u8);
+u8 sprite_new(u16, u8, s16, s16, u8, u8);
 u8 AddPseudoEventObject(u16, void (*)(struct Sprite *), s16, s16, u8);
 u8 show_sprite(u8, u8, u8);
 u8 SpawnSpecialEventObjectParameterized(u8, u8, u8, s16, s16, u8);
@@ -111,7 +111,7 @@ void CameraObjectReset1(void);
 void EventObjectSetGraphicsId(struct EventObject *, u8);
 void EventObjectTurn(struct EventObject *, u8);
 void EventObjectTurnByLocalIdAndMap(u8, u8, u8, u8);
-const struct EventObjectGraphicsInfo *GetEventObjectGraphicsInfo(u8);
+const struct EventObjectGraphicsInfo *GetEventObjectGraphicsInfo(u16);
 void npc_by_local_id_and_map_set_field_1_bit_x20(u8, u8, u8, u8);
 void FreeAndReserveObjectSpritePalettes(void);
 void sub_808E82C(u8, u8, u8, s16, s16);

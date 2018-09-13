@@ -405,13 +405,64 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define EVENT_OBJ_PAL_TAG_34 0x1123
 #define EVENT_OBJ_PAL_TAG_NONE 0x11FF
 
-#include "data/field_event_obj/event_object_graphics_info_pointers.h"
+enum EventObjectPalettes
+{
+    EVENT_OBJ_PAL_RED = 0x1124,
+    EVENT_OBJ_PAL_LEAF,
+    EVENT_OBJ_PAL_ETHAN,
+    EVENT_OBJ_PAL_KRIS,
+    EVENT_OBJ_PAL_LYRA,
+    EVENT_OBJ_PAL_BRENDAN,
+    EVENT_OBJ_PAL_MAY,
+    EVENT_OBJ_PAL_LUCAS,
+    EVENT_OBJ_PAL_DAWN,
+//Professors
+    EVENT_OBJ_PAL_PROF_OAK,
+    EVENT_OBJ_PAL_PROF_ELM,
+    EVENT_OBJ_PAL_PROF_BIRCH,
+    EVENT_OBJ_PAL_PROF_ROWAN,
+//Rivals
+    EVENT_OBJ_PAL_BLUE,
+    EVENT_OBJ_PAL_SILVER,
+    EVENT_OBJ_PAL_WALLY,
+    EVENT_OBJ_PAL_BARRY,
+// Team Rocket
+    EVENT_OBJ_PAL_ROCKET_M,
+    EVENT_OBJ_PAL_ROCKET_F,
+    EVENT_OBJ_PAL_ARCHER,
+    EVENT_OBJ_PAL_ARIANA,
+    EVENT_OBJ_PAL_PETREL,
+    EVENT_OBJ_PAL_PROTON,
+    EVENT_OBJ_PAL_GIOVANNI,
+// Team Aqua
+    EVENT_OBJ_PAL_AQUA_M,
+    EVENT_OBJ_PAL_AQUA_F,
+    EVENT_OBJ_PAL_MATT,
+    EVENT_OBJ_PAL_SHELLEY,
+    EVENT_OBJ_PAL_ARCHIE,
+// Team Magma
+    EVENT_OBJ_PAL_MAGMA_M,
+    EVENT_OBJ_PAL_MAGMA_F,
+    EVENT_OBJ_PAL_COURTNEY,
+    EVENT_OBJ_PAL_TABITHA,
+    EVENT_OBJ_PAL_MAXIE,
+// Team Galactic
+    EVENT_OBJ_PAL_GALACTIC_M,
+    EVENT_OBJ_PAL_GALACTIC_F,
+    EVENT_OBJ_PAL_SATURN,
+    EVENT_OBJ_PAL_MARS,
+    EVENT_OBJ_PAL_JUPITER,
+    EVENT_OBJ_PAL_CHARON,
+    EVENT_OBJ_PAL_CYRUS,
+};
+
 #include "data/field_event_obj/field_effect_object_template_pointers.h"
 #include "data/field_event_obj/event_object_pic_tables.h"
 #include "data/field_event_obj/event_object_anims.h"
 #include "data/field_event_obj/base_oam.h"
 #include "data/field_event_obj/event_object_subsprites.h"
 #include "data/field_event_obj/event_object_graphics_info.h"
+#include "data/field_event_obj/event_object_graphics_info_pointers.h"
 
 const struct SpritePalette sEventObjectSpritePalettes[] = {
     {gEventObjectPalette0,  EVENT_OBJ_PAL_TAG_0},
@@ -449,15 +500,54 @@ const struct SpritePalette sEventObjectSpritePalettes[] = {
     {gEventObjectPalette32, EVENT_OBJ_PAL_TAG_32},
     {gEventObjectPalette33, EVENT_OBJ_PAL_TAG_33},
     {gEventObjectPalette34, EVENT_OBJ_PAL_TAG_34},
-
-    {gEventObjectPalette_Red, 0x1124},
-    {gEventObjectPalette_Leaf, 0x1125},
-    {gEventObjectPalette_Ethan, 0x1126},
-    {gEventObjectPalette_Lyra, 0x1127},
-    {gEventObjectPalette_Brendan, 0x1128},
-    {gEventObjectPalette_May, 0x1129},
-    {gEventObjectPalette_Lucas, 0x1130},
-    {gEventObjectPalette_Dawn, 0x1131},
+// Main characters
+    {gEventObjectPalette_Red, EVENT_OBJ_PAL_RED},
+    {gEventObjectPalette_Leaf, EVENT_OBJ_PAL_LEAF},
+    {gEventObjectPalette_Ethan, EVENT_OBJ_PAL_ETHAN},
+    {gEventObjectPalette_Kris, EVENT_OBJ_PAL_KRIS},
+    {gEventObjectPalette_Lyra, EVENT_OBJ_PAL_LYRA},
+    {gEventObjectPalette_Brendan, EVENT_OBJ_PAL_BRENDAN},
+    {gEventObjectPalette_May, EVENT_OBJ_PAL_MAY},
+    {gEventObjectPalette_Lucas, EVENT_OBJ_PAL_LUCAS},
+    {gEventObjectPalette_Dawn, EVENT_OBJ_PAL_DAWN},
+// Professors
+    {gEventObjectPalette_ProfOak, EVENT_OBJ_PAL_PROF_OAK},
+    {gEventObjectPalette_ProfElm, EVENT_OBJ_PAL_PROF_ELM},
+    {gEventObjectPalette_ProfBirch, EVENT_OBJ_PAL_PROF_BIRCH},
+    {gEventObjectPalette_ProfRowan, EVENT_OBJ_PAL_PROF_ROWAN},
+// Rivals
+    {gEventObjectPalette_Blue, EVENT_OBJ_PAL_BLUE},
+    {gEventObjectPalette_Silver, EVENT_OBJ_PAL_SILVER},
+    {gEventObjectPalette_Wally, EVENT_OBJ_PAL_WALLY},
+    {gEventObjectPalette_Barry, EVENT_OBJ_PAL_BARRY},
+// Team Rocket
+    {gEventObjectPalette_RocketGruntM, EVENT_OBJ_PAL_ROCKET_M},
+    {gEventObjectPalette_RocketGruntF, EVENT_OBJ_PAL_ROCKET_F},
+    {gEventObjectPalette_Archer, EVENT_OBJ_PAL_ARCHER},
+    {gEventObjectPalette_Ariana, EVENT_OBJ_PAL_ARIANA},
+    {gEventObjectPalette_Petrel, EVENT_OBJ_PAL_PETREL},
+    {gEventObjectPalette_Proton, EVENT_OBJ_PAL_PROTON},
+    {gEventObjectPalette_Giovanni, EVENT_OBJ_PAL_GIOVANNI},
+// Team Aqua
+    {gEventObjectPalette_AquaGruntM, EVENT_OBJ_PAL_AQUA_M},
+    {gEventObjectPalette_AquaGruntF, EVENT_OBJ_PAL_AQUA_F},
+    {gEventObjectPalette_Matt, EVENT_OBJ_PAL_MATT},
+    {gEventObjectPalette_Shelley, EVENT_OBJ_PAL_SHELLEY},
+    {gEventObjectPalette_Archie, EVENT_OBJ_PAL_ARCHIE},
+// Team Magma
+    {gEventObjectPalette_MagmaGruntM, EVENT_OBJ_PAL_MAGMA_M},
+    {gEventObjectPalette_MagmaGruntF, EVENT_OBJ_PAL_MAGMA_F},
+    {gEventObjectPalette_Courtney, EVENT_OBJ_PAL_COURTNEY},
+    {gEventObjectPalette_Tabitha, EVENT_OBJ_PAL_TABITHA},
+    {gEventObjectPalette_Maxie, EVENT_OBJ_PAL_MAXIE},
+// Team Galactic
+    {gEventObjectPalette_GalacticGruntM, EVENT_OBJ_PAL_GALACTIC_M},
+    {gEventObjectPalette_GalacticGruntF, EVENT_OBJ_PAL_GALACTIC_F},
+    {gEventObjectPalette_Saturn, EVENT_OBJ_PAL_SATURN},
+    {gEventObjectPalette_Mars, EVENT_OBJ_PAL_MARS},
+    {gEventObjectPalette_Jupiter, EVENT_OBJ_PAL_JUPITER},
+    {gEventObjectPalette_Charon, EVENT_OBJ_PAL_CHARON},
+    {gEventObjectPalette_Cyrus, EVENT_OBJ_PAL_CYRUS},
     {NULL,                  0x0000},
 };
 
@@ -1668,7 +1758,7 @@ u8 AddPseudoEventObject(u16 graphicsId, void (*callback)(struct Sprite *), s16 x
     return spriteIdx;
 }
 
-u8 sprite_new(u8 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
+u8 sprite_new(u16 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
 {
     const struct EventObjectGraphicsInfo *graphicsInfo;
     struct SpriteTemplate spriteTemplate;
@@ -2018,9 +2108,9 @@ void PlayerObjectTurn(struct PlayerAvatar *playerAvatar, u8 direction)
     }
 }
 
-const struct EventObjectGraphicsInfo *GetEventObjectGraphicsInfo(u8 graphicsId)
+const struct EventObjectGraphicsInfo *GetEventObjectGraphicsInfo(u16 graphicsId)
 {
-    u8 bard;
+    u16 bard;
 
     if (graphicsId >= SPRITE_VAR)
     {
