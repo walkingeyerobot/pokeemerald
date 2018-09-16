@@ -234,121 +234,139 @@ const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_Lugia = {0xFFFF, E
 const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_HoOh = {0xFFFF, EVENT_OBJ_PAL_TAG_31, EVENT_OBJ_PAL_TAG_NONE, 512, 32, 32, 10, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, gEventObjectImageAnimTable_HoOh, gEventObjectPicTable_HoOh, gDummySpriteAffineAnimTable};
 
 // Costumes
-#define OVERWORLD(name, paletteTag1, paletteTag2, paletteSlot, disableReflection, tracks, animTable, imageTable) const struct EventObjectGraphicsInfo name = {0xFFFF, paletteTag1, paletteTag2, 512, 32, 32, paletteSlot, SHADOW_SIZE_M, FALSE, disableReflection, tracks, &gEventObjectBaseOam_32x32, gEventObjectSpriteOamTables_32x32, animTable, imageTable, gDummySpriteAffineAnimTable}
+
+#define EVENT_OBJ_32x32(name, tag1, slot, disableReflection, tracksType, animTable, imageTable) const struct EventObjectGraphicsInfo name = { \
+    .tileTag = 0xFFFF,\
+    .paletteTag1 = tag1,\
+    .paletteTag2 = EVENT_OBJ_PAL_TAG_NONE,\
+    .size = 512,\
+    .width = 32,\
+    .height = 32,\
+    .paletteSlot = slot,\
+    .shadowSize = SHADOW_SIZE_M,\
+    .inanimate = FALSE,\
+    .disableReflectionPaletteLoad = disableReflection,\
+    .tracks = tracksType,\
+    .oam = &gEventObjectBaseOam_32x32,\
+    .subspriteTables = gEventObjectSpriteOamTables_32x32,\
+    .anims = animTable,\
+    .images = imageTable,\
+    .affineAnims = gDummySpriteAffineAnimTable,\
+}
 /*
-    OVERWORLD(gEventObjectGraphicsInfo_character,          EVENT_OBJ_PAL_CHARACTER, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_character);
-    OVERWORLD(gEventObjectGraphicsInfo_characterBike,      EVENT_OBJ_PAL_CHARACTER, 0x1100, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_characterBike);
-    OVERWORLD(gEventObjectGraphicsInfo_characterSurfing,   EVENT_OBJ_PAL_CHARACTER, 0x1100, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_characterSurfing);
-    OVERWORLD(gEventObjectGraphicsInfo_characterFieldMove, EVENT_OBJ_PAL_CHARACTER, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_characterFieldMove);
-    OVERWORLD(gEventObjectGraphicsInfo_characterFishing,   EVENT_OBJ_PAL_CHARACTER, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_characterFishing);
-    OVERWORLD(gEventObjectGraphicsInfo_characterWatering,  EVENT_OBJ_PAL_CHARACTER, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_characterWatering);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_character,          EVENT_OBJ_PAL_CHARACTER, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_character);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_characterBike,      EVENT_OBJ_PAL_CHARACTER, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_characterBike);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_characterSurfing,   EVENT_OBJ_PAL_CHARACTER, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_characterSurfing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_characterFieldMove, EVENT_OBJ_PAL_CHARACTER, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_characterFieldMove);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_characterFishing,   EVENT_OBJ_PAL_CHARACTER, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_characterFishing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_characterWatering,  EVENT_OBJ_PAL_CHARACTER, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_characterWatering);
 */
 // Main characters
-    OVERWORLD(gEventObjectGraphicsInfo_Red,          EVENT_OBJ_PAL_RED, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Red);
-    OVERWORLD(gEventObjectGraphicsInfo_RedBike,      EVENT_OBJ_PAL_RED, 0x1100, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_RedBike);
-    OVERWORLD(gEventObjectGraphicsInfo_RedSurfing,   EVENT_OBJ_PAL_RED, 0x1100, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_RedSurfing);
-    OVERWORLD(gEventObjectGraphicsInfo_RedFieldMove, EVENT_OBJ_PAL_RED, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_RedFieldMove);
-    OVERWORLD(gEventObjectGraphicsInfo_RedFishing,   EVENT_OBJ_PAL_RED, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_RedFishing);
-    OVERWORLD(gEventObjectGraphicsInfo_RedWatering,  EVENT_OBJ_PAL_RED, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_RedWatering);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Red,          EVENT_OBJ_PAL_RED, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Red);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_RedBike,      EVENT_OBJ_PAL_RED, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_RedBike);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_RedSurfing,   EVENT_OBJ_PAL_RED, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_RedSurfing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_RedFieldMove, EVENT_OBJ_PAL_RED, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_RedFieldMove);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_RedFishing,   EVENT_OBJ_PAL_RED, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_RedFishing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_RedWatering,  EVENT_OBJ_PAL_RED, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_RedWatering);
 
-    OVERWORLD(gEventObjectGraphicsInfo_Leaf,          EVENT_OBJ_PAL_LEAF, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Leaf);
-    OVERWORLD(gEventObjectGraphicsInfo_LeafBike,      EVENT_OBJ_PAL_LEAF, 0x1100, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_LeafBike);
-    OVERWORLD(gEventObjectGraphicsInfo_LeafSurfing,   EVENT_OBJ_PAL_LEAF, 0x1100, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_LeafSurfing);
-    OVERWORLD(gEventObjectGraphicsInfo_LeafFieldMove, EVENT_OBJ_PAL_LEAF, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_LeafFieldMove);
-    OVERWORLD(gEventObjectGraphicsInfo_LeafFishing,   EVENT_OBJ_PAL_LEAF, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_LeafFishing);
-    OVERWORLD(gEventObjectGraphicsInfo_LeafWatering,  EVENT_OBJ_PAL_LEAF, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_LeafWatering);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Leaf,          EVENT_OBJ_PAL_LEAF, 6, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Leaf);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LeafBike,      EVENT_OBJ_PAL_LEAF, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_LeafBike);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LeafSurfing,   EVENT_OBJ_PAL_LEAF, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_LeafSurfing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LeafFieldMove, EVENT_OBJ_PAL_LEAF, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_LeafFieldMove);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LeafFishing,   EVENT_OBJ_PAL_LEAF, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_LeafFishing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LeafWatering,  EVENT_OBJ_PAL_LEAF, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_LeafWatering);
 
-    OVERWORLD(gEventObjectGraphicsInfo_Ethan,          EVENT_OBJ_PAL_ETHAN, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Ethan);
-    OVERWORLD(gEventObjectGraphicsInfo_EthanBike,      EVENT_OBJ_PAL_ETHAN, 0x1100, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_EthanBike);
-    OVERWORLD(gEventObjectGraphicsInfo_EthanSurfing,   EVENT_OBJ_PAL_ETHAN, 0x1100, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_EthanSurfing);
-    OVERWORLD(gEventObjectGraphicsInfo_EthanFieldMove, EVENT_OBJ_PAL_ETHAN, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_EthanFieldMove);
-    OVERWORLD(gEventObjectGraphicsInfo_EthanFishing,   EVENT_OBJ_PAL_ETHAN, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_EthanFishing);
-    OVERWORLD(gEventObjectGraphicsInfo_EthanWatering,  EVENT_OBJ_PAL_ETHAN, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_EthanWatering);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Ethan,          EVENT_OBJ_PAL_ETHAN, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Ethan);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_EthanBike,      EVENT_OBJ_PAL_ETHAN, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_EthanBike);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_EthanSurfing,   EVENT_OBJ_PAL_ETHAN, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_EthanSurfing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_EthanFieldMove, EVENT_OBJ_PAL_ETHAN, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_EthanFieldMove);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_EthanFishing,   EVENT_OBJ_PAL_ETHAN, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_EthanFishing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_EthanWatering,  EVENT_OBJ_PAL_ETHAN, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_EthanWatering);
 
-    OVERWORLD(gEventObjectGraphicsInfo_Kris,          EVENT_OBJ_PAL_KRIS, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Kris);
-    OVERWORLD(gEventObjectGraphicsInfo_KrisBike,      EVENT_OBJ_PAL_KRIS, 0x1100, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_KrisBike);
-    OVERWORLD(gEventObjectGraphicsInfo_KrisSurfing,   EVENT_OBJ_PAL_KRIS, 0x1100, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_KrisSurfing);
-    OVERWORLD(gEventObjectGraphicsInfo_KrisFieldMove, EVENT_OBJ_PAL_KRIS, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_KrisFieldMove);
-    OVERWORLD(gEventObjectGraphicsInfo_KrisFishing,   EVENT_OBJ_PAL_KRIS, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_KrisFishing);
-    OVERWORLD(gEventObjectGraphicsInfo_KrisWatering,  EVENT_OBJ_PAL_KRIS, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_KrisWatering);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Kris,          EVENT_OBJ_PAL_KRIS, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Kris);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_KrisBike,      EVENT_OBJ_PAL_KRIS, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_KrisBike);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_KrisSurfing,   EVENT_OBJ_PAL_KRIS, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_KrisSurfing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_KrisFieldMove, EVENT_OBJ_PAL_KRIS, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_KrisFieldMove);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_KrisFishing,   EVENT_OBJ_PAL_KRIS, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_KrisFishing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_KrisWatering,  EVENT_OBJ_PAL_KRIS, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_KrisWatering);
 
-    OVERWORLD(gEventObjectGraphicsInfo_Lyra,          EVENT_OBJ_PAL_LYRA, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Lyra);
-    OVERWORLD(gEventObjectGraphicsInfo_LyraBike,      EVENT_OBJ_PAL_LYRA, 0x1100, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_LyraBike);
-    OVERWORLD(gEventObjectGraphicsInfo_LyraSurfing,   EVENT_OBJ_PAL_LYRA, 0x1100, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_LyraSurfing);
-    OVERWORLD(gEventObjectGraphicsInfo_LyraFieldMove, EVENT_OBJ_PAL_LYRA, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_LyraFieldMove);
-    OVERWORLD(gEventObjectGraphicsInfo_LyraFishing,   EVENT_OBJ_PAL_LYRA, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_LyraFishing);
-    OVERWORLD(gEventObjectGraphicsInfo_LyraWatering,  EVENT_OBJ_PAL_LYRA, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_LyraWatering);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Lyra,          EVENT_OBJ_PAL_LYRA, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Lyra);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LyraBike,      EVENT_OBJ_PAL_LYRA, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_LyraBike);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LyraSurfing,   EVENT_OBJ_PAL_LYRA, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_LyraSurfing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LyraFieldMove, EVENT_OBJ_PAL_LYRA, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_LyraFieldMove);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LyraFishing,   EVENT_OBJ_PAL_LYRA, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_LyraFishing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LyraWatering,  EVENT_OBJ_PAL_LYRA, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_LyraWatering);
 
-    OVERWORLD(gEventObjectGraphicsInfo_Brendan,          EVENT_OBJ_PAL_BRENDAN, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Brendan);
-    OVERWORLD(gEventObjectGraphicsInfo_BrendanBike,      EVENT_OBJ_PAL_BRENDAN, 0x1100, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_BrendanBike);
-    OVERWORLD(gEventObjectGraphicsInfo_BrendanSurfing,   EVENT_OBJ_PAL_BRENDAN, 0x1100, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_BrendanSurfing);
-    OVERWORLD(gEventObjectGraphicsInfo_BrendanFieldMove, EVENT_OBJ_PAL_BRENDAN, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_BrendanFieldMove);
-    OVERWORLD(gEventObjectGraphicsInfo_BrendanFishing,   EVENT_OBJ_PAL_BRENDAN, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_BrendanFishing);
-    OVERWORLD(gEventObjectGraphicsInfo_BrendanWatering,  EVENT_OBJ_PAL_BRENDAN, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_BrendanWatering);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Brendan,          EVENT_OBJ_PAL_BRENDAN, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Brendan);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_BrendanBike,      EVENT_OBJ_PAL_BRENDAN, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_BrendanBike);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_BrendanSurfing,   EVENT_OBJ_PAL_BRENDAN, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_BrendanSurfing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_BrendanFieldMove, EVENT_OBJ_PAL_BRENDAN, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_BrendanFieldMove);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_BrendanFishing,   EVENT_OBJ_PAL_BRENDAN, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_BrendanFishing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_BrendanWatering,  EVENT_OBJ_PAL_BRENDAN, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_BrendanWatering);
 
-    OVERWORLD(gEventObjectGraphicsInfo_May,          EVENT_OBJ_PAL_MAY, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_May);
-    OVERWORLD(gEventObjectGraphicsInfo_MayBike,      EVENT_OBJ_PAL_MAY, 0x1100, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_MayBike);
-    OVERWORLD(gEventObjectGraphicsInfo_MaySurfing,   EVENT_OBJ_PAL_MAY, 0x1100, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_MaySurfing);
-    OVERWORLD(gEventObjectGraphicsInfo_MayFieldMove, EVENT_OBJ_PAL_MAY, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_MayFieldMove);
-    OVERWORLD(gEventObjectGraphicsInfo_MayFishing,   EVENT_OBJ_PAL_MAY, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_MayFishing);
-    OVERWORLD(gEventObjectGraphicsInfo_MayWatering,  EVENT_OBJ_PAL_MAY, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_MayWatering);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_May,          EVENT_OBJ_PAL_MAY, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_May);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_MayBike,      EVENT_OBJ_PAL_MAY, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_MayBike);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_MaySurfing,   EVENT_OBJ_PAL_MAY, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_MaySurfing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_MayFieldMove, EVENT_OBJ_PAL_MAY, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_MayFieldMove);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_MayFishing,   EVENT_OBJ_PAL_MAY, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_MayFishing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_MayWatering,  EVENT_OBJ_PAL_MAY, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_MayWatering);
 
-    OVERWORLD(gEventObjectGraphicsInfo_Lucas,          EVENT_OBJ_PAL_LUCAS, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Lucas);
-    OVERWORLD(gEventObjectGraphicsInfo_LucasBike,      EVENT_OBJ_PAL_LUCAS, 0x1100, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_LucasBike);
-    OVERWORLD(gEventObjectGraphicsInfo_LucasSurfing,   EVENT_OBJ_PAL_LUCAS, 0x1100, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_LucasSurfing);
-    OVERWORLD(gEventObjectGraphicsInfo_LucasFieldMove, EVENT_OBJ_PAL_LUCAS, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_LucasFieldMove);
-    OVERWORLD(gEventObjectGraphicsInfo_LucasFishing,   EVENT_OBJ_PAL_LUCAS, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_LucasFishing);
-    OVERWORLD(gEventObjectGraphicsInfo_LucasWatering,  EVENT_OBJ_PAL_LUCAS, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_LucasWatering);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Lucas,          EVENT_OBJ_PAL_LUCAS, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Lucas);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LucasBike,      EVENT_OBJ_PAL_LUCAS, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_LucasBike);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LucasSurfing,   EVENT_OBJ_PAL_LUCAS, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_LucasSurfing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LucasFieldMove, EVENT_OBJ_PAL_LUCAS, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_LucasFieldMove);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LucasFishing,   EVENT_OBJ_PAL_LUCAS, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_LucasFishing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_LucasWatering,  EVENT_OBJ_PAL_LUCAS, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_LucasWatering);
 
-    OVERWORLD(gEventObjectGraphicsInfo_Dawn,          EVENT_OBJ_PAL_DAWN, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Dawn);
-    OVERWORLD(gEventObjectGraphicsInfo_DawnBike,      EVENT_OBJ_PAL_DAWN, 0x1100, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_DawnBike);
-    OVERWORLD(gEventObjectGraphicsInfo_DawnSurfing,   EVENT_OBJ_PAL_DAWN, 0x1100, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_DawnSurfing);
-    OVERWORLD(gEventObjectGraphicsInfo_DawnFieldMove, EVENT_OBJ_PAL_DAWN, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_DawnFieldMove);
-    OVERWORLD(gEventObjectGraphicsInfo_DawnFishing,   EVENT_OBJ_PAL_DAWN, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_DawnFishing);
-    OVERWORLD(gEventObjectGraphicsInfo_DawnWatering,  EVENT_OBJ_PAL_DAWN, 0x1100, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_DawnWatering);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Dawn,          EVENT_OBJ_PAL_DAWN, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Dawn);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_DawnBike,      EVENT_OBJ_PAL_DAWN, 0, FALSE, TRACKS_BIKE_TIRE, gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_DawnBike);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_DawnSurfing,   EVENT_OBJ_PAL_DAWN, 0, TRUE,  TRACKS_FOOT,      gEventObjectImageAnimTable_Surfing,   gEventObjectPicTable_DawnSurfing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_DawnFieldMove, EVENT_OBJ_PAL_DAWN, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_FieldMove, gEventObjectPicTable_DawnFieldMove);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_DawnFishing,   EVENT_OBJ_PAL_DAWN, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Fishing,   gEventObjectPicTable_DawnFishing);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_DawnWatering,  EVENT_OBJ_PAL_DAWN, 0, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_Standard,  gEventObjectPicTable_DawnWatering);
 
 // Professors
-    OVERWORLD(gEventObjectGraphicsInfo_ProfOak, EVENT_OBJ_PAL_PROF_OAK, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_ProfOak);
-    OVERWORLD(gEventObjectGraphicsInfo_ProfElm, EVENT_OBJ_PAL_PROF_ELM, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_ProfElm);
-    OVERWORLD(gEventObjectGraphicsInfo_ProfBirch, EVENT_OBJ_PAL_PROF_BIRCH, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_ProfBirch);
-    OVERWORLD(gEventObjectGraphicsInfo_ProfRowan, EVENT_OBJ_PAL_PROF_ROWAN, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_ProfRowan);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_ProfOak,   EVENT_OBJ_PAL_PROF_OAK,   0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_ProfOak);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_ProfElm,   EVENT_OBJ_PAL_PROF_ELM,   0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_ProfElm);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_ProfBirch, EVENT_OBJ_PAL_PROF_BIRCH, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_ProfBirch);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_ProfRowan, EVENT_OBJ_PAL_PROF_ROWAN, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_ProfRowan);
 
 // Rivals
-    OVERWORLD(gEventObjectGraphicsInfo_Blue, EVENT_OBJ_PAL_BLUE, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Blue);
-    OVERWORLD(gEventObjectGraphicsInfo_Silver, EVENT_OBJ_PAL_SILVER, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Silver);
-    OVERWORLD(gEventObjectGraphicsInfo_Wally, EVENT_OBJ_PAL_WALLY, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Wally);
-    OVERWORLD(gEventObjectGraphicsInfo_Barry, EVENT_OBJ_PAL_BARRY, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Barry);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Blue,   EVENT_OBJ_PAL_BLUE,   0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Blue);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Silver, EVENT_OBJ_PAL_SILVER, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Silver);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Wally,  EVENT_OBJ_PAL_WALLY,  0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Wally);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Barry,  EVENT_OBJ_PAL_BARRY,  0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Barry);
 
 // Team Rocket
-    OVERWORLD(gEventObjectGraphicsInfo_RocketGruntM, EVENT_OBJ_PAL_ROCKET_M, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_RocketGruntM);
-    OVERWORLD(gEventObjectGraphicsInfo_RocketGruntF, EVENT_OBJ_PAL_ROCKET_F, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_RocketGruntF);
-    OVERWORLD(gEventObjectGraphicsInfo_Archer, EVENT_OBJ_PAL_ARCHER, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Archer);
-    OVERWORLD(gEventObjectGraphicsInfo_Ariana, EVENT_OBJ_PAL_ARIANA, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Ariana);
-    OVERWORLD(gEventObjectGraphicsInfo_Petrel, EVENT_OBJ_PAL_PETREL, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Petrel);
-    OVERWORLD(gEventObjectGraphicsInfo_Proton, EVENT_OBJ_PAL_PROTON, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Proton);
-    OVERWORLD(gEventObjectGraphicsInfo_Giovanni, EVENT_OBJ_PAL_GIOVANNI, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Giovanni);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_RocketGruntM, EVENT_OBJ_PAL_ROCKET_M, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_RocketGruntM);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_RocketGruntF, EVENT_OBJ_PAL_ROCKET_F, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_RocketGruntF);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Archer,       EVENT_OBJ_PAL_ARCHER,   0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Archer);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Ariana,       EVENT_OBJ_PAL_ARIANA,   0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Ariana);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Petrel,       EVENT_OBJ_PAL_PETREL,   0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Petrel);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Proton,       EVENT_OBJ_PAL_PROTON,   0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Proton);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Giovanni,     EVENT_OBJ_PAL_GIOVANNI, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Giovanni);
 
 // Team Aqua
-    OVERWORLD(gEventObjectGraphicsInfo_AquaGruntM, EVENT_OBJ_PAL_AQUA_M, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_AquaGruntM);
-    OVERWORLD(gEventObjectGraphicsInfo_AquaGruntF, EVENT_OBJ_PAL_AQUA_F, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_AquaGruntF);
-    OVERWORLD(gEventObjectGraphicsInfo_Matt, EVENT_OBJ_PAL_MATT, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Matt);
-    OVERWORLD(gEventObjectGraphicsInfo_Shelley, EVENT_OBJ_PAL_SHELLEY, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Shelley);
-    OVERWORLD(gEventObjectGraphicsInfo_Archie, EVENT_OBJ_PAL_ARCHIE, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Archie);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_AquaGruntM, EVENT_OBJ_PAL_AQUA_M,  0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_AquaGruntM);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_AquaGruntF, EVENT_OBJ_PAL_AQUA_F,  0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_AquaGruntF);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Matt,       EVENT_OBJ_PAL_MATT,    0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Matt);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Shelley,    EVENT_OBJ_PAL_SHELLEY, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Shelley);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Archie,     EVENT_OBJ_PAL_ARCHIE,  0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Archie);
 
 // Team Magma
-    OVERWORLD(gEventObjectGraphicsInfo_MagmaGruntM, EVENT_OBJ_PAL_MAGMA_M, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_WalkRun, gEventObjectPicTable_MagmaGruntM);
-    OVERWORLD(gEventObjectGraphicsInfo_MagmaGruntF, EVENT_OBJ_PAL_MAGMA_F, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_WalkRun, gEventObjectPicTable_MagmaGruntF);
-    OVERWORLD(gEventObjectGraphicsInfo_Courtney, EVENT_OBJ_PAL_COURTNEY, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_WalkRun, gEventObjectPicTable_Courtney);
-    OVERWORLD(gEventObjectGraphicsInfo_Tabitha, EVENT_OBJ_PAL_TABITHA, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_WalkRun, gEventObjectPicTable_Tabitha);
-    OVERWORLD(gEventObjectGraphicsInfo_Maxie, EVENT_OBJ_PAL_MAXIE, 0x1100, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_WalkRun, gEventObjectPicTable_Maxie);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_MagmaGruntM, EVENT_OBJ_PAL_MAGMA_M,  0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_WalkRun, gEventObjectPicTable_MagmaGruntM);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_MagmaGruntF, EVENT_OBJ_PAL_MAGMA_F,  0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_WalkRun, gEventObjectPicTable_MagmaGruntF);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Courtney,    EVENT_OBJ_PAL_COURTNEY, 0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_WalkRun, gEventObjectPicTable_Courtney);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Tabitha,     EVENT_OBJ_PAL_TABITHA,  0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_WalkRun, gEventObjectPicTable_Tabitha);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Maxie,       EVENT_OBJ_PAL_MAXIE,    0, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_WalkRun, gEventObjectPicTable_Maxie);
 
 // Team Galactic
-    OVERWORLD(gEventObjectGraphicsInfo_GalacticGruntM, EVENT_OBJ_PAL_GALACTIC_M, 0x1102, 2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_GalacticGruntM);
-    OVERWORLD(gEventObjectGraphicsInfo_GalacticGruntF, EVENT_OBJ_PAL_GALACTIC_F, 0x1102, 2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_GalacticGruntF);
-    OVERWORLD(gEventObjectGraphicsInfo_Saturn, EVENT_OBJ_PAL_SATURN, 0x1102, 2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Saturn);
-    OVERWORLD(gEventObjectGraphicsInfo_Mars, EVENT_OBJ_PAL_MARS, 0x1102, 2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Mars);
-    OVERWORLD(gEventObjectGraphicsInfo_Jupiter, EVENT_OBJ_PAL_JUPITER, 0x1102, 2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Jupiter);
-    OVERWORLD(gEventObjectGraphicsInfo_Charon, EVENT_OBJ_PAL_CHARON, 0x1102, 2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Charon);
-    OVERWORLD(gEventObjectGraphicsInfo_Cyrus, EVENT_OBJ_PAL_CYRUS, 0x1102, 2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Cyrus);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_GalacticGruntM, EVENT_OBJ_PAL_GALACTIC_M, 2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_GalacticGruntM);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_GalacticGruntF, EVENT_OBJ_PAL_GALACTIC_F, 2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_GalacticGruntF);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Saturn,         EVENT_OBJ_PAL_SATURN,     2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Saturn);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Mars,           EVENT_OBJ_PAL_MARS,       2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Mars);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Jupiter,        EVENT_OBJ_PAL_JUPITER,    2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Jupiter);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Charon,         EVENT_OBJ_PAL_CHARON,     2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Charon);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Cyrus,          EVENT_OBJ_PAL_CYRUS,      2, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Cyrus);
 
 #endif //GUARD_EVENT_OBJECT_GRAPHICS_INFO_H

@@ -4328,3 +4328,16 @@ u8 sub_813BF7C(void)
 {
     return sub_813BADC(gSpecialVar_0x8004);
 }
+
+extern void UnlockCostumesByGender(u8 playerGender);
+extern void UnlockCostumeByCostumeId(u8 costumeId);
+
+void UnlockCostume_Special(void)
+{
+    UnlockCostumeByCostumeId(gSpecialVar_0x8004);
+}
+
+void UnlockCostumesByGender_Special(void)
+{
+    UnlockCostumesByGender(gSpecialVar_0x8004);
+}

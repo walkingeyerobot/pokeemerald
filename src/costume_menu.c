@@ -48,7 +48,7 @@ static void TrainerSpriteCallback(struct Sprite *sprite);
 static void CreateTrainerSprite(void);
 static void SetSpriteTemplateParameters(void);
 static void FreeSpriteTilesIfUnused(u16);
-static void FreeSpritePaletteIfUnused(u8);
+void FreeSpritePaletteIfUnused(u8);
 static void InitializeTextWindows(void);
 static void UpdateCostumeNameAndDescription(void);
 static void CreateNewScrollBarSlot(s8 slot);
@@ -676,6 +676,10 @@ void UnlockCostumesByGender(u8 playerGender)
         }
 }
 
+void UnlockCostumeByCostumeId(u8 costumeId)
+{
+    gSaveBlock2Ptr->costumeFlags[costumeId] = TRUE;
+}
 //----------------------------
 // Filter system
 // ---------------------------
@@ -782,7 +786,7 @@ static void FreeSpriteTilesIfUnused(u16 tileStart)
     }
 }
 
-static void FreeSpritePaletteIfUnused(u8 paletteNum)
+void FreeSpritePaletteIfUnused(u8 paletteNum)
 {
     u8 i;
     u16 tag = GetSpritePaletteTagByPaletteNum(paletteNum);
