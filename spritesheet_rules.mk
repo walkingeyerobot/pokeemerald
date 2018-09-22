@@ -28,69 +28,6 @@ $(EVENTOBJGFXDIR)/people/brendan/underwater.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 
-$(EVENTOBJGFXDIR)/people/elite_four/drake.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/elite_four/glacia.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/elite_four/phoebe.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/elite_four/sidney.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-
-$(EVENTOBJGFXDIR)/people/frontier_brains/anabel.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/frontier_brains/brandon.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/frontier_brains/greta.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/frontier_brains/lucy.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/frontier_brains/noland.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/frontier_brains/spenser.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/frontier_brains/tucker.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-
-$(EVENTOBJGFXDIR)/people/gym_leaders/brawly.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/gym_leaders/flannery.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/gym_leaders/juan.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/gym_leaders/liza.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/gym_leaders/norman.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/gym_leaders/roxanne.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/gym_leaders/tate.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/gym_leaders/wattson.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/gym_leaders/winona.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-
 $(EVENTOBJGFXDIR)/people/may/walking.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
@@ -345,9 +282,6 @@ $(EVENTOBJGFXDIR)/people/scientist_2.4bpp: %.4bpp: %.png
 $(EVENTOBJGFXDIR)/people/scott.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/steven.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
 $(EVENTOBJGFXDIR)/people/swimmer_f.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
@@ -370,9 +304,6 @@ $(EVENTOBJGFXDIR)/people/union_room_attendant.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(EVENTOBJGFXDIR)/people/unused_woman.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/wallace.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(EVENTOBJGFXDIR)/people/wally.4bpp: %.4bpp: %.png
@@ -977,7 +908,7 @@ $(EVENTOBJGFXDIR)/people/team_galactic/mars.4bpp: %.4bpp: %.png
 $(EVENTOBJGFXDIR)/people/team_galactic/jupiter.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/incomplete/charon.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/team_galactic/charon.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(EVENTOBJGFXDIR)/people/team_galactic/cyrus.4bpp: %.4bpp: %.png
@@ -991,3 +922,224 @@ $(EVENTOBJGFXDIR)/people/incomplete/brendan.4bpp: %.4bpp: %.png
 
 $(EVENTOBJGFXDIR)/people/incomplete/may.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+
+# Gym Leaders - Kanto
+
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_kanto/brock.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_kanto/misty.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_kanto/lt_surge.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_kanto/erika.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_kanto/koga.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_kanto/janine.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_kanto/sabrina.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_kanto/blaine.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+# Elite Four - Kanto
+
+$(EVENTOBJGFXDIR)/people/elite_four_kanto/lorelei.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_kanto/bruno.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_kanto/agatha.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_kanto/lance.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+
+# Gym Leaders - Johto
+
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_johto/falkner.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_johto/bugsy.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_johto/whitney.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_johto/morty.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_johto/chuck.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_johto/jasmine.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_johto/pryce.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_johto/clair.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+# Elite Four - Johto
+
+$(EVENTOBJGFXDIR)/people/elite_four_johto/will.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_johto/karen.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+
+# Gym Leaders - Hoenn
+
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_hoenn/roxanne.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_hoenn/brawly.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_hoenn/wattson.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_hoenn/flannery.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_hoenn/norman.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_hoenn/winona.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_hoenn/liza.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_hoenn/tate.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_hoenn/juan.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+# Elite Four - Hoenn
+
+$(EVENTOBJGFXDIR)/people/elite_four_hoenn/sidney.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_hoenn/phoebe.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_hoenn/glacia.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_hoenn/drake.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_hoenn/wallace.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_hoenn/steven.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+
+# Gym Leaders - Sinnoh
+
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_sinnoh/roark.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_sinnoh/gardenia.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_sinnoh/maylene.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_sinnoh/crasher_wake.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_sinnoh/fantina.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_sinnoh/byron.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_sinnoh/candice.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/gym_leaders_sinnoh/volkner.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+# Elite Four - Sinnoh
+
+$(EVENTOBJGFXDIR)/people/elite_four_sinnoh/aaron.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_sinnoh/bertha.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_sinnoh/flint.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_sinnoh/lucian.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/elite_four_sinnoh/cynthia.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+
+# Frontier brains - Hoenn
+
+
+$(EVENTOBJGFXDIR)/people/frontier_brains/anabel.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/frontier_brains/brandon.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/frontier_brains/greta.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/frontier_brains/lucy.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/frontier_brains/noland.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/frontier_brains/spenser.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/frontier_brains/tucker.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+
+# Frontier Brains - Sinnoh/Johto
+
+$(EVENTOBJGFXDIR)/people/frontier_brains_sinnoh_johto/argenta.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/frontier_brains_sinnoh_johto/caitlin.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/frontier_brains_sinnoh_johto/dahlia.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/frontier_brains_sinnoh_johto/darach.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/frontier_brains_sinnoh_johto/palmer.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(EVENTOBJGFXDIR)/people/frontier_brains_sinnoh_johto/thorton.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
