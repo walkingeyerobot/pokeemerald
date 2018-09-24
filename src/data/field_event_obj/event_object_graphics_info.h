@@ -386,7 +386,7 @@ const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_HoOh = {0xFFFF, EV
     EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Morty, EVENT_OBJ_PAL_MORTY, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Morty);
     EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Chuck, EVENT_OBJ_PAL_CHUCK, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Chuck);
     EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Jasmine, EVENT_OBJ_PAL_JASMINE, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Jasmine);
-    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Pryce, EVENT_OBJ_PAL_PRYCE, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Pryce);
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Pryce, EVENT_OBJ_PAL_PRYCE, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard_Asymmetric, gEventObjectPicTable_Pryce);
     EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Clair, EVENT_OBJ_PAL_CLAIR, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Clair);
 
 // Elite Four

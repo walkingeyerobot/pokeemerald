@@ -1172,4 +1172,68 @@ const struct UnkStruct_085094AC gUnknown_085094AC[] = {
     },
 };
 
+const union AnimCmd gEventObjectImageAnim_FaceEast_Asymmetric[] =
+{
+    ANIMCMD_FRAME(9, 16),
+    ANIMCMD_JUMP(0),
+};
+
+const union AnimCmd gEventObjectImageAnim_GoEast_Asymmetric[] =
+{
+    ANIMCMD_FRAME(10, 8),
+    ANIMCMD_FRAME(9, 8),
+    ANIMCMD_FRAME(11, 8),
+    ANIMCMD_FRAME(9, 8),
+    ANIMCMD_JUMP(0),
+};
+
+const union AnimCmd gEventObjectImageAnim_GoFastEast_Asymmetric[] =
+{
+    ANIMCMD_FRAME(10, 4),
+    ANIMCMD_FRAME(9, 4),
+    ANIMCMD_FRAME(11, 4),
+    ANIMCMD_FRAME(9, 4),
+    ANIMCMD_JUMP(0),
+};
+
+const union AnimCmd gEventObjectImageAnim_GoFasterEast_Asymmetric[] =
+{
+    ANIMCMD_FRAME(10, 2),
+    ANIMCMD_FRAME(9, 2),
+    ANIMCMD_FRAME(11, 2),
+    ANIMCMD_FRAME(9, 2),
+    ANIMCMD_JUMP(0),
+};
+
+const union AnimCmd gEventObjectImageAnim_GoFastestEast_Asymmetric[] =
+{
+    ANIMCMD_FRAME(10, 1),
+    ANIMCMD_FRAME(9, 1),
+    ANIMCMD_FRAME(11, 1),
+    ANIMCMD_FRAME(9, 1),
+    ANIMCMD_JUMP(0),
+};
+
+const union AnimCmd *const gEventObjectImageAnimTable_Standard_Asymmetric[] = {
+    gEventObjectImageAnim_FaceSouth,
+    gEventObjectImageAnim_FaceNorth,
+    gEventObjectImageAnim_FaceWest,
+    gEventObjectImageAnim_FaceEast_Asymmetric,
+    gEventObjectImageAnim_GoSouth,
+    gEventObjectImageAnim_GoNorth,
+    gEventObjectImageAnim_GoWest,
+    gEventObjectImageAnim_GoEast_Asymmetric,
+    gEventObjectImageAnim_GoFastSouth,
+    gEventObjectImageAnim_GoFastNorth,
+    gEventObjectImageAnim_GoFastWest,
+    gEventObjectImageAnim_GoFastEast_Asymmetric,
+    gEventObjectImageAnim_GoFasterSouth,
+    gEventObjectImageAnim_GoFasterNorth,
+    gEventObjectImageAnim_GoFasterWest,
+    gEventObjectImageAnim_GoFasterEast_Asymmetric,
+    gEventObjectImageAnim_GoFastestSouth,
+    gEventObjectImageAnim_GoFastestNorth,
+    gEventObjectImageAnim_GoFastestWest,
+    gEventObjectImageAnim_GoFastestEast_Asymmetric,
+};
 #endif //GUARD_EVENT_OBJECT_ANIMS_H

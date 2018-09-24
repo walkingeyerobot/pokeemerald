@@ -1126,20 +1126,20 @@ $(EVENTOBJGFXDIR)/people/frontier_brains/tucker.4bpp: %.4bpp: %.png
 # Frontier Brains - Sinnoh/Johto
 
 $(EVENTOBJGFXDIR)/people/frontier_brains_sinnoh_johto/argenta.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
+	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(EVENTOBJGFXDIR)/people/frontier_brains_sinnoh_johto/caitlin.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
+	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(EVENTOBJGFXDIR)/people/frontier_brains_sinnoh_johto/dahlia.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
+	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(EVENTOBJGFXDIR)/people/frontier_brains_sinnoh_johto/darach.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
+	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(EVENTOBJGFXDIR)/people/frontier_brains_sinnoh_johto/palmer.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
+	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(EVENTOBJGFXDIR)/people/frontier_brains_sinnoh_johto/thorton.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
+	$(GFX) $< $@ -mwidth 4 -mheight 4
 
