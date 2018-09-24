@@ -163,7 +163,7 @@ bool8 (*const gUnknown_084974D8[])(u8) =
     MetatileBehavior_IsEastArrowWarp,
 };
 
-const u8 gUnknown_084974E8[][2] =
+const u16 gUnknown_084974E8[][2] =
 {
     {EVENT_OBJ_GFX_RIVAL_BRENDAN_NORMAL,     EVENT_OBJ_GFX_RIVAL_MAY_NORMAL},
     {EVENT_OBJ_GFX_RIVAL_BRENDAN_MACH_BIKE,  EVENT_OBJ_GFX_RIVAL_MAY_MACH_BIKE},
@@ -175,7 +175,7 @@ const u8 gUnknown_084974E8[][2] =
     {EVENT_OBJ_GFX_BRENDAN_WATERING,         EVENT_OBJ_GFX_MAY_WATERING}
 };
 
-const u8 gUnknown_084974F8[][2] =
+const u16 gUnknown_084974F8[][2] =
 {
     {EVENT_OBJ_GFX_BRENDAN_NORMAL,     EVENT_OBJ_GFX_MAY_NORMAL},
     {EVENT_OBJ_GFX_BRENDAN_MACH_BIKE,  EVENT_OBJ_GFX_MAY_MACH_BIKE},
@@ -187,11 +187,11 @@ const u8 gUnknown_084974F8[][2] =
     {EVENT_OBJ_GFX_BRENDAN_WATERING,   EVENT_OBJ_GFX_MAY_WATERING},
 };
 
-const u8 gUnknown_08497508[] = {EVENT_OBJ_GFX_RED, EVENT_OBJ_GFX_LEAF};
+const u16 gUnknown_08497508[] = {EVENT_OBJ_GFX_RED, EVENT_OBJ_GFX_LEAF};
 
-const u8 gUnknown_0849750A[] = {EVENT_OBJ_GFX_LINK_RS_BRENDAN, EVENT_OBJ_GFX_LINK_RS_MAY};
+const u16 gUnknown_0849750A[] = {EVENT_OBJ_GFX_LINK_RS_BRENDAN, EVENT_OBJ_GFX_LINK_RS_MAY};
 
-const u8 gUnknown_0849750C[2][5][2] =
+const u16 gUnknown_0849750C[2][5][2] =
 {
     //male
     {

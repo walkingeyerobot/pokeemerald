@@ -31,14 +31,14 @@ static void sub_8135780(void);
 extern struct MapPosition gPlayerFacingPosition;
 
 // text
-bool8 CheckObjectGraphicsInFrontOfPlayer(u8 a)
+bool8 CheckObjectGraphicsInFrontOfPlayer(u16 graphicsId)
 {
     u8 eventObjId;
 
     GetXYCoordsOneStepInFrontOfPlayer(&gPlayerFacingPosition.x, &gPlayerFacingPosition.y);
     gPlayerFacingPosition.height = PlayerGetZCoord();
     eventObjId = GetEventObjectIdByXYZ(gPlayerFacingPosition.x, gPlayerFacingPosition.y, gPlayerFacingPosition.height);
-    if (gEventObjects[eventObjId].graphicsId != a)
+    if (gEventObjects[eventObjId].graphicsId != graphicsId)
     {
         return FALSE;
     }

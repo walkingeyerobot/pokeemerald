@@ -253,6 +253,7 @@ const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_HoOh = {0xFFFF, EV
     .images = imageTable,\
     .affineAnims = gDummySpriteAffineAnimTable,\
 }
+    EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Placeholder, EVENT_OBJ_PAL_RED, FALSE, TRACKS_FOOT, gEventObjectImageAnimTable_Standard, gEventObjectPicTable_Red);
 
 // Main characters
     EVENT_OBJ_32x32(gEventObjectGraphicsInfo_Red,          EVENT_OBJ_PAL_RED, FALSE, TRACKS_FOOT,      gEventObjectImageAnimTable_WalkRun,   gEventObjectPicTable_Red);

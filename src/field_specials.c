@@ -86,7 +86,7 @@ void sub_813BF60(void);
 u16 GetNumMovedLilycoveFanClubMembers(void);
 
 static void RecordCyclingRoadResults(u32, u8);
-static void LoadLinkPartnerEventObjectSpritePalette(u8 graphicsId, u8 localEventId, u8 paletteNum);
+static void LoadLinkPartnerEventObjectSpritePalette(u16 graphicsId, u8 localEventId, u8 paletteNum);
 static void Task_PetalburgGym(u8);
 static void PetalburgGymFunc(u8, u16);
 static void Task_PCTurnOnEffect(u8);
@@ -523,7 +523,7 @@ void SpawnLinkPartnerEventObject(void)
     };
     u8 myLinkPlayerNumber;
     u8 playerFacingDirection;
-    u8 linkSpriteId;
+    u16 linkSpriteId;
     u8 i;
 
     myLinkPlayerNumber = GetMultiplayerId();
@@ -586,7 +586,7 @@ void SpawnLinkPartnerEventObject(void)
     }
 }
 
-static void LoadLinkPartnerEventObjectSpritePalette(u8 graphicsId, u8 localEventId, u8 paletteNum)
+static void LoadLinkPartnerEventObjectSpritePalette(u16 graphicsId, u8 localEventId, u8 paletteNum)
 {
     paletteNum += 6;
     if (graphicsId == EVENT_OBJ_GFX_LINK_RS_BRENDAN ||
