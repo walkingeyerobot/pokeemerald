@@ -1137,41 +1137,6 @@ const union AffineAnimCmd *const gEventObjectRotScalAnimTable_KyogreGroudon[] = 
     gEventObjectRotScalAnim_8509060,
 };
 
-const struct UnkStruct_085094AC gUnknown_085094AC[] = {
-    {
-        .anims = gEventObjectImageAnimTable_QuintyPlump,
-        .animPos = {1, 3, 0, 2},
-    },
-    {
-        .anims = gEventObjectImageAnimTable_Standard,
-        .animPos = {1, 3, 0, 2},
-    },
-    {
-        .anims = gEventObjectImageAnimTable_WalkRun,
-        .animPos = {1, 3, 0, 2},
-    },
-    {
-        .anims = gEventObjectImageAnimTable_AcroBike,
-        .animPos = {1, 3, 0, 2},
-    },
-    {
-        .anims = gEventObjectImageAnimTable_Surfing,
-        .animPos = {1, 3, 0, 2},
-    },
-    {
-        .anims = gEventObjectImageAnimTable_Nurse,
-        .animPos = {1, 3, 0, 2},
-    },
-    {
-        .anims = gEventObjectImageAnimTable_Fishing,
-        .animPos = {1, 3, 0, 2},
-    },
-    {
-        NULL,
-        {0, 0, 0, 0},
-    },
-};
-
 const union AnimCmd gEventObjectImageAnim_FaceEast_Asymmetric[] =
 {
     ANIMCMD_FRAME(9, 16),
@@ -1236,4 +1201,44 @@ const union AnimCmd *const gEventObjectImageAnimTable_Standard_Asymmetric[] = {
     gEventObjectImageAnim_GoFastestWest,
     gEventObjectImageAnim_GoFastestEast_Asymmetric,
 };
+
+const struct UnkStruct_085094AC gUnknown_085094AC[] = {
+    {
+        .anims = gEventObjectImageAnimTable_QuintyPlump,
+        .animPos = {1, 3, 0, 2},
+    },
+    {
+        .anims = gEventObjectImageAnimTable_Standard,
+        .animPos = {1, 3, 0, 2},
+    },
+    {
+        .anims = gEventObjectImageAnimTable_WalkRun,
+        .animPos = {1, 3, 0, 2},
+    },
+    {
+        .anims = gEventObjectImageAnimTable_AcroBike,
+        .animPos = {1, 3, 0, 2},
+    },
+    {
+        .anims = gEventObjectImageAnimTable_Surfing,
+        .animPos = {1, 3, 0, 2},
+    },
+    {
+        .anims = gEventObjectImageAnimTable_Nurse,
+        .animPos = {1, 3, 0, 2},
+    },
+    {
+        .anims = gEventObjectImageAnimTable_Fishing,
+        .animPos = {1, 3, 0, 2},
+    },
+    {
+        .anims = gEventObjectImageAnimTable_Standard_Asymmetric,
+        .animPos = {1, 3, 0, 2},
+    },
+    {
+        NULL,
+        {0, 0, 0, 0},
+    },
+};
+
 #endif //GUARD_EVENT_OBJECT_ANIMS_H

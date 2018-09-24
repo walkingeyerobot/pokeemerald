@@ -3447,6 +3447,9 @@ const struct SpriteFrameImage gEventObjectPicTable_Pryce[] = {
     overworld_frame(gEventObjectPic_Pryce, 4, 4, 6),
     overworld_frame(gEventObjectPic_Pryce, 4, 4, 7),
     overworld_frame(gEventObjectPic_Pryce, 4, 4, 8),
+    overworld_frame(gEventObjectPic_Pryce, 4, 4, 9),
+    overworld_frame(gEventObjectPic_Pryce, 4, 4, 10),
+    overworld_frame(gEventObjectPic_Pryce, 4, 4, 11),
 };
 
 const struct SpriteFrameImage gEventObjectPicTable_Clair[] = {
