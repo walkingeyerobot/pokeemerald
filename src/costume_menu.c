@@ -47,8 +47,6 @@ static void SpriteCallback_UpdateSpritePosition(struct Sprite *sprite);
 static void TrainerSpriteCallback(struct Sprite *sprite);
 static void CreateTrainerSprite(void);
 static void SetSpriteTemplateParameters(void);
-static void FreeSpriteTilesIfUnused(u16);
-void FreeSpritePaletteIfUnused(u8);
 static void InitializeTextWindows(void);
 static void UpdateCostumeNameAndDescription(void);
 static void CreateNewScrollBarSlot(s8 slot);
@@ -68,6 +66,7 @@ static void CreateListModeIndicator(void);
 static void LoadCompressedObjectPaletteWithGreyscale(const struct CompressedSpritePalette *src);
 
 extern void TintPalette_GrayScale(u16 *palette, u16 count);
+extern void FieldEffectFreeGraphicsResources(struct Sprite *sprite);
 
 //.rodata
 
@@ -300,9 +299,9 @@ void CB2_CostumeMenu(void)
     }
 }
 
-u8 slotSize = 32;
-s16 xPos_initial = 120;
-s16 yPos = 136;
+static const u8 slotSize = 32;
+static const s16 xPos_initial = 120;
+static const s16 yPos = 136;
 
 static void HandleKeyPresses(void)
 {
@@ -478,11 +477,7 @@ static void SpriteCallback_UpdateSpritePosition(struct Sprite *sprite)
     }
     if (sprite->pos1.x <= xPos_initial - (4*slotSize) || sprite->pos1.x >= xPos_initial + (4*slotSize))
     {
-        u8 paletteNum = sprite->oam.paletteNum; 
-        u16 sheetTileStart = sprite->sheetTileStart;
-        DestroySprite(sprite);
-        FreeSpritePaletteIfUnused(paletteNum);
-        FreeSpriteTilesIfUnused(sheetTileStart);
+        FieldEffectFreeGraphicsResources(sprite);
     }
     else if (sprite->pos1.x == xPos_initial + sprite->slotId*slotSize)
     {
@@ -676,9 +671,10 @@ void UnlockCostumesByGender(u8 playerGender)
         }
 }
 
-void UnlockCostumeByCostumeId(u8 costumeId)
+bool8 UnlockCostumeByCostumeId(u8 costumeId)
 {
     gSaveBlock2Ptr->costumeFlags[costumeId] = TRUE;
+    return TRUE;
 }
 //----------------------------
 // Filter system
@@ -768,34 +764,4 @@ static void CreateListModeIndicator(void)
     LoadCompressedObjectPalette(&sListModeIndicatorsPalette);
     LoadCompressedObjectPic(&ListModeIndicators[ListMode - 1]);
     spriteId = CreateSprite(&sSpriteTemplate_ListModeIndicators[ListMode - 1], 202 + ListMode*8, 7, 0);
-}
-//-------------------------------
-// Misc
-//-------------------------------
-static void FreeSpriteTilesIfUnused(u16 tileStart)
-{
-    u8 i;
-    u16 tag = GetSpriteTileTagByTileStart(tileStart);
-
-    if (tag != 0xFFFF)
-    {
-        for (i = 0; i < MAX_SPRITES; i++)
-            if (gSprites[i].inUse && gSprites[i].usingSheet && tileStart == gSprites[i].sheetTileStart)
-                return;
-        FreeSpriteTilesByTag(tag);
-    }
-}
-
-void FreeSpritePaletteIfUnused(u8 paletteNum)
-{
-    u8 i;
-    u16 tag = GetSpritePaletteTagByPaletteNum(paletteNum);
-
-    if (tag != 0xFFFF)
-    {
-        for (i = 0; i < MAX_SPRITES; i++)
-            if (gSprites[i].inUse && gSprites[i].oam.paletteNum == paletteNum)
-                return;
-        FreeSpritePaletteByTag(tag);
-    }
 }

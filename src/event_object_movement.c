@@ -1810,7 +1810,6 @@ void RemoveEventObjectByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup)
     }
 }
 
-extern void FreeSpritePaletteIfUnused(u8 paletteNum);
 static void RemoveEventObjectInternal(struct EventObject *eventObject)
 {
     u8 paletteNum;
@@ -1820,7 +1819,7 @@ static void RemoveEventObjectInternal(struct EventObject *eventObject)
     gSprites[eventObject->spriteId].images = &image;
     paletteNum = gSprites[eventObject->spriteId].oam.paletteNum;
     DestroySprite(&gSprites[eventObject->spriteId]);
-    FreeSpritePaletteIfUnused(paletteNum);
+    FieldEffectFreePaletteIfUnused(paletteNum);
 }
 
 void RemoveAllEventObjectsExceptPlayer(void)

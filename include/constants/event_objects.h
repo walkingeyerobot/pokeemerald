@@ -101,7 +101,7 @@
 #define EVENT_OBJ_GFX_CHARON                      84
 #define EVENT_OBJ_GFX_CYRUS                       85
 
-// Standard trainers
+// Standard Hoenn trainers
 #define EVENT_OBJ_GFX_AROMA_LADY                  86
 #define EVENT_OBJ_GFX_BATTLE_GIRL                 87
 #define EVENT_OBJ_GFX_BEAUTY                      88
@@ -127,12 +127,13 @@
 #define EVENT_OBJ_GFX_KINDLER                    108
 #define EVENT_OBJ_GFX_LADY                       109
 #define EVENT_OBJ_GFX_LASS                       110
-#define EVENT_OBJ_GFX_LASS_2                     111
+//#define EVENT_OBJ_GFX_LASS_2                     111
 #define EVENT_OBJ_GFX_NINJA_BOY                  112
 #define EVENT_OBJ_GFX_PARASOL_LADY               113
 #define EVENT_OBJ_GFX_PICNICKER                  114
 #define EVENT_OBJ_GFX_POKEFAN_F                  115
 #define EVENT_OBJ_GFX_POKEFAN_M                  116
+#define EVENT_OBJ_GFX_POKEKID                    
 #define EVENT_OBJ_GFX_POKEMANIAC                 117
 #define EVENT_OBJ_GFX_POKEMON_BREEDER_F          118
 #define EVENT_OBJ_GFX_POKEMON_BREEDER_M          119
@@ -152,6 +153,8 @@
 #define EVENT_OBJ_GFX_SWIMMER_M                  133
 #define EVENT_OBJ_GFX_SWIMMING_TRIATHLETE_F      134
 #define EVENT_OBJ_GFX_SWIMMING_TRIATHLETE_M      135
+#define EVENT_OBJ_GFX_TEAMMATES_1                
+#define EVENT_OBJ_GFX_TEAMMATES_2                
 #define EVENT_OBJ_GFX_TUBER_F                    136
 #define EVENT_OBJ_GFX_TUBER_M                    137
 #define EVENT_OBJ_GFX_TUBER_M_2                  138
@@ -240,6 +243,13 @@
 #define EVENT_OBJ_GFX_PALMER                     205
 #define EVENT_OBJ_GFX_THORTON                    206
 
+// Sinnoh stat trainers
+#define EVENT_OBJ_GFX_BUCK                       
+#define EVENT_OBJ_GFX_CHERYL                     
+#define EVENT_OBJ_GFX_MARLEY                     
+#define EVENT_OBJ_GFX_MIRA                       
+#define EVENT_OBJ_GFX_RILEY                      
+
 // Non-trainer NPCs
 #define EVENT_OBJ_GFX_ARTIST                     207
 #define EVENT_OBJ_GFX_BOY_1                      208
@@ -268,20 +278,17 @@
 #define EVENT_OBJ_GFX_MAN_7                      231
 #define EVENT_OBJ_GFX_MART_EMPLOYEE_F            232
 #define EVENT_OBJ_GFX_MART_EMPLOYEE_M            233
-#define EVENT_OBJ_GFX_MOM                        234
-#define EVENT_OBJ_GFX_MR_STONE                   235
 #define EVENT_OBJ_GFX_MYSTERY_GIFT_MAN           236
 #define EVENT_OBJ_GFX_NURSE                      237
 #define EVENT_OBJ_GFX_OLD_MAN_1                  238
 #define EVENT_OBJ_GFX_OLD_MAN_2                  239
 #define EVENT_OBJ_GFX_OLD_WOMAN_1                240
 #define EVENT_OBJ_GFX_OLD_WOMAN_2                241
-#define EVENT_OBJ_GFX_POKEKID                    242
+//#define EVENT_OBJ_GFX_POKEKID                    242
 #define EVENT_OBJ_GFX_REPORTER_M                 243
 #define EVENT_OBJ_GFX_ROOFTOP_SALE_WOMAN         244
 #define EVENT_OBJ_GFX_SCIENTIST_1                245
 #define EVENT_OBJ_GFX_SCIENTIST_2                246
-#define EVENT_OBJ_GFX_SCOTT                      247
 #define EVENT_OBJ_GFX_TEALA                      248
 #define EVENT_OBJ_GFX_UNION_ROOM_NURSE           249
 #define EVENT_OBJ_GFX_WOMAN_1                    250
@@ -291,6 +298,14 @@
 #define EVENT_OBJ_GFX_WOMAN_5                    254
 #define EVENT_OBJ_GFX_WOMAN_6                    255
 #define EVENT_OBJ_GFX_WOMAN_7                    256
+
+// Unique NPCs - Hoenn
+#define EVENT_OBJ_GFX_BRIGETTE                   // Pokemon Bank
+#define EVENT_OBJ_GFX_LANETTE                    
+#define EVENT_OBJ_GFX_MOM                        234
+#define EVENT_OBJ_GFX_MR_BRINEY                  
+#define EVENT_OBJ_GFX_MR_STONE                   235
+#define EVENT_OBJ_GFX_SCOTT                      247
 
 // Misc
 #define EVENT_OBJ_GFX_BERRY_TREE                 257
@@ -439,6 +454,102 @@
 #define EVENT_OBJ_GFX_BARD                       388
 
 #define EVENT_OBJ_COUNT EVENT_OBJ_GFX_BARD + 1
+
+
+// Sinnoh Standard trainers
+#define EVENT_OBJ_GFX_ACE_TRAINER_F              
+#define EVENT_OBJ_GFX_ACE_TRAINER_M              
+#define EVENT_OBJ_GFX_ACE_TRAINER_F_SNOW         
+#define EVENT_OBJ_GFX_ACE_TRAINER_M_SNOW         
+#define EVENT_OBJ_GFX_AROMA_LADY_DP              
+#define EVENT_OBJ_GFX_ARTIST_DP                  
+#define EVENT_OBJ_GFX_BATTLE_GIRL_DP             
+#define EVENT_OBJ_GFX_BEAUTY_DP                  
+//#define EVENT_OBJ_GFX_BIRD_KEEPER_DP
+#define EVENT_OBJ_GFX_BLACK_BELT_DP              
+#define EVENT_OBJ_GFX_BUG_CATCHER_DP             
+#define EVENT_OBJ_GFX_CAMERAMAN_DP               
+#define EVENT_OBJ_GFX_CAMPER_DP                  
+#define EVENT_OBJ_GFX_CLOWN                      
+#define EVENT_OBJ_GFX_COWGIRL                    
+#define EVENT_OBJ_GFX_CYCLIST_F                  
+#define EVENT_OBJ_GFX_CYCLIST_M                  
+//#define EVENT_OBJ_GFX_DRAGON_TAMER_DP
+#define EVENT_OBJ_GFX_GENTLEMAN_DP               
+//#define EVENT_OBJ_GFX_GUITARIST_DP
+#define EVENT_OBJ_GFX_HIKER_DP                   
+#define EVENT_OBJ_GFX_IDOL                       
+#define EVENT_OBJ_GFX_JOGGER                     
+#define EVENT_OBJ_GFX_LADY_DP                    
+#define EVENT_OBJ_GFX_LASS_DP                    
+#define EVENT_OBJ_GFX_MAID                       
+//#define EVENT_OBJ_GFX_NINJA_BOY_DP
+#define EVENT_OBJ_GFX_PARASOL_LADY_DP            
+#define EVENT_OBJ_GFX_PICNICKER_DP               
+//#define EVENT_OBJ_GFX_PI
+//#define EVENT_OBJ_GFX_POKEMON_BREEDER_F_DP
+//#define EVENT_OBJ_GFX_POKEMON_BREEDER_M_DP
+#define EVENT_OBJ_GFX_POLICEMAN                  
+#define EVENT_OBJ_GFX_PSYCHIC_F_DP               
+//#define EVENT_OBJ_GFX_PSYCHIC_M_DP
+#define EVENT_OBJ_GFX_RANCHER                    
+#define EVENT_OBJ_GFX_REPORTER_F_DP              
+#define EVENT_OBJ_GFX_RICH_BOY_DP                
+#define EVENT_OBJ_GFX_ROUGHNECK                  
+#define EVENT_OBJ_GFX_RUIN_MANIAC_DP             
+#define EVENT_OBJ_GFX_SAILOR_DP                  
+#define EVENT_OBJ_GFX_SCHOOL_KID_F_DP            
+#define EVENT_OBJ_GFX_SCHOOL_KID_M_DP            
+//#define EVENT_OBJ_GFX_SCIENTIST_F
+#define EVENT_OBJ_GFX_SCIENTIST_M_DP             
+#define EVENT_OBJ_GFX_SKIER_F                    
+#define EVENT_OBJ_GFX_SKIER_M                    
+#define EVENT_OBJ_GFX_SOCIALITE                  
+#define EVENT_OBJ_GFX_SWIMMER_F_DP               
+#define EVENT_OBJ_GFX_SWIMMER_M_DP               
+#define EVENT_OBJ_GFX_TUBER_F_DP                 
+#define EVENT_OBJ_GFX_TUBER_M_DP                 
+#define EVENT_OBJ_GFX_TWINS_DP                   
+//#define EVENT_OBJ_GFX_VETERAN
+#define EVENT_OBJ_GFX_WAITER                     
+#define EVENT_OBJ_GFX_WAITERESS                  
+#define EVENT_OBJ_GFX_WORKER                     
+#define EVENT_OBJ_GFX_YOUNGSTER_DP               
+
+// Johto Standard trainers
+#define EVENT_OBJ_GFX_ACE_TRAINER_F_HGSS         
+#define EVENT_OBJ_GFX_ACE_TRAINER_M_HGSS         
+#define EVENT_OBJ_GFX_BEAUTY_HGSS                
+#define EVENT_OBJ_GFX_BIKER                      
+//#define EVENT_OBJ_GFX_BIRD_KEEPER_HGSS
+#define EVENT_OBJ_GFX_BLACK_BELT_HGSS            
+#define EVENT_OBJ_GFX_BURGLAR                    
+#define EVENT_OBJ_GFX_ELDER                      
+#define EVENT_OBJ_GFX_FIREBREATHER               
+#define EVENT_OBJ_GFX_GENTLEMAN_HGSS             
+#define EVENT_OBJ_GFX_JUGGLER                    
+#define EVENT_OBJ_GFX_KIMONO_GIRL                
+#define EVENT_OBJ_GFX_LASS_HGSS                  
+#define EVENT_OBJ_GFX_MEDIUM_1                   
+#define EVENT_OBJ_GFX_MEDIUM_2                   
+//#define EVENT_OBJ_GFX_POKEMANIAC_HGSS
+#define EVENT_OBJ_GFX_SAGE                       
+#define EVENT_OBJ_GFX_SCHOOL_KID_M_HGSS          
+#define EVENT_OBJ_GFX_SUPER_NERD                 
+#define EVENT_OBJ_GFX_SWIMMER_F_HGSS             
+#define EVENT_OBJ_GFX_SWIMMER_M_HGSS             
+//#define EVENT_OBJ_GFX_TEACHER
+#define EVENT_OBJ_GFX_TWINS_HGSS                 
+#define EVENT_OBJ_GFX_YOUNGSTER_HGSS             
+
+// Misc Johto characters
+#define EVENT_OBJ_GFX_DJ_MARY                    
+#define EVENT_OBJ_GFX_EUSINE                     
+#define EVENT_OBJ_GFX_KURT                       
+#define EVENT_OBJ_GFX_MAGNUS                     
+#define EVENT_OBJ_GFX_MAXIMO                     
+#define EVENT_OBJ_GFX_MR_GAME                    
+//#define EVENT_OBJ_GFX_WESLEY?
 
 // Mauville old men
 #define EVENT_OBJ_GFX_BARD_2                     389

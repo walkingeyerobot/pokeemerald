@@ -1365,14 +1365,14 @@ void task_new_game_prof_birch_speech_13(u8 taskId)
         case MALE:
             PlaySE(SE_SELECT);
             gSaveBlock2Ptr->playerGender = gender;
-            gSaveBlock2Ptr->costumeFlags[BRENDAN] = TRUE;
+            gSaveBlock2Ptr->costumeFlags[COSTUME_BRENDAN] = TRUE;
             sub_80322E0(1, 1);
             gTasks[taskId].func = task_new_game_prof_birch_speech_14;
             break;
         case FEMALE:
             PlaySE(SE_SELECT);
             gSaveBlock2Ptr->playerGender = gender;
-            gSaveBlock2Ptr->costumeFlags[MAY] = TRUE;
+            gSaveBlock2Ptr->costumeFlags[COSTUME_MAY] = TRUE;
             sub_80322E0(1, 1);
             gTasks[taskId].func = task_new_game_prof_birch_speech_14;
             break;
