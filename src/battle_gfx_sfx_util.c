@@ -7,6 +7,7 @@
 #include "battle_interface.h"
 #include "main.h"
 #include "malloc.h"
+#include "graphics.h"
 #include "random.h"
 #include "util.h"
 #include "pokemon.h"
@@ -19,7 +20,6 @@
 #include "decompress.h"
 #include "data2.h"
 #include "palette.h"
-#include "blend_palette.h"
 #include "contest.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
@@ -29,7 +29,7 @@ extern struct MusicPlayerInfo gMPlayInfo_SE2;
 extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
 extern const u8 gUnknown_0831C604[];
-extern const u8 * const gBattleAnims_VariousTable[];
+extern const u8 * const gBattleAnims_General[];
 extern const u8 * const gBattleAnims_Special[];
 extern const struct CompressedSpriteSheet gMonFrontPicTable[];
 extern const struct CompressedSpriteSheet gMonBackPicTable[];
@@ -41,20 +41,6 @@ extern const union AnimCmd* const * const gMonAnimationsSpriteAnimsPtrTable[];
 extern const struct CompressedSpriteSheet gSpriteSheet_EnemyShadow;
 extern const struct SpriteTemplate gSpriteTemplate_EnemyShadow;
 extern const u8 gEnemyMonElevation[];
-
-// graphics
-extern const u32 gUnknown_08C093F0[];
-extern const u32 gSubstituteDollTilemap[];
-extern const u32 gSubstituteDollGfx[];
-extern const u16 gSubstituteDollPal[];
-extern const u8 gUnknown_08C1F1C8[];
-extern const u8 gUnknown_08C1F46C[];
-extern const u8 gUnknown_08C1F5E8[];
-extern const u8 gUnknown_08C1F76C[];
-extern const u8 gUnknown_08C1F8E8[];
-extern const u8 gBlankGfxCompressed[];
-extern const u16 gBattleInterface_BallStatusBarPal[];
-extern const u16 gBattleInterface_BallDisplayPal[];
 
 extern u8 sub_80688F8(u8, u8 battlerId);
 extern u8 pokemon_order_func(u8); // party menu
@@ -72,29 +58,29 @@ static void ClearSpritesBattlerHealthboxAnimData(void);
 // const rom data
 static const struct CompressedSpriteSheet sSpriteSheet_SinglesPlayerHealthbox =
 {
-    gUnknown_08C1F1C8, 0x1000, TAG_HEALTHBOX_PLAYER1_TILE
+    gHealthboxSinglesPlayerGfx, 0x1000, TAG_HEALTHBOX_PLAYER1_TILE
 };
 
 static const struct CompressedSpriteSheet sSpriteSheet_SinglesOpponentHealthbox =
 {
-    gUnknown_08C1F46C, 0x1000, TAG_HEALTHBOX_OPPONENT1_TILE
+    gHealthboxSinglesOpponentGfx, 0x1000, TAG_HEALTHBOX_OPPONENT1_TILE
 };
 
 static const struct CompressedSpriteSheet sSpriteSheets_DoublesPlayerHealthbox[2] =
 {
-    {gUnknown_08C1F5E8, 0x800, TAG_HEALTHBOX_PLAYER1_TILE},
-    {gUnknown_08C1F5E8, 0x800, TAG_HEALTHBOX_PLAYER2_TILE}
+    {gHealthboxDoublesPlayerGfx, 0x800, TAG_HEALTHBOX_PLAYER1_TILE},
+    {gHealthboxDoublesPlayerGfx, 0x800, TAG_HEALTHBOX_PLAYER2_TILE}
 };
 
 static const struct CompressedSpriteSheet sSpriteSheets_DoublesOpponentHealthbox[2] =
 {
-    {gUnknown_08C1F76C, 0x800, TAG_HEALTHBOX_OPPONENT1_TILE},
-    {gUnknown_08C1F76C, 0x800, TAG_HEALTHBOX_OPPONENT2_TILE}
+    {gHealthboxDoublesOpponentGfx, 0x800, TAG_HEALTHBOX_OPPONENT1_TILE},
+    {gHealthboxDoublesOpponentGfx, 0x800, TAG_HEALTHBOX_OPPONENT2_TILE}
 };
 
 static const struct CompressedSpriteSheet sSpriteSheet_SafariHealthbox =
 {
-    gUnknown_08C1F8E8, 0x1000, TAG_HEALTHBOX_SAFARI_TILE
+    gHealthboxSafariGfx, 0x1000, TAG_HEALTHBOX_SAFARI_TILE
 };
 
 static const struct CompressedSpriteSheet sSpriteSheets_HealthBar[MAX_BATTLERS_COUNT] =
@@ -437,7 +423,7 @@ bool8 TryHandleLaunchBattleTableAnimation(u8 activeBattler, u8 atkBattler, u8 de
     gBattleAnimAttacker = atkBattler;
     gBattleAnimTarget = defBattler;
     gBattleSpritesDataPtr->animationData->animArg = argument;
-    LaunchBattleAnimation(gBattleAnims_VariousTable, tableId, FALSE);
+    LaunchBattleAnimation(gBattleAnims_General, tableId, FALSE);
     taskId = CreateTask(Task_ClearBitWhenBattleTableAnimDone, 10);
     gTasks[taskId].tBattlerId = activeBattler;
     gBattleSpritesDataPtr->healthBoxesData[gTasks[taskId].tBattlerId].animFromTableActive = 1;
@@ -875,7 +861,7 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
     u32 personalityValue;
     u32 otId;
     u8 position;
-    const u8 *lzPaletteData;
+    const u32 *lzPaletteData;
 
     if (notTransform)
     {
@@ -899,14 +885,14 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
         if (IsContest())
         {
             position = 0;
-            targetSpecies = gContestResources->field_18->field_2;
-            personalityValue = gContestResources->field_18->field_8;
-            otId = gContestResources->field_18->field_C;
+            targetSpecies = gContestResources->field_18->unk2;
+            personalityValue = gContestResources->field_18->unk8;
+            otId = gContestResources->field_18->unkC;
 
             HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonBackPicTable[targetSpecies],
                                                       gMonSpritesGfxPtr->sprites[0],
                                                       targetSpecies,
-                                                      gContestResources->field_18->field_10);
+                                                      gContestResources->field_18->unk10);
         }
         else
         {

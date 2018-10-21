@@ -37,7 +37,7 @@ void sub_8098154(u8 taskId)
            task->data[0]++;
            break;
         case 2:
-            if (sub_8197224() != 1)
+            if (RunTextPrintersAndIsPrinter0Active() != 1)
             {
                 gUnknown_020375BC = 0;
                 DestroyTask(taskId);
@@ -131,7 +131,7 @@ void HideFieldMessageBox(void)
     gUnknown_020375BC = 0;
 }
 
-u8 textbox_any_visible(void)
+u8 GetFieldMessageBoxMode(void)
 {
     return gUnknown_020375BC;
 }

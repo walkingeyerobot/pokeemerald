@@ -6,6 +6,7 @@
 #include "constants/abilities.h"
 #include "constants/moves.h"
 #include "constants/songs.h"
+#include "constants/game_stat.h"
 	.include "asm/macros.inc"
 	.include "asm/macros/battle_script.inc"
 	.include "constants/constants.inc"
@@ -922,7 +923,7 @@ BattleScript_EffectFocusEnergy::
 BattleScript_EffectRecoil::
 	setmoveeffect MOVE_EFFECT_RECOIL_25 | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN
 	jumpifnotmove MOVE_STRUGGLE, BattleScript_EffectHit
-	incrementgamestat 0x1B
+	incrementgamestat GAME_STAT_USED_STRUGGLE
 	goto BattleScript_EffectHit
 
 BattleScript_EffectConfuse::
@@ -1200,7 +1201,7 @@ BattleScript_EffectSplash::
 	ppreduce
 	attackanimation
 	waitanimation
-	incrementgamestat 0x1A
+	incrementgamestat GAME_STAT_USED_SPLASH
 	printstring STRINGID_BUTNOTHINGHAPPENED
 	waitmessage 0x40
 	goto BattleScript_MoveEnd
@@ -1354,7 +1355,7 @@ BattleScript_SleepTalkUsingMove::
 	waitanimation
 	setbyte sB_ANIM_TURN, 0x0
 	setbyte sB_ANIM_TARGETS_HIT, 0x0
-	jumptorandomattack TRUE
+	jumptocalledmove TRUE
 
 BattleScript_EffectDestinyBond::
 	attackcanceler
@@ -2399,7 +2400,7 @@ BattleScript_EffectAssist::
 	waitanimation
 	setbyte sB_ANIM_TURN, 0x0
 	setbyte sB_ANIM_TARGETS_HIT, 0x0
-	jumptorandomattack TRUE
+	jumptocalledmove TRUE
 
 BattleScript_EffectIngrain::
 	attackcanceler
@@ -2968,7 +2969,7 @@ BattleScript_PayDayMoneyAndPickUpItems::
 BattleScript_LocalBattleLost::
 	jumpifbattletype BATTLE_TYPE_DOME, BattleScript_CheckDomeDrew
 	jumpifbattletype BATTLE_TYPE_FRONTIER, BattleScript_LocalBattleLostPrintTrainersWinText
-	jumpifbattletype BATTLE_TYPE_x4000000, BattleScript_LocalBattleLostPrintTrainersWinText
+	jumpifbattletype BATTLE_TYPE_TRAINER_HILL, BattleScript_LocalBattleLostPrintTrainersWinText
 	jumpifbattletype BATTLE_TYPE_EREADER_TRAINER, BattleScript_LocalBattleLostEnd
 	jumpifhalfword CMP_EQUAL, gTrainerBattleOpponent_A, 0x400, BattleScript_LocalBattleLostEnd
 BattleScript_LocalBattleLostPrintWhiteOut::
@@ -3741,7 +3742,7 @@ BattleScript_SAtkDown2End::
 BattleScript_FocusPunchSetUp::
 	printstring STRINGID_EMPTYSTRING3
 	waitmessage 0x1
-	playanimation BS_ATTACKER, B_ANIM_x14, NULL
+	playanimation BS_ATTACKER, B_ANIM_FOCUS_PUNCH_SETUP, NULL
 	printstring STRINGID_PKMNTIGHTENINGFOCUS
 	waitmessage 0x40
 	end2
@@ -4260,7 +4261,7 @@ BattleScript_IgnoresWhileAsleep::
 BattleScript_IgnoresAndUsesRandomMove::
 	printstring STRINGID_PKMNIGNOREDORDERS
 	waitmessage 0x40
-	jumptorandomattack FALSE
+	jumptocalledmove FALSE
 
 BattleScript_MoveUsedLoafingAround::
 	jumpifbyte CMP_NOT_EQUAL, cMULTISTRING_CHOOSER, 0x4, BattleScript_82DB6C7

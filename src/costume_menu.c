@@ -70,18 +70,18 @@ extern void FieldEffectFreeGraphicsResources(struct Sprite *sprite);
 
 //.rodata
 
-static const u8 gGraphics_CostumeScreenBackground[] = INCBIN_U8("graphics/costume_screen/background.4bpp.lz");
+static const u32 gGraphics_CostumeScreenBackground[] = INCBIN_U32("graphics/costume_screen/background.4bpp.lz");
 static const u16 gPalette_CostumeScreenBackground[] = INCBIN_U16("graphics/costume_screen/background.gbapal");
-static const u16 gTilemap_CostumeScreenBackground[] = INCBIN_U16("graphics/costume_screen/background_tilemap.bin.lz");
+static const u32 gTilemap_CostumeScreenBackground[] = INCBIN_U32("graphics/costume_screen/background_tilemap.bin.lz");
 
-static const u8 gGraphics_CostumeMenuButtonBar[] = INCBIN_U8("graphics/costume_screen/button_bar.4bpp.lz");
+static const u32 gGraphics_CostumeMenuButtonBar[] = INCBIN_U32("graphics/costume_screen/button_bar.4bpp.lz");
 static const u16 gPalette_CostumeMenuButtonBar[] = INCBIN_U16("graphics/costume_screen/button_bar.gbapal");
-static const u16 gTilemap_CostumeMenuButtonBar[] = INCBIN_U16("graphics/costume_screen/button_bar_tilemap.bin.lz");
+static const u32 gTilemap_CostumeMenuButtonBar[] = INCBIN_U32("graphics/costume_screen/button_bar_tilemap.bin.lz");
 
-static const u8 gGraphics_ListModeIndicatorMale[] = INCBIN_U8("graphics/costume_screen/list_mode_indicator_male.4bpp.lz");
-static const u8 gGraphics_ListModeIndicatorFemale[] = INCBIN_U8("graphics/costume_screen/list_mode_indicator_female.4bpp.lz");
-static const u8 gGraphics_ListModeIndicatorUnlocked[] = INCBIN_U8("graphics/costume_screen/list_mode_indicator_unlocked.4bpp.lz");
-static const u8 gPalette_ListModeIndicators[] = INCBIN_U8("graphics/costume_screen/list_mode_indicators.gbapal.lz");
+static const u32 gGraphics_ListModeIndicatorMale[] = INCBIN_U32("graphics/costume_screen/list_mode_indicator_male.4bpp.lz");
+static const u32 gGraphics_ListModeIndicatorFemale[] = INCBIN_U32("graphics/costume_screen/list_mode_indicator_female.4bpp.lz");
+static const u32 gGraphics_ListModeIndicatorUnlocked[] = INCBIN_U32("graphics/costume_screen/list_mode_indicator_unlocked.4bpp.lz");
+static const u32 gPalette_ListModeIndicators[] = INCBIN_U32("graphics/costume_screen/list_mode_indicators.gbapal.lz");
 
 static const u8 gText_MaleSymbol[] = _("{COLOR LIGHT_BLUE}{SHADOW BLUE} ♂");
 static const u8 gText_FemaleSymbol[] = _("{COLOR RED}{SHADOW LIGHT_RED} ♀");

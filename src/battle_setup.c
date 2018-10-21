@@ -56,8 +56,8 @@ extern bool8 InBattlePyramid(void);
 extern bool8 InBattlePike(void);
 extern bool32 InTrainerHill(void);
 extern bool32 FieldPoisonEffectIsRunning(void);
-extern void prev_quest_postbuffer_cursor_backup_reset(void);
-extern void ResetPoisonStepCounter(void);
+extern void RestartWildEncounterImmunitySteps(void);
+extern void ClearPoisonStepCounter(void);
 extern void sub_81BE72C(void);
 extern void sub_808BCF4(void);
 extern void sub_80EECC8(void);
@@ -75,7 +75,7 @@ extern void sub_81D6384(void);
 extern void sub_81D61E8(void);
 extern void sub_80982B8(void);
 extern void sub_81A9EDC(u16 a0);
-extern void sub_81D572C(u8 a0, u16 arg1);
+extern void CopyTrainerHillTrainerText(u8 a0, u16 arg1);
 
 // this file's functions
 static void DoBattlePikeWildBattle(void);
@@ -354,8 +354,8 @@ static void Task_BattleStart(u8 taskId)
         {
             overworld_free_bg_tilemaps();
             SetMainCallback2(CB2_InitBattle);
-            prev_quest_postbuffer_cursor_backup_reset();
-            ResetPoisonStepCounter();
+            RestartWildEncounterImmunitySteps();
+            ClearPoisonStepCounter();
             DestroyTask(taskId);
         }
         break;
@@ -642,7 +642,7 @@ u8 BattleSetup_GetTerrainId(void)
     case MAP_TYPE_ROUTE:
         break;
     case MAP_TYPE_UNDERGROUND:
-        if (MetatileBehavior_IsMB_0B(tileBehavior))
+        if (MetatileBehavior_IsIndoorEncounter(tileBehavior))
             return BATTLE_TERRAIN_BUILDING;
         if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
             return BATTLE_TERRAIN_POND;
@@ -921,8 +921,8 @@ static void CB2_StartFirstBattle(void)
         gMain.savedCallback = CB2_EndFirstBattle;
         FreeAllWindowBuffers();
         SetMainCallback2(CB2_InitBattle);
-        prev_quest_postbuffer_cursor_backup_reset();
-        ResetPoisonStepCounter();
+        RestartWildEncounterImmunitySteps();
+        ClearPoisonStepCounter();
         IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
         IncrementGameStat(GAME_STAT_WILD_BATTLES);
         sub_80EECC8();
@@ -1281,7 +1281,7 @@ void BattleSetup_StartTrainerBattle(void)
     }
     else if (sub_81D5C18())
     {
-        gBattleTypeFlags |= BATTLE_TYPE_x4000000;
+        gBattleTypeFlags |= BATTLE_TYPE_TRAINER_HILL;
 
         if (gNoOfApproachingTrainers == 2)
             sub_81D639C();
@@ -1370,9 +1370,9 @@ void ShowTrainerIntroSpeech(void)
     else if (sub_81D5C18())
     {
         if (gNoOfApproachingTrainers == 0 || gNoOfApproachingTrainers == 1)
-            sub_81D572C(2, sub_81D6180(gSpecialVar_LastTalked));
+            CopyTrainerHillTrainerText(2, sub_81D6180(gSpecialVar_LastTalked));
         else
-            sub_81D572C(2, sub_81D6180(gEventObjects[gApproachingTrainers[gApproachingTrainerId].eventObjectId].localId));
+            CopyTrainerHillTrainerText(2, sub_81D6180(gEventObjects[gApproachingTrainers[gApproachingTrainerId].eventObjectId].localId));
 
         sub_80982B8();
     }

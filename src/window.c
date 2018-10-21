@@ -20,7 +20,7 @@ EWRAM_DATA static u16 sWindowSize = 0;
 static u8 GetNumActiveWindowsOnBg(u8 bgId);
 static u8 GetNumActiveWindowsOnBg8Bit(u8 bgId);
 
-static const struct WindowTemplate sDummyWindowTemplate = {0xFF, 0, 0, 0, 0, 0, 0};
+static const struct WindowTemplate sDummyWindowTemplate = DUMMY_WIN_TEMPLATE;
 
 static void nullsub_8(void)
 {
@@ -443,7 +443,7 @@ void FillWindowPixelRect(u8 windowId, u8 fillValue, u16 x, u16 y, u16 width, u16
     FillBitmapRect4Bit(&pixelRect, x, y, width, height, fillValue);
 }
 
-void CopyToWindowPixelBuffer(u8 windowId, const u8 *src, u16 size, u16 tileOffset)
+void CopyToWindowPixelBuffer(u8 windowId, const void *src, u16 size, u16 tileOffset)
 {
     if (size != 0)
         CpuCopy16(src, gWindows[windowId].tileData + (0x20 * tileOffset), size);

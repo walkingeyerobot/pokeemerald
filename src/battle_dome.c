@@ -25,6 +25,7 @@
 #include "international_string_util.h"
 #include "trainer_pokemon_sprites.h"
 #include "scanline_effect.h"
+#include "graphics.h"
 #include "constants/species.h"
 #include "constants/moves.h"
 #include "constants/trainers.h"
@@ -68,7 +69,7 @@ extern bool8 sub_81A3610(void);
 extern u16 sub_81A4FF0(u8);
 extern u8 GetFrontierTrainerFrontSpriteId(u16);
 extern u8 GetFrontierOpponentClass(u16);
-extern void sub_80F94E8(void);
+extern void ReducePlayerPartyToThree(void);
 
 extern u8 gUnknown_0203CEF8[];
 extern u16 gBattle_BG0_X;
@@ -84,21 +85,6 @@ extern const u16 gBattleFrontierHeldItems[];
 extern const struct FacilityMon gBattleFrontierMons[];
 extern const struct BattleFrontierTrainer gBattleFrontierTrainers[];
 extern const struct SpriteTemplate gUnknown_0860CFA8;
-
-// gfx
-extern const u8 gUnknown_08D83D50[];
-extern const u8 gUnknown_08D84970[];
-extern const u8 gUnknown_08D84F00[];
-extern const u8 gUnknown_08D85444[];
-extern const u8 gUnknown_08D85358[];
-extern const u8 gUnknown_08D85600[];
-extern const u8 gUnknown_08D854C8[];
-extern const u8 gUnknown_08D82F10[];
-extern const u8 gUnknown_08D834FC[];
-extern const u8 gUnknown_08D83B2C[];
-extern const u8 gUnknown_08D83C3C[];
-extern const u8 gUnknown_08D83900[];
-extern const u8 gBattleFrontierGfx_DomeOptions[];
 
 // text
 extern const u8 gTrainerClassNames[][0xD];
@@ -6132,7 +6118,7 @@ static void sub_8194E44(void)
 
 static void sub_8194EB4(void)
 {
-    sub_80F94E8();
+    ReducePlayerPartyToThree();
 }
 
 static void sub_8194EC0(void)

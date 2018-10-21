@@ -369,7 +369,7 @@ void BattleAI_SetupAIData(u8 defaultScoreMoves)
         AI_THINKING_STRUCT->aiFlags = AI_SCRIPT_FIRST_BATTLE;
     else if (gBattleTypeFlags & BATTLE_TYPE_FACTORY)
         AI_THINKING_STRUCT->aiFlags = GetAiScriptsInBattleFactory();
-    else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_x4000000 | BATTLE_TYPE_SECRET_BASE))
+    else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_SECRET_BASE))
         AI_THINKING_STRUCT->aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_VIABILITY | AI_SCRIPT_TRY_TO_FAINT;
     else if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
         AI_THINKING_STRUCT->aiFlags = gTrainers[gTrainerBattleOpponent_A].aiFlags | gTrainers[gTrainerBattleOpponent_B].aiFlags;
@@ -2191,7 +2191,7 @@ static void BattleAICmd_if_level_cond(void)
 
 static void BattleAICmd_if_target_taunted(void)
 {
-    if (gDisableStructs[gBattlerTarget].tauntTimer1 != 0)
+    if (gDisableStructs[gBattlerTarget].tauntTimer != 0)
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 1);
     else
         gAIScriptPtr += 5;
@@ -2199,7 +2199,7 @@ static void BattleAICmd_if_target_taunted(void)
 
 static void BattleAICmd_if_target_not_taunted(void)
 {
-    if (gDisableStructs[gBattlerTarget].tauntTimer1 == 0)
+    if (gDisableStructs[gBattlerTarget].tauntTimer == 0)
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 1);
     else
         gAIScriptPtr += 5;

@@ -133,7 +133,7 @@
 #define EVENT_OBJ_GFX_PICNICKER                  114
 #define EVENT_OBJ_GFX_POKEFAN_F                  115
 #define EVENT_OBJ_GFX_POKEFAN_M                  116
-#define EVENT_OBJ_GFX_POKEKID                    
+#define EVENT_OBJ_GFX_POKEKID                    242
 #define EVENT_OBJ_GFX_POKEMANIAC                 117
 #define EVENT_OBJ_GFX_POKEMON_BREEDER_F          118
 #define EVENT_OBJ_GFX_POKEMON_BREEDER_M          119
@@ -159,7 +159,7 @@
 #define EVENT_OBJ_GFX_TUBER_M                    137
 #define EVENT_OBJ_GFX_TUBER_M_2                  138
 #define EVENT_OBJ_GFX_TUBER_M_SWIMMING           139
-#define EVENT_OBJ_GFX_TWINS                      140
+#define EVENT_OBJ_GFX_TWIN                       140
 #define EVENT_OBJ_GFX_YOUNG_COUPLE_F             141
 #define EVENT_OBJ_GFX_YOUNG_COUPLE_M             142
 #define EVENT_OBJ_GFX_YOUNGSTER                  143
@@ -255,34 +255,37 @@
 #define EVENT_OBJ_GFX_BOY_1                      208
 #define EVENT_OBJ_GFX_BOY_2                      209
 #define EVENT_OBJ_GFX_BOY_3                      210
-#define EVENT_OBJ_GFX_BOY_4                      211
-#define EVENT_OBJ_GFX_BOY_5                      212
+//#define EVENT_OBJ_GFX_BOY_4                      211
+//#define EVENT_OBJ_GFX_BOY_5                      212
 #define EVENT_OBJ_GFX_CONTEST_JUDGE              213
 #define EVENT_OBJ_GFX_COOK                       214
+#define EVENT_OBJ_GFX_DEVON_EMPLOYEE             231
 #define EVENT_OBJ_GFX_FAT_MAN                    215
+#define EVENT_OBJ_GFX_GAMEBOY_KID                212
 #define EVENT_OBJ_GFX_GIRL_1                     216
 #define EVENT_OBJ_GFX_GIRL_2                     217
 #define EVENT_OBJ_GFX_GIRL_3                     218
 #define EVENT_OBJ_GFX_HOT_SPRINGS_OLD_WOMAN      219
-#define EVENT_OBJ_GFX_LITTLE_BOY_1               220
+#define EVENT_OBJ_GFX_LINK_RECEPTIONIST          255
+#define EVENT_OBJ_GFX_LITTLE_BOY                 220
 #define EVENT_OBJ_GFX_LITTLE_BOY_2               221
-#define EVENT_OBJ_GFX_LITTLE_BOY_3               222
-#define EVENT_OBJ_GFX_LITTLE_GIRL_1              223
-#define EVENT_OBJ_GFX_LITTLE_GIRL_2              224
+//#define EVENT_OBJ_GFX_LITTLE_BOY_3               222
+#define EVENT_OBJ_GFX_LITTLE_GIRL                223
+//#define EVENT_OBJ_GFX_LITTLE_GIRL_2              224
 #define EVENT_OBJ_GFX_MAN_1                      225
 #define EVENT_OBJ_GFX_MAN_2                      226
 #define EVENT_OBJ_GFX_MAN_3                      227
 #define EVENT_OBJ_GFX_MAN_4                      228
 #define EVENT_OBJ_GFX_MAN_5                      229
-#define EVENT_OBJ_GFX_MAN_6                      230
-#define EVENT_OBJ_GFX_MAN_7                      231
+//#define EVENT_OBJ_GFX_MAN_6                      230
+//#define EVENT_OBJ_GFX_MAN_7                      231
 #define EVENT_OBJ_GFX_MART_EMPLOYEE_F            232
 #define EVENT_OBJ_GFX_MART_EMPLOYEE_M            233
 #define EVENT_OBJ_GFX_MYSTERY_GIFT_MAN           236
 #define EVENT_OBJ_GFX_NURSE                      237
-#define EVENT_OBJ_GFX_OLD_MAN_1                  238
+#define EVENT_OBJ_GFX_OLD_MAN                    238
 #define EVENT_OBJ_GFX_OLD_MAN_2                  239
-#define EVENT_OBJ_GFX_OLD_WOMAN_1                240
+#define EVENT_OBJ_GFX_OLD_WOMAN                  240
 #define EVENT_OBJ_GFX_OLD_WOMAN_2                241
 //#define EVENT_OBJ_GFX_POKEKID                    242
 #define EVENT_OBJ_GFX_REPORTER_M                 243
@@ -296,8 +299,8 @@
 #define EVENT_OBJ_GFX_WOMAN_3                    252
 #define EVENT_OBJ_GFX_WOMAN_4                    253
 #define EVENT_OBJ_GFX_WOMAN_5                    254
-#define EVENT_OBJ_GFX_WOMAN_6                    255
-#define EVENT_OBJ_GFX_WOMAN_7                    256
+//#define EVENT_OBJ_GFX_WOMAN_6                    255
+//#define EVENT_OBJ_GFX_WOMAN_7                    256
 
 // Unique NPCs - Hoenn
 #define EVENT_OBJ_GFX_BRIGETTE                   // Pokemon Bank
@@ -341,8 +344,8 @@
 #define EVENT_OBJ_GFX_ZIGZAGOON_2                283
 #define EVENT_OBJ_GFX_WINGULL                    284
 #define EVENT_OBJ_GFX_KIRLIA                     285
-#define EVENT_OBJ_GFX_VIGAROTH_CARRYING_BOX      286
-#define EVENT_OBJ_GFX_VIGAROTH_FACING_AWAY       287
+#define EVENT_OBJ_GFX_VIGOROTH_CARRYING_BOX      286
+#define EVENT_OBJ_GFX_VIGOROTH_FACING_AWAY       287
 #define EVENT_OBJ_GFX_AZURILL                    288
 #define EVENT_OBJ_GFX_SKITTY                     289
 #define EVENT_OBJ_GFX_KECLEON_1                  290

@@ -6,21 +6,21 @@
 
 struct SpriteSheet
 {
-    const u8 *data;  // Raw uncompressed pixel data
+    const void *data;  // Raw uncompressed pixel data
     u16 size;
     u16 tag;
 };
 
 struct CompressedSpriteSheet
 {
-    const u8 *data;  // LZ77 compressed pixel data
+    const u32 *data;  // LZ77 compressed pixel data
     u16 size;        // Uncompressed size of pixel data
     u16 tag;
 };
 
 struct SpriteFrameImage
 {
-    const u8 *data;
+    const void *data;
     u16 size;
 };
 
@@ -36,7 +36,7 @@ struct SpritePalette
 
 struct CompressedSpritePalette
 {
-    const u8 *data;  // LZ77 compressed palette data
+    const u32 *data;  // LZ77 compressed palette data
     u16 tag;
 };
 
@@ -160,6 +160,8 @@ struct SubspriteTable
 
 struct Sprite;
 
+typedef void (*SpriteCallback)(struct Sprite *);
+
 struct SpriteTemplate
 {
     u16 tileTag;
@@ -168,7 +170,7 @@ struct SpriteTemplate
     const union AnimCmd *const *anims;
     const struct SpriteFrameImage *images;
     const union AffineAnimCmd *const *affineAnims;
-    void (*callback)(struct Sprite *);
+    SpriteCallback callback;
 };
 
 struct Sprite
@@ -179,7 +181,7 @@ struct Sprite
     /*0x10*/ const union AffineAnimCmd *const *affineAnims;
     /*0x14*/ const struct SpriteTemplate *template;
     /*0x18*/ const struct SubspriteTable *subspriteTables;
-    /*0x1C*/ void (*callback)(struct Sprite *);
+    /*0x1C*/ SpriteCallback callback;
 
     /*0x20*/ struct Coords16 pos1;
     /*0x24*/ struct Coords16 pos2;
@@ -233,11 +235,15 @@ extern const struct OamData gDummyOamData;
 extern const union AnimCmd *const gDummySpriteAnimTable[];
 extern const union AffineAnimCmd *const gDummySpriteAffineAnimTable[];
 extern const struct SpriteTemplate gDummySpriteTemplate;
+
+extern u8 gReservedSpritePaletteCount;
+extern struct Sprite gSprites[];
+extern u8 gOamLimit;
+extern u16 gReservedSpriteTileCount;
 extern s16 gSpriteCoordOffsetX;
 extern s16 gSpriteCoordOffsetY;
-
-extern struct Sprite gSprites[];
 extern struct OamMatrix gOamMatrices[];
+extern bool8 gAffineAnimsDisabled;
 
 void ResetSpriteData(void);
 void AnimateSprites(void);
