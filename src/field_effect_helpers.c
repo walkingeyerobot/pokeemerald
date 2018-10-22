@@ -31,6 +31,8 @@ void sub_815577C(struct EventObject *, struct Sprite *, struct Sprite *);
 void sub_8155850(struct Sprite *);
 u32 ShowDisguiseFieldEffect(u8, u8, u8);
 
+extern void sub_808E894(u16 paletteTag);
+
 void SetUpReflection(struct EventObject *eventObject, struct Sprite *sprite, bool8 stillReflection)
 {
     struct Sprite *reflectionSprite;
@@ -164,7 +166,13 @@ u8 CreateWarpArrowSprite(void)
 {
     u8 spriteId;
     struct Sprite *sprite;
+    const struct SpriteTemplate *spriteTemplate;
 
+    spriteTemplate = gFieldEffectObjectTemplatePointers[8];
+    if (spriteTemplate->paletteTag != 0xffff)
+    {
+        sub_808E894(spriteTemplate->paletteTag);
+    }
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[8], 0, 0, 0x52);
     if (spriteId != MAX_SPRITES)
     {
@@ -218,11 +226,17 @@ const u16 gShadowVerticalOffsets[] = {
 u32 FldEff_Shadow(void)
 {
     u8 eventObjectId;
+    const struct SpriteTemplate *spriteTemplate;
     const struct EventObjectGraphicsInfo *graphicsInfo;
     u8 spriteId;
 
     eventObjectId = GetEventObjectIdByLocalIdAndMap(gFieldEffectArguments[0], gFieldEffectArguments[1], gFieldEffectArguments[2]);
     graphicsInfo = GetEventObjectGraphicsInfo(gEventObjects[eventObjectId].graphicsId);
+    spriteTemplate = gFieldEffectObjectTemplatePointers[gShadowEffectTemplateIds[graphicsInfo->shadowSize]];
+    if (spriteTemplate->paletteTag != 0xffff)
+    {
+        sub_808E894(spriteTemplate->paletteTag);
+    }
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[gShadowEffectTemplateIds[graphicsInfo->shadowSize]], 0, 0, 0x94);
     if (spriteId != MAX_SPRITES)
     {
@@ -942,14 +956,20 @@ u32 FldEff_SurfBlob(void)
 {
     u8 spriteId;
     struct Sprite *sprite;
+    const struct SpriteTemplate *spriteTemplate;
+
+    spriteTemplate = gFieldEffectObjectTemplatePointers[7];
 
     sub_80930E0((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 8);
+    if (spriteTemplate->paletteTag != 0xffff)
+    {
+        sub_808E894(spriteTemplate->paletteTag);
+    }
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[7], gFieldEffectArguments[0], gFieldEffectArguments[1], 0x96);
-    if (spriteId !=MAX_SPRITES)
+    if (spriteId != MAX_SPRITES)
     {
         sprite = &gSprites[spriteId];
         sprite->coordOffsetEnabled = TRUE;
-        sprite->oam.paletteNum = 0;
         sprite->data[2] = gFieldEffectArguments[2];
         sprite->data[3] = -1;
         sprite->data[6] = -1;

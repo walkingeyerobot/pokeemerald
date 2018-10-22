@@ -15,7 +15,6 @@ enum {
 void player_step(u8 a, u16 b, u16 c);
 void ClearPlayerAvatarInfo(void);
 void SetPlayerAvatarExtraStateTransition(u8, u8);
-u8 GetPlayerAvatarGenderByGraphicsId(u8);
 bool8 TestPlayerAvatarFlags(u8);
 u8 GetPlayerAvatarObjectId(void);
 void PlayerGetDestCoords(s16 *, s16 *);

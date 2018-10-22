@@ -26,6 +26,7 @@ extern const struct CompressedSpriteSheet gTrainerFrontPicTable[];
 extern const struct CompressedSpriteSheet gTrainerBackPicTable[];
 extern const struct CompressedSpritePalette gTrainerFrontPicPaletteTable[];
 extern const struct CompressedSpritePalette gTrainerBackPicPaletteTable[];
+extern const u16 sPlayerAvatarGfxIds[][8];
 
 static EWRAM_DATA struct SpriteTemplate sSpriteTemplateBase = {};
 static EWRAM_DATA u8 gDisplayList[NUMBER_OF_COSTUMES] = {0};
@@ -605,14 +606,26 @@ static void CreateConfirmationMenu(void)
     CreateYesNoMenu(&sWindowTemplate_CostumeMenu[2], 205, 14, 1);
 }
 
+static void SanitiseCostumeId(void)
+{
+    if (gDisplayList[selection] <= 9) //ARRAY_COUNT(sPlayerAvatarGfxIds))
+    {
+        gSaveBlock2Ptr->costume = gDisplayList[selection];
+        gSaveBlock2Ptr->playerGender = gCostumes[gDisplayList[selection]].gender;
+    }
+    else
+    {
+        gSaveBlock2Ptr->costume = 0;
+        gSaveBlock2Ptr->playerGender = MALE;
+    }
+}
 static void ProcessYesNoMenu(void)
 {
     switch (Menu_ProcessInputNoWrap_())
     {
         case 0: // Yes
             PlaySE(MUS_ME_B_SMALL);
-            gSaveBlock2Ptr->costume = gDisplayList[selection];
-            gSaveBlock2Ptr->playerGender = gCostumes[gDisplayList[selection]].gender;
+            SanitiseCostumeId();
             PlayFieldMoveAnimation(gCostumes[gDisplayList[selection]].fieldMove);
             sub_8198070(CONFIRMATION_WINDOW, FALSE); //from menu.c
             ClearWindowTilemap(CONFIRMATION_WINDOW);
