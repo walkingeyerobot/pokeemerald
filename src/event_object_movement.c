@@ -84,7 +84,6 @@ static void UpdateEventObjectVisibility(struct EventObject *, struct Sprite *);
 static void MakeObjectTemplateFromEventObjectTemplate(struct EventObjectTemplate *, struct SpriteTemplate *, const struct SubspriteTable **);
 static void GetEventObjectMovingCameraOffset(s16 *, s16 *);
 static struct EventObjectTemplate *GetEventObjectTemplateByLocalIdAndMap(u8, u8, u8);
-void sub_808E894(u16);
 static void RemoveEventObjectIfOutsideView(struct EventObject *);
 static void sub_808E1B8(u8, s16, s16);
 static void SetPlayerAvatarEventObjectIdAndObjectId(u8, u8);
@@ -2233,7 +2232,7 @@ static void SetPlayerAvatarEventObjectIdAndObjectId(u8 eventObjectId, u8 spriteI
     SetPlayerAvatarExtraStateTransition(gEventObjects[eventObjectId].graphicsId, 0x20);
 }
 
-void EventObjectSetGraphicsId(struct EventObject *eventObject, u16 graphicsId)
+void EventObjectSetGraphicsId(struct EventObject *eventObject, u16 graphicsId) // Only used to set player avatar graphicsId
 {
     const struct EventObjectGraphicsInfo *graphicsInfo;
     struct Sprite *sprite;

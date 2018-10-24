@@ -7,6 +7,7 @@
 #include "fieldmap.h"
 #include "gpu_regs.h"
 #include "metatile_behavior.h"
+#include "palette.h"
 #include "sound.h"
 #include "sprite.h"
 #include "trig.h"
@@ -31,7 +32,10 @@ void sub_815577C(struct EventObject *, struct Sprite *, struct Sprite *);
 void sub_8155850(struct Sprite *);
 u32 ShowDisguiseFieldEffect(u8, u8, u8);
 
-extern void sub_808E894(u16 paletteTag);
+void LoadSpecialReflectionPalette(struct Sprite *sprite);
+void LoadHighBridgeReflectionPalette(struct Sprite *sprite);
+
+extern u16 gReflectionPaletteBuffer[];
 
 void SetUpReflection(struct EventObject *eventObject, struct Sprite *sprite, bool8 stillReflection)
 {
@@ -40,7 +44,6 @@ void SetUpReflection(struct EventObject *eventObject, struct Sprite *sprite, boo
     reflectionSprite = &gSprites[CreateCopySpriteAt(sprite, sprite->pos1.x, sprite->pos1.y, 0x98)];
     reflectionSprite->callback = UpdateObjectReflectionSprite;
     reflectionSprite->oam.priority = 3;
-    reflectionSprite->oam.paletteNum = gReflectionEffectPaletteMap[reflectionSprite->oam.paletteNum];
     reflectionSprite->usingSheet = TRUE;
     reflectionSprite->anims = gDummySpriteAnimTable;
     StartSpriteAnim(reflectionSprite, 0);
@@ -58,7 +61,7 @@ void SetUpReflection(struct EventObject *eventObject, struct Sprite *sprite, boo
 
 static s16 GetReflectionVerticalOffset(struct EventObject *eventObject)
 {
-    return GetEventObjectGraphicsInfo(eventObject->graphicsId)->height - 2;
+    return GetEventObjectGraphicsInfo(eventObject->graphicsId)->height - 10;
 }
 
 void LoadObjectReflectionPalette(struct EventObject *eventObject, struct Sprite *sprite)
@@ -69,12 +72,50 @@ void LoadObjectReflectionPalette(struct EventObject *eventObject, struct Sprite 
     if (!GetEventObjectGraphicsInfo(eventObject->graphicsId)->disableReflectionPaletteLoad && ((bridgeType = MetatileBehavior_GetBridgeSth(eventObject->previousMetatileBehavior)) || (bridgeType = MetatileBehavior_GetBridgeSth(eventObject->currentMetatileBehavior))))
     {
         sprite->data[2] = bridgeReflectionVerticalOffsets[bridgeType - 1];
-        LoadObjectHighBridgeReflectionPalette(eventObject, sprite->oam.paletteNum);
+        //LoadObjectHighBridgeReflectionPalette(eventObject, sprite->oam.paletteNum);
+        LoadHighBridgeReflectionPalette(sprite);
+		// Note that at present the palette isn't changed to a solid blue to match
+		// the shadow of the water. UpdateSpritePaletteWithWeather() within field_screen.s
+		// needs to be decompiled first?
     }
     else
     {
-        LoadObjectRegularReflectionPalette(eventObject, sprite->oam.paletteNum);
+        LoadSpecialReflectionPalette(sprite);
+//        LoadObjectRegularReflectionPalette(eventObject, sprite->oam.paletteNum);
     }
+}
+
+void LoadSpecialReflectionPalette(struct Sprite *sprite)
+{
+    struct SpritePalette reflectionPalette;
+
+    CpuCopy16(&gPlttBufferUnfaded[0x100 + sprite->oam.paletteNum * 16], gReflectionPaletteBuffer, 32);
+/*
+    switch (metatileBehaviour)
+    {
+        case 0:
+        default:*/
+            TintPalette_CustomTone(gReflectionPaletteBuffer, 16, Q_8_8(1.0), Q_8_8(1.0), Q_8_8(3.5));/*
+            break;
+        case 1;
+    }
+*/
+    reflectionPalette.data = gReflectionPaletteBuffer;
+    reflectionPalette.tag = GetSpritePaletteTagByPaletteNum(sprite->oam.paletteNum) + 0x1000;
+    LoadSpritePalette(&reflectionPalette);
+    sprite->oam.paletteNum = IndexOfSpritePaletteTag(reflectionPalette.tag);
+}
+
+void LoadHighBridgeReflectionPalette(struct Sprite *sprite)
+{
+    struct SpritePalette reflectionPalette;
+
+    reflectionPalette.data = &gPlttBufferUnfaded[0x100 + sprite->oam.paletteNum * 16];
+    reflectionPalette.tag = 0x3000;
+    LoadSpritePalette(&reflectionPalette);
+
+    sprite->oam.paletteNum = IndexOfSpritePaletteTag(reflectionPalette.tag);
+    UpdateSpritePaletteWithWeather(sprite->oam.paletteNum);
 }
 
 void LoadObjectRegularReflectionPalette(struct EventObject *eventObject, u8 paletteIndex)
@@ -84,18 +125,7 @@ void LoadObjectRegularReflectionPalette(struct EventObject *eventObject, u8 pale
     graphicsInfo = GetEventObjectGraphicsInfo(eventObject->graphicsId);
     if (graphicsInfo->paletteTag2 != EVENT_OBJ_PAL_TAG_NONE)
     {
-        if (graphicsInfo->paletteSlot == 0)
-        {
-            LoadPlayerObjectReflectionPalette(graphicsInfo->paletteTag1, paletteIndex);
-        }
-        else if (graphicsInfo->paletteSlot == 10)
-        {
-            LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag1, paletteIndex);
-        }
-        else
-        {
-            PatchObjectPalette(GetObjectPaletteTag(paletteIndex), paletteIndex);
-        }
+        PatchObjectPalette(GetObjectPaletteTag(paletteIndex), paletteIndex);
         UpdateSpritePaletteWithWeather(paletteIndex);
     }
 }
@@ -107,11 +137,9 @@ void LoadObjectHighBridgeReflectionPalette(struct EventObject *eventObject, u8 p
     const struct EventObjectGraphicsInfo *graphicsInfo;
 
     graphicsInfo = GetEventObjectGraphicsInfo(eventObject->graphicsId);
-    if (graphicsInfo->paletteTag2 != EVENT_OBJ_PAL_TAG_NONE)
-    {
-        PatchObjectPalette(graphicsInfo->paletteTag2, paletteNum);
-        UpdateSpritePaletteWithWeather(paletteNum);
-    }
+
+    PatchObjectPalette(graphicsInfo->paletteTag1, paletteNum);
+    UpdateSpritePaletteWithWeather(paletteNum);
 }
 
 void UpdateObjectReflectionSprite(struct Sprite *reflectionSprite)
@@ -127,7 +155,6 @@ void UpdateObjectReflectionSprite(struct Sprite *reflectionSprite)
     }
     else
     {
-        reflectionSprite->oam.paletteNum = gReflectionEffectPaletteMap[mainSprite->oam.paletteNum];
         reflectionSprite->oam.shape = mainSprite->oam.shape;
         reflectionSprite->oam.size = mainSprite->oam.size;
         reflectionSprite->oam.matrixNum = mainSprite->oam.matrixNum | 0x10;
@@ -166,13 +193,8 @@ u8 CreateWarpArrowSprite(void)
 {
     u8 spriteId;
     struct Sprite *sprite;
-    const struct SpriteTemplate *spriteTemplate;
 
-    spriteTemplate = gFieldEffectObjectTemplatePointers[8];
-    if (spriteTemplate->paletteTag != 0xffff)
-    {
-        sub_808E894(spriteTemplate->paletteTag);
-    }
+    LoadFieldEffectPalette(8);
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[8], 0, 0, 0x52);
     if (spriteId != MAX_SPRITES)
     {
@@ -226,17 +248,12 @@ const u16 gShadowVerticalOffsets[] = {
 u32 FldEff_Shadow(void)
 {
     u8 eventObjectId;
-    const struct SpriteTemplate *spriteTemplate;
     const struct EventObjectGraphicsInfo *graphicsInfo;
     u8 spriteId;
 
     eventObjectId = GetEventObjectIdByLocalIdAndMap(gFieldEffectArguments[0], gFieldEffectArguments[1], gFieldEffectArguments[2]);
     graphicsInfo = GetEventObjectGraphicsInfo(gEventObjects[eventObjectId].graphicsId);
-    spriteTemplate = gFieldEffectObjectTemplatePointers[gShadowEffectTemplateIds[graphicsInfo->shadowSize]];
-    if (spriteTemplate->paletteTag != 0xffff)
-    {
-        sub_808E894(spriteTemplate->paletteTag);
-    }
+    LoadFieldEffectPalette(gShadowEffectTemplateIds[graphicsInfo->shadowSize]);
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[gShadowEffectTemplateIds[graphicsInfo->shadowSize]], 0, 0, 0x94);
     if (spriteId != MAX_SPRITES)
     {
@@ -956,15 +973,9 @@ u32 FldEff_SurfBlob(void)
 {
     u8 spriteId;
     struct Sprite *sprite;
-    const struct SpriteTemplate *spriteTemplate;
-
-    spriteTemplate = gFieldEffectObjectTemplatePointers[7];
 
     sub_80930E0((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 8);
-    if (spriteTemplate->paletteTag != 0xffff)
-    {
-        sub_808E894(spriteTemplate->paletteTag);
-    }
+    LoadFieldEffectPalette(7);
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[7], gFieldEffectArguments[0], gFieldEffectArguments[1], 0x96);
     if (spriteId != MAX_SPRITES)
     {
@@ -1794,3 +1805,14 @@ _081562BE:\n\
 	bx r0");
 }
 #endif
+
+void LoadFieldEffectPalette(u8 fieldEffect)
+{
+    const struct SpriteTemplate *spriteTemplate;
+
+    spriteTemplate = gFieldEffectObjectTemplatePointers[fieldEffect];
+    if (spriteTemplate->paletteTag != 0xffff)
+    {
+        sub_808E894(spriteTemplate->paletteTag);
+    }
+}

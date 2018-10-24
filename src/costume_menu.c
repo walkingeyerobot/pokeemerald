@@ -30,7 +30,7 @@ extern const u16 sPlayerAvatarGfxIds[][8];
 
 static EWRAM_DATA struct SpriteTemplate sSpriteTemplateBase = {};
 static EWRAM_DATA u8 gDisplayList[NUMBER_OF_COSTUMES] = {0};
-static EWRAM_DATA u16 gGreyScalePaletteBuffer[0x20] = {0};
+static EWRAM_DATA u16 gGreyScalePaletteBuffer[0x10] = {0};
 u16 selection;
 u8 sScrollBarState;
 u8 ListMode;
@@ -336,7 +336,7 @@ static void HandleKeyPresses(void)
             PlaySE(SE_SELECT);
             SetMainCallback2(ProcessYesNoMenu);
         }
-        if (gMain.newKeys & (B_BUTTON | START_BUTTON))
+        if (gMain.newKeys & (B_BUTTON | START_BUTTON) && !IsSEPlaying())
         {
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
             PlaySE(SE_PC_OFF);
@@ -360,7 +360,7 @@ static void HandleKeyPresses(void)
         PlaySE(SE_HAZURE);
         }
     }
-//    RunTasks();
+    RunTasks();
     AnimateSprites();
     BuildOamBuffer();
     UpdatePaletteFade();
@@ -624,9 +624,18 @@ static void ProcessYesNoMenu(void)
     switch (Menu_ProcessInputNoWrap_())
     {
         case 0: // Yes
-            PlaySE(MUS_ME_B_SMALL);
-            SanitiseCostumeId();
-            PlayFieldMoveAnimation(gCostumes[gDisplayList[selection]].fieldMove);
+            if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ON_FOOT)
+            {
+                PlayFanfare(MUS_ME_B_SMALL);
+                SanitiseCostumeId();
+                PlayFieldMoveAnimation(gCostumes[gDisplayList[selection]].fieldMove);
+            }
+/*
+            else
+            {
+            // Display "You can't change while surfing/cycling/diving OR You are too busy to change"
+            }
+*/
             sub_8198070(CONFIRMATION_WINDOW, FALSE); //from menu.c
             ClearWindowTilemap(CONFIRMATION_WINDOW);
             SetMainCallback2(HandleKeyPresses);

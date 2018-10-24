@@ -1,60 +1,5 @@
 EVENTOBJGFXDIR := graphics/event_objects/pics
 
-$(EVENTOBJGFXDIR)/people/brendan/walking.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/brendan/running.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/brendan/field_move.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/brendan/surfing.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/brendan/mach_bike.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/brendan/acro_bike.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/brendan/fishing.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/brendan/watering.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/brendan/underwater.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-
-$(EVENTOBJGFXDIR)/people/may/walking.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/may/running.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/may/field_move.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/may/surfing.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/may/mach_bike.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/may/acro_bike.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/may/fishing.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/may/watering.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
-$(EVENTOBJGFXDIR)/people/may/underwater.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
-
 
 $(EVENTOBJGFXDIR)/people/ruby_sapphire_brendan/walking.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
@@ -707,47 +652,47 @@ $(EVENTOBJGFXDIR)/people/lyra/watering.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 
-$(EVENTOBJGFXDIR)/people/brendan_new/walking.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/brendan/walking.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/brendan_new/running.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/brendan/running.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/brendan_new/bike.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/brendan/bike.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/brendan_new/surfing.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/brendan/surfing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/brendan_new/field_move.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/brendan/field_move.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/brendan_new/fishing.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/brendan/fishing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/brendan_new/watering.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/brendan/watering.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 
-$(EVENTOBJGFXDIR)/people/may_new/walking.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/may/walking.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/may_new/running.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/may/running.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/may_new/bike.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/may/bike.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/may_new/surfing.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/may/surfing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/may_new/field_move.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/may/field_move.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/may_new/fishing.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/may/fishing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(EVENTOBJGFXDIR)/people/may_new/watering.4bpp: %.4bpp: %.png
+$(EVENTOBJGFXDIR)/people/may/watering.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 
