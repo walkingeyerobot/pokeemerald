@@ -41,7 +41,7 @@ u8 sListPosition;
 
 static void CreateOverworldScrollBar(void);
 static void UpdateSpritePositions(void);
-static void HandleKeyPresses(void);
+static void HandleKeyPresses(u8 taskId);
 static void UpdateBackgroundGraphics(void);
 static void UpdateSlotNumbers(struct Sprite *sprite);
 static void SpriteCallback_UpdateSpritePosition(struct Sprite *sprite);
@@ -52,9 +52,9 @@ static void InitializeTextWindows(void);
 static void UpdateCostumeNameAndDescription(void);
 static void CreateNewScrollBarSlot(s8 slot);
 static void CreateConfirmationMenu(void);
-static void ProcessYesNoMenu(void);
+static void ProcessYesNoMenu(u8 taskId);
 static void CheckIfSpriteIsAnimated(struct Sprite *sprite);
-static void CloseMenuScreen(void);
+static void CloseMenuScreen(u8 taskId);
 void UnlockCostumesByGender(u8 playerGender);
 static void PlayFieldMoveAnimation(u16 graphicsId);
 static u8 GetSpriteIdByXY(s16 x, s16 y);
@@ -87,6 +87,11 @@ static const u32 gPalette_ListModeIndicators[] = INCBIN_U32("graphics/costume_sc
 static const u8 gText_MaleSymbol[] = _("{COLOR LIGHT_BLUE}{SHADOW BLUE} ♂");
 static const u8 gText_FemaleSymbol[] = _("{COLOR RED}{SHADOW LIGHT_RED} ♀");
 static const u8 gText_ChangeCostume[] = _("Change costume?");
+
+static const u8 gText_UnableToChange[] = _("You can’t do that right now!");
+static const u8 gText_UnableToChange_Cycling[] = _("You can’t change whilst cycling, you\nwill fall off!");
+static const u8 gText_UnableToChange_Surfing[] = _("You can’t change whilst surfing, you\nwill get wet!");
+static const u8 gText_UnableToChange_Diving[] = _("You can’t change whilst diving, you\nwill drown!");
 
 static const u8 sFontColourTable[3] = {0, 1, 2};   // fgColour, bgColour and shadowColour // represents indices of chosen palette
 
@@ -235,6 +240,15 @@ static const struct WindowTemplate sWindowTemplate_CostumeMenu[] =
         .paletteNum = 15,
         .baseBlock = 254,
     },
+    {// COSTUME_CHANGE_WINDOW
+        .priority = 2,
+        .tilemapLeft = 2,
+        .tilemapTop = 10,
+        .width = 26,
+        .height = 4,
+        .paletteNum = 15,
+        .baseBlock = 314,
+    },
 };
 
 // .text
@@ -262,6 +276,14 @@ void VBlankCallback(void)
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
+}
+
+void CostumeMenu_MainCallback(void)
+{
+    RunTasks();
+    AnimateSprites();
+    BuildOamBuffer();
+    UpdatePaletteFade();
 }
 
 void CB2_CostumeMenu(void)
@@ -295,7 +317,8 @@ void CB2_CostumeMenu(void)
         case 2:
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
             SetVBlankCallback(VBlankCallback);
-            SetMainCallback2(HandleKeyPresses);
+            SetMainCallback2(CostumeMenu_MainCallback);
+            CreateTask(HandleKeyPresses, 0);
             break;
     }
 }
@@ -304,9 +327,9 @@ static const u8 slotSize = 32;
 static const s16 xPos_initial = 120;
 static const s16 yPos = 136;
 
-static void HandleKeyPresses(void)
+static void HandleKeyPresses(u8 taskId)
 {
-    if (sScrollBarState == NONE)
+    if (sScrollBarState == NONE && !gPaletteFade.active)
     {
         if ((gMain.newAndRepeatedKeys & DPAD_RIGHT) && (selection != sMaxSelection - 1))
         {
@@ -334,13 +357,13 @@ static void HandleKeyPresses(void)
         {
             CreateConfirmationMenu();
             PlaySE(SE_SELECT);
-            SetMainCallback2(ProcessYesNoMenu);
+            gTasks[taskId].func = ProcessYesNoMenu;
         }
         if (gMain.newKeys & (B_BUTTON | START_BUTTON) && !IsSEPlaying())
         {
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
             PlaySE(SE_PC_OFF);
-            SetMainCallback2(CloseMenuScreen);
+            gTasks[taskId].func = CloseMenuScreen;
         }
         if (gMain.newKeys & SELECT_BUTTON)
         {
@@ -357,22 +380,17 @@ static void HandleKeyPresses(void)
         }
         else if (gMain.newKeys & (DPAD_LEFT | DPAD_RIGHT | A_BUTTON))
         {
-        PlaySE(SE_HAZURE);
+            PlaySE(SE_HAZURE);
         }
     }
-    RunTasks();
-    AnimateSprites();
-    BuildOamBuffer();
-    UpdatePaletteFade();
 }
 
-static void CloseMenuScreen(void)
+static void CloseMenuScreen(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
         SetMainCallback2(CB2_ReturnToFieldWithOpenMenu);
     }
-    UpdatePaletteFade();
 }
 
 //-------------------------------
@@ -456,8 +474,10 @@ static void UpdateSlotNumbers(struct Sprite *sprite)
 
 static void CheckIfSpriteIsAnimated(struct Sprite *sprite)
 {
-    if (sprite->slotId != 0)
+    if (sprite->slotId != 0 && sprite->costumeId == gDisplayList[selection + sprite->slotId])
     {
+        sprite->animCmdIndex = 0;
+        sprite->animEnded = TRUE;
         sprite->animNum = 0;
     }
 }
@@ -606,6 +626,48 @@ static void CreateConfirmationMenu(void)
     CreateYesNoMenu(&sWindowTemplate_CostumeMenu[2], 205, 14, 1);
 }
 
+static void GetUnableToChangeText(void)
+{
+    if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+    {
+        StringExpandPlaceholders(gStringVar4, gText_UnableToChange_Cycling);
+        return;
+    }
+    if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_SURFING)
+    {
+        StringExpandPlaceholders(gStringVar4, gText_UnableToChange_Surfing);
+        return;
+    }
+    if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER)
+    {
+        StringExpandPlaceholders(gStringVar4, gText_UnableToChange_Diving);
+        return;
+    }
+    else
+        StringExpandPlaceholders(gStringVar4, gText_UnableToChange);
+}
+
+static void CreateUnableToChangeTextbox(void)
+{
+    FillWindowPixelBuffer(COSTUME_CHANGE_WINDOW, 0);
+    SetWindowBorderStyle(COSTUME_CHANGE_WINDOW, FALSE, 205, 14);
+    GetUnableToChangeText();
+    AddTextPrinterParameterized(COSTUME_CHANGE_WINDOW, 1, gStringVar4, 0, 1, 0, NULL);
+    PutWindowTilemap(COSTUME_CHANGE_WINDOW);
+    CopyWindowToVram(COSTUME_CHANGE_WINDOW, 3);
+}
+
+static void DestroyTextBox(u8 taskId)
+{
+    if (gMain.newKeys & (A_BUTTON | B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        sub_8198070(COSTUME_CHANGE_WINDOW, TRUE);
+        ClearWindowTilemap(COSTUME_CHANGE_WINDOW);
+        gTasks[taskId].func = HandleKeyPresses;
+    }
+}
+
 static void SanitiseCostumeId(void)
 {
     if (gDisplayList[selection] <= 9) //ARRAY_COUNT(sPlayerAvatarGfxIds))
@@ -619,7 +681,8 @@ static void SanitiseCostumeId(void)
         gSaveBlock2Ptr->playerGender = MALE;
     }
 }
-static void ProcessYesNoMenu(void)
+
+static void ProcessYesNoMenu(u8 taskId)
 {
     switch (Menu_ProcessInputNoWrap_())
     {
@@ -629,23 +692,22 @@ static void ProcessYesNoMenu(void)
                 PlayFanfare(MUS_ME_B_SMALL);
                 SanitiseCostumeId();
                 PlayFieldMoveAnimation(gCostumes[gDisplayList[selection]].fieldMove);
+                sub_8198070(CONFIRMATION_WINDOW, FALSE); //from menu.c
+                ClearWindowTilemap(CONFIRMATION_WINDOW);
+                gTasks[taskId].func = HandleKeyPresses;
             }
-/*
             else
             {
-            // Display "You can't change while surfing/cycling/diving OR You are too busy to change"
+                CreateUnableToChangeTextbox();
+                gTasks[taskId].func = DestroyTextBox;
             }
-*/
-            sub_8198070(CONFIRMATION_WINDOW, FALSE); //from menu.c
-            ClearWindowTilemap(CONFIRMATION_WINDOW);
-            SetMainCallback2(HandleKeyPresses);
             break;
         case 1:
         case -1: // No
             PlaySE(SE_SELECT);
-            sub_8198070(CONFIRMATION_WINDOW, FALSE); //from menu.c
+            sub_8198070(CONFIRMATION_WINDOW, FALSE);
             ClearWindowTilemap(CONFIRMATION_WINDOW);
-            SetMainCallback2(HandleKeyPresses);
+            gTasks[taskId].func = HandleKeyPresses;
             break;
     }
 }

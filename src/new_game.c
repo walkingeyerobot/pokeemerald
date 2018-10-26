@@ -60,6 +60,7 @@ extern const u8 EventScript_2715DE[];
 static void ClearFrontierRecord(void);
 static void WarpToTruck(void);
 static void ResetMiniGamesResults(void);
+static void ResetUnlockedCostumes(void);
 
 // const rom data
 static const struct ContestWinner sContestWinnerPicDummy =
@@ -210,6 +211,7 @@ void NewGameInitData(void)
 	sub_800E5AC();
 	sub_81D54BC();
 	ResetContestLinkResults();
+    ResetUnlockedCostumes();
 }
 
 static void ResetMiniGamesResults(void)
@@ -218,4 +220,13 @@ static void ResetMiniGamesResults(void)
     SetBerryPowder(&gSaveBlock2Ptr->berryCrush.berryPowderAmount, 0);
     ResetPokeJumpResults();
     CpuFill16(0, &gSaveBlock2Ptr->berryPick, sizeof(struct BerryPickingResults));
+}
+
+static void ResetUnlockedCostumes(void)
+{
+    u8 i;
+
+    for (i = 0; i < NUMBER_OF_COSTUMES; i++)
+        if (i != gSaveBlock2Ptr->costume)
+            gSaveBlock2Ptr->costumeFlags[i] = FALSE;
 }

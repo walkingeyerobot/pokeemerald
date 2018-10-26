@@ -17,7 +17,6 @@
 
 void UpdateObjectReflectionSprite(struct Sprite *);
 void LoadObjectReflectionPalette(struct EventObject *eventObject, struct Sprite *sprite);
-void LoadObjectHighBridgeReflectionPalette(struct EventObject *, u8);
 void LoadObjectRegularReflectionPalette(struct EventObject *, u8);
 void sub_81561FC(struct Sprite *, u8, u8);
 void FadeFootprintsTireTracks_Step0(struct Sprite *);
@@ -33,7 +32,6 @@ void sub_8155850(struct Sprite *);
 u32 ShowDisguiseFieldEffect(u8, u8, u8);
 
 void LoadSpecialReflectionPalette(struct Sprite *sprite);
-void LoadHighBridgeReflectionPalette(struct Sprite *sprite);
 
 extern u16 gReflectionPaletteBuffer[];
 
@@ -64,6 +62,8 @@ static s16 GetReflectionVerticalOffset(struct EventObject *eventObject)
     return GetEventObjectGraphicsInfo(eventObject->graphicsId)->height - 10;
 }
 
+#define EVENT_OBJ_PAL_TAG_10 0x1102
+
 void LoadObjectReflectionPalette(struct EventObject *eventObject, struct Sprite *sprite)
 {
     u8 bridgeType;
@@ -71,17 +71,15 @@ void LoadObjectReflectionPalette(struct EventObject *eventObject, struct Sprite 
     sprite->data[2] = 0;
     if (!GetEventObjectGraphicsInfo(eventObject->graphicsId)->disableReflectionPaletteLoad && ((bridgeType = MetatileBehavior_GetBridgeSth(eventObject->previousMetatileBehavior)) || (bridgeType = MetatileBehavior_GetBridgeSth(eventObject->currentMetatileBehavior))))
     {
+// When walking on a bridge high above water (Route 120), the reflection is a solid dark blue color.
+// This is so the sprite blends in with the dark water metatile underneath the bridge.
         sprite->data[2] = bridgeReflectionVerticalOffsets[bridgeType - 1];
-        //LoadObjectHighBridgeReflectionPalette(eventObject, sprite->oam.paletteNum);
-        LoadHighBridgeReflectionPalette(sprite);
-		// Note that at present the palette isn't changed to a solid blue to match
-		// the shadow of the water. UpdateSpritePaletteWithWeather() within field_screen.s
-		// needs to be decompiled first?
+        sub_808E894(EVENT_OBJ_PAL_TAG_10);
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(EVENT_OBJ_PAL_TAG_10);
     }
     else
     {
         LoadSpecialReflectionPalette(sprite);
-//        LoadObjectRegularReflectionPalette(eventObject, sprite->oam.paletteNum);
     }
 }
 
@@ -106,18 +104,6 @@ void LoadSpecialReflectionPalette(struct Sprite *sprite)
     sprite->oam.paletteNum = IndexOfSpritePaletteTag(reflectionPalette.tag);
 }
 
-void LoadHighBridgeReflectionPalette(struct Sprite *sprite)
-{
-    struct SpritePalette reflectionPalette;
-
-    reflectionPalette.data = &gPlttBufferUnfaded[0x100 + sprite->oam.paletteNum * 16];
-    reflectionPalette.tag = 0x3000;
-    LoadSpritePalette(&reflectionPalette);
-
-    sprite->oam.paletteNum = IndexOfSpritePaletteTag(reflectionPalette.tag);
-    UpdateSpritePaletteWithWeather(sprite->oam.paletteNum);
-}
-
 void LoadObjectRegularReflectionPalette(struct EventObject *eventObject, u8 paletteIndex)
 {
     const struct EventObjectGraphicsInfo *graphicsInfo;
@@ -128,18 +114,6 @@ void LoadObjectRegularReflectionPalette(struct EventObject *eventObject, u8 pale
         PatchObjectPalette(GetObjectPaletteTag(paletteIndex), paletteIndex);
         UpdateSpritePaletteWithWeather(paletteIndex);
     }
-}
-
-// When walking on a bridge high above water (Route 120), the reflection is a solid dark blue color.
-// This is so the sprite blends in with the dark water metatile underneath the bridge.
-void LoadObjectHighBridgeReflectionPalette(struct EventObject *eventObject, u8 paletteNum)
-{
-    const struct EventObjectGraphicsInfo *graphicsInfo;
-
-    graphicsInfo = GetEventObjectGraphicsInfo(eventObject->graphicsId);
-
-    PatchObjectPalette(graphicsInfo->paletteTag1, paletteNum);
-    UpdateSpritePaletteWithWeather(paletteNum);
 }
 
 void UpdateObjectReflectionSprite(struct Sprite *reflectionSprite)
