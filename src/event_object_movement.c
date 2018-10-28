@@ -25,8 +25,6 @@
 
 // this file was known as evobjmv.c in Game Freak's original source
 
-EWRAM_DATA u8 sCurrentReflectionType = 0;
-EWRAM_DATA u16 sCurrentSpecialObjectPaletteTag = 0;
 EWRAM_DATA struct LockedAnimEventObjects *gLockedAnimEventObjects = {0};
 
 static void MoveCoordsInDirection(u32, s16 *, s16 *, s16, s16);
@@ -99,8 +97,6 @@ static void CameraObject_2(struct Sprite *);
 static struct EventObjectTemplate *FindEventObjectTemplateByLocalId(u8 localId, struct EventObjectTemplate *templates, u8 count);
 static void ClearEventObjectMovement(struct EventObject *, struct Sprite *);
 static void EventObjectSetSingleMovement(struct EventObject *, struct Sprite *, u8);
-
-const u8 gReflectionEffectPaletteMap[] = {1, 1, 6, 7, 8, 9, 6, 7, 8, 9, 11, 11, 0, 0, 0, 0};
 
 const struct SpriteTemplate gCameraSpriteTemplate = {0, 0xFFFF, &gDummyOamData, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, ObjectCB_CameraObject};
 
@@ -797,188 +793,6 @@ const struct SpritePalette sEventObjectSpritePalettes[] = {
     {gEventObjectPalette_Palmer, EVENT_OBJ_PAL_PALMER},
     {gEventObjectPalette_Thorton, EVENT_OBJ_PAL_THORTON},
     {NULL,                  0x0000},
-};
-
-const u16 gPlayerReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_9,
-};
-
-const u16 Unknown_0850BCF0[] = {
-    EVENT_OBJ_PAL_TAG_18,
-    EVENT_OBJ_PAL_TAG_18,
-    EVENT_OBJ_PAL_TAG_18,
-    EVENT_OBJ_PAL_TAG_18,
-};
-
-const u16 gPlayerUnderwaterReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_11,
-    EVENT_OBJ_PAL_TAG_11,
-    EVENT_OBJ_PAL_TAG_11,
-    EVENT_OBJ_PAL_TAG_11,
-};
-
-const struct PairedPalettes gPlayerReflectionPaletteSets[] = {
-    {EVENT_OBJ_PAL_TAG_8, gPlayerReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_17, Unknown_0850BCF0},
-    {EVENT_OBJ_PAL_TAG_11, gPlayerUnderwaterReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_NONE, NULL},
-};
-
-const u16 gQuintyPlumpReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_13,
-    EVENT_OBJ_PAL_TAG_13,
-    EVENT_OBJ_PAL_TAG_13,
-    EVENT_OBJ_PAL_TAG_13,
-};
-
-const u16 gTruckReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_14,
-    EVENT_OBJ_PAL_TAG_14,
-    EVENT_OBJ_PAL_TAG_14,
-    EVENT_OBJ_PAL_TAG_14,
-};
-
-const u16 gVigorothMoverReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_15,
-    EVENT_OBJ_PAL_TAG_15,
-    EVENT_OBJ_PAL_TAG_15,
-    EVENT_OBJ_PAL_TAG_15,
-};
-
-const u16 gMovingBoxReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_19,
-    EVENT_OBJ_PAL_TAG_19,
-    EVENT_OBJ_PAL_TAG_19,
-    EVENT_OBJ_PAL_TAG_19,
-};
-
-const u16 gCableCarReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_20,
-    EVENT_OBJ_PAL_TAG_20,
-    EVENT_OBJ_PAL_TAG_20,
-    EVENT_OBJ_PAL_TAG_20,
-};
-
-const u16 gSSTidalReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_21,
-    EVENT_OBJ_PAL_TAG_21,
-    EVENT_OBJ_PAL_TAG_21,
-    EVENT_OBJ_PAL_TAG_21,
-};
-
-const u16 gSubmarineShadowReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_26,
-    EVENT_OBJ_PAL_TAG_26,
-    EVENT_OBJ_PAL_TAG_26,
-    EVENT_OBJ_PAL_TAG_26,
-};
-
-const u16 Unknown_0850BD58[] = { // Kyogre2?
-    EVENT_OBJ_PAL_TAG_23,
-    EVENT_OBJ_PAL_TAG_23,
-    EVENT_OBJ_PAL_TAG_23,
-    EVENT_OBJ_PAL_TAG_23,
-};
-
-const u16 Unknown_0850BD60[] = { // Groudon2?
-    EVENT_OBJ_PAL_TAG_25,
-    EVENT_OBJ_PAL_TAG_25,
-    EVENT_OBJ_PAL_TAG_25,
-    EVENT_OBJ_PAL_TAG_25,
-};
-
-const u16 Unknown_0850BD68[] = { // Invisible Keckleon?
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_6,
-};
-
-const u16 gRedLeafReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_28,
-    EVENT_OBJ_PAL_TAG_28,
-    EVENT_OBJ_PAL_TAG_28,
-    EVENT_OBJ_PAL_TAG_28,
-};
-
-const struct PairedPalettes gSpecialObjectReflectionPaletteSets[] = {
-    {EVENT_OBJ_PAL_TAG_8, gPlayerReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_17, Unknown_0850BCF0},
-    {EVENT_OBJ_PAL_TAG_12, gQuintyPlumpReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_14, gTruckReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_15, gVigorothMoverReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_19, gMovingBoxReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_20, gCableCarReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_21, gSSTidalReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_22, Unknown_0850BD58},
-    {EVENT_OBJ_PAL_TAG_24, Unknown_0850BD60},
-    {EVENT_OBJ_PAL_TAG_2, Unknown_0850BD68},
-    {EVENT_OBJ_PAL_TAG_26, gSubmarineShadowReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_28, gRedLeafReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_NONE, NULL},
-};
-
-const u16 gObjectPaletteTags0[] = {
-    EVENT_OBJ_PAL_TAG_8,
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_0,
-    EVENT_OBJ_PAL_TAG_1,
-    EVENT_OBJ_PAL_TAG_2,
-    EVENT_OBJ_PAL_TAG_3,
-    EVENT_OBJ_PAL_TAG_4,
-    EVENT_OBJ_PAL_TAG_5,
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_7,
-};
-
-const u16 gObjectPaletteTags1[] = {
-    EVENT_OBJ_PAL_TAG_8,
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_0,
-    EVENT_OBJ_PAL_TAG_1,
-    EVENT_OBJ_PAL_TAG_2,
-    EVENT_OBJ_PAL_TAG_3,
-    EVENT_OBJ_PAL_TAG_4,
-    EVENT_OBJ_PAL_TAG_5,
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_7,
-};
-
-const u16 gObjectPaletteTags2[] = {
-    EVENT_OBJ_PAL_TAG_8,
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_0,
-    EVENT_OBJ_PAL_TAG_1,
-    EVENT_OBJ_PAL_TAG_2,
-    EVENT_OBJ_PAL_TAG_3,
-    EVENT_OBJ_PAL_TAG_4,
-    EVENT_OBJ_PAL_TAG_5,
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_7,
-};
-
-const u16 gObjectPaletteTags3[] = {
-    EVENT_OBJ_PAL_TAG_8,
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_0,
-    EVENT_OBJ_PAL_TAG_1,
-    EVENT_OBJ_PAL_TAG_2,
-    EVENT_OBJ_PAL_TAG_3,
-    EVENT_OBJ_PAL_TAG_4,
-    EVENT_OBJ_PAL_TAG_5,
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_7,
-};
-
-
-const u16 *const gObjectPaletteTagSets[] = {
-    gObjectPaletteTags0,
-    gObjectPaletteTags1,
-    gObjectPaletteTags2,
-    gObjectPaletteTags3,
 };
 
 #include "data/field_event_obj/berry_tree_graphics_tables.h"
@@ -2026,11 +1840,7 @@ u8 sprite_new(u16 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
         sprite->coordOffsetEnabled = TRUE;
         sprite->data[0] = a1;
         sprite->data[1] = z;
-        if (graphicsInfo->paletteSlot == 10)
-        {
-            LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag1, graphicsInfo->paletteSlot);
-        }
-        else if (graphicsInfo->paletteSlot >= 16)
+        if (graphicsInfo->paletteSlot >= 16)
         {
             sub_808EAB0(graphicsInfo->paletteTag1, graphicsInfo->paletteSlot | 0xf0);
         }
@@ -2244,10 +2054,6 @@ void EventObjectSetGraphicsId(struct EventObject *eventObject, u16 graphicsId) /
     if (paletteSlot == 0)
     {
         PatchObjectPalette(graphicsInfo->paletteTag1, graphicsInfo->paletteSlot);
-    }
-    else if (paletteSlot == 10)
-    {
-        LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag1, graphicsInfo->paletteSlot);
     }
     else if (paletteSlot >= 16)
     {
@@ -2498,37 +2304,6 @@ static u8 FindEventObjectPaletteIndexByTag(u16 tag)
         }
     }
     return 0xff;
-}
-
-void LoadPlayerObjectReflectionPalette(u16 tag, u8 slot)
-{
-    u8 i;
-
-    PatchObjectPalette(tag, slot);
-    for (i = 0; gPlayerReflectionPaletteSets[i].tag != EVENT_OBJ_PAL_TAG_NONE; i++)
-    {
-        if (gPlayerReflectionPaletteSets[i].tag == tag)
-        {
-            PatchObjectPalette(gPlayerReflectionPaletteSets[i].data[sCurrentReflectionType], gReflectionEffectPaletteMap[slot]);
-            return;
-        }
-    }
-}
-
-void LoadSpecialObjectReflectionPalette(u16 tag, u8 slot)
-{
-    u8 i;
-
-    sCurrentSpecialObjectPaletteTag = tag;
-    PatchObjectPalette(tag, slot);
-    for (i = 0; gSpecialObjectReflectionPaletteSets[i].tag != EVENT_OBJ_PAL_TAG_NONE; i++)
-    {
-        if (gSpecialObjectReflectionPaletteSets[i].tag == tag)
-        {
-            PatchObjectPalette(gSpecialObjectReflectionPaletteSets[i].data[sCurrentReflectionType], gReflectionEffectPaletteMap[slot]);
-            return;
-        }
-    }
 }
 
 static void sub_808EAB0(u16 tag, u8 slot)
@@ -2969,40 +2744,6 @@ void sub_808F28C(u8 localId, u8 mapNum, u8 mapGroup, u8 decorCat)
                 break;
         }
     }
-}
-
-void InitEventObjectPalettes(u8 palSlot)
-{
-    FreeAndReserveObjectSpritePalettes();
-    sCurrentSpecialObjectPaletteTag = EVENT_OBJ_PAL_TAG_NONE;
-    sCurrentReflectionType = palSlot;
-    if (palSlot == 1)
-    {
-        PatchObjectPaletteRange(gObjectPaletteTagSets[sCurrentReflectionType], 0, 6);
-        gReservedSpritePaletteCount = 8;
-    }
-    else
-    {
-        PatchObjectPaletteRange(gObjectPaletteTagSets[sCurrentReflectionType], 0, 10);
-    }
-}
-
-u16 GetObjectPaletteTag(u8 palSlot)
-{
-    u8 i;
-
-    if (palSlot < 10)
-    {
-        return gObjectPaletteTagSets[sCurrentReflectionType][palSlot];
-    }
-    for (i = 0; gSpecialObjectReflectionPaletteSets[i].tag != EVENT_OBJ_PAL_TAG_NONE; i++)
-    {
-        if (gSpecialObjectReflectionPaletteSets[i].tag == sCurrentSpecialObjectPaletteTag)
-        {
-            return gSpecialObjectReflectionPaletteSets[i].data[sCurrentReflectionType];
-        }
-    }
-    return EVENT_OBJ_PAL_TAG_NONE;
 }
 
 movement_type_empty_callback(MovementType_None)
@@ -8427,12 +8168,12 @@ void GroundEffect_StepOnLongGrass(struct EventObject *eventObj, struct Sprite *s
 
 void GroundEffect_WaterReflection(struct EventObject *eventObj, struct Sprite *sprite)
 {
-    SetUpReflection(eventObj, sprite, 0);
+    SetUpReflection(eventObj, sprite, FALSE);
 }
 
 void GroundEffect_IceReflection(struct EventObject *eventObj, struct Sprite *sprite)
 {
-    SetUpReflection(eventObj, sprite, 1);
+    SetUpReflection(eventObj, sprite, TRUE);
 }
 
 void GroundEffect_FlowingWater(struct EventObject *eventObj, struct Sprite *sprite)

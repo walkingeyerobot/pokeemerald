@@ -217,7 +217,7 @@ static const struct WindowTemplate sWindowTemplate_CostumeMenu[] =
         .priority = 1,
         .tilemapLeft = 1,
         .tilemapTop = 9,
-        .width = 28,
+        .width = 29,
         .height = 6,
         .paletteNum = 15,
         .baseBlock = 36,
@@ -229,7 +229,7 @@ static const struct WindowTemplate sWindowTemplate_CostumeMenu[] =
         .width = 6,
         .height = 4,
         .paletteNum = 15,
-        .baseBlock = 214,
+        .baseBlock = 220,
     },
     {// CONFIRMATION_WINDOW
         .priority = 2,
@@ -238,7 +238,7 @@ static const struct WindowTemplate sWindowTemplate_CostumeMenu[] =
         .width = 15,
         .height = 4,
         .paletteNum = 15,
-        .baseBlock = 254,
+        .baseBlock = 260,
     },
     {// COSTUME_CHANGE_WINDOW
         .priority = 2,
@@ -247,7 +247,7 @@ static const struct WindowTemplate sWindowTemplate_CostumeMenu[] =
         .width = 26,
         .height = 4,
         .paletteNum = 15,
-        .baseBlock = 314,
+        .baseBlock = 320,
     },
 };
 
@@ -576,7 +576,7 @@ static void InitializeTextWindows(void)
     InitWindows(sWindowTemplate_CostumeMenu);
     DeactivateAllTextPrinters();
     LoadPalette(GetOverworldTextboxPalettePtr(), 0xf0, 0x20);
-    LoadUserWindowBorderGfx(YES_NO_WINDOW, 205, 0xe0);
+    LoadUserWindowBorderGfx(YES_NO_WINDOW, 211, 0xe0);
 }
 
 static void CreateTextbox(u8 windowId)
@@ -619,11 +619,11 @@ static void UpdateCostumeNameAndDescription(void)
 static void CreateConfirmationMenu(void)
 {
     FillWindowPixelBuffer(CONFIRMATION_WINDOW, 0);
-    SetWindowBorderStyle(CONFIRMATION_WINDOW, FALSE, 205, 14);
+    SetWindowBorderStyle(CONFIRMATION_WINDOW, FALSE, 211, 14);
     AddTextPrinterParameterized(CONFIRMATION_WINDOW, 1, gText_ChangeCostume, 0, 1, 0, NULL);
     PutWindowTilemap(CONFIRMATION_WINDOW);
     CopyWindowToVram(CONFIRMATION_WINDOW, 3);
-    CreateYesNoMenu(&sWindowTemplate_CostumeMenu[2], 205, 14, 1);
+    CreateYesNoMenu(&sWindowTemplate_CostumeMenu[2], 211, 14, 1);
 }
 
 static void GetUnableToChangeText(void)
@@ -650,7 +650,7 @@ static void GetUnableToChangeText(void)
 static void CreateUnableToChangeTextbox(void)
 {
     FillWindowPixelBuffer(COSTUME_CHANGE_WINDOW, 0);
-    SetWindowBorderStyle(COSTUME_CHANGE_WINDOW, FALSE, 205, 14);
+    SetWindowBorderStyle(COSTUME_CHANGE_WINDOW, FALSE, 211, 14);
     GetUnableToChangeText();
     AddTextPrinterParameterized(COSTUME_CHANGE_WINDOW, 1, gStringVar4, 0, 1, 0, NULL);
     PutWindowTilemap(COSTUME_CHANGE_WINDOW);

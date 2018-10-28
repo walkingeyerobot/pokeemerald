@@ -80,7 +80,6 @@ struct LockedAnimEventObjects
 };
 
 extern const struct SpriteFrameImage gEventObjectPicTable_PechaBerryTree[];
-extern const u8 gReflectionEffectPaletteMap[];
 
 void sub_808D438(void);
 u8 GetMoveDirectionAnimNum(u8);
@@ -90,8 +89,6 @@ u8 GetEventObjectIdByXY(s16, s16);
 void SetEventObjectDirection(struct EventObject *, u8);
 u8 GetFirstInactiveEventObjectId(void);
 void RemoveEventObjectByLocalIdAndMap(u8, u8, u8);
-void LoadPlayerObjectReflectionPalette(u16, u8);
-void LoadSpecialObjectReflectionPalette(u16, u8);
 void sub_808EBA8(u8, u8, u8, s16, s16);
 void PatchObjectPalette(u16, u8);
 void sub_808E16C(s16, s16);
@@ -123,7 +120,6 @@ void EventObjectGetLocalIdAndMap(struct EventObject *eventObject, void *localId,
 void ShiftEventObjectCoords(struct EventObject *, s16, s16);
 void sub_808EB08(struct EventObject *, s16, s16);
 void sub_808F254(u8, u8, u8);
-void InitEventObjectPalettes(u8 palSlot);
 void UpdateEventObjectCurrentMovement(struct EventObject *, struct Sprite *, bool8(struct EventObject *, struct Sprite *));
 u8 EventObjectFaceOppositeDirection(struct EventObject *, u8);
 u8 GetOppositeDirection(u8);
@@ -208,7 +204,6 @@ u8 GetMoveDirectionFasterAnimNum(u8);
 u8 GetMoveDirectionFastestAnimNum(u8);
 u8 GetLedgeJumpDirection(s16, s16, u8);
 void CameraObjectSetFollowedObjectId(u8 objectId);
-u16 GetObjectPaletteTag(u8 palSlot);
 void UpdateEventObjectSpriteVisibility(struct Sprite *sprite, bool8 invisible);
 s16 sub_809773C(s16 a1);
 s16 sub_8097728(s16 a1);

@@ -17,7 +17,6 @@
 
 void UpdateObjectReflectionSprite(struct Sprite *);
 void LoadObjectReflectionPalette(struct EventObject *eventObject, struct Sprite *sprite);
-void LoadObjectRegularReflectionPalette(struct EventObject *, u8);
 void sub_81561FC(struct Sprite *, u8, u8);
 void FadeFootprintsTireTracks_Step0(struct Sprite *);
 void FadeFootprintsTireTracks_Step1(struct Sprite *);
@@ -76,6 +75,7 @@ void LoadObjectReflectionPalette(struct EventObject *eventObject, struct Sprite 
         sprite->data[2] = bridgeReflectionVerticalOffsets[bridgeType - 1];
         sub_808E894(EVENT_OBJ_PAL_TAG_10);
         sprite->oam.paletteNum = IndexOfSpritePaletteTag(EVENT_OBJ_PAL_TAG_10);
+        UpdateSpritePaletteWithWeather(sprite->oam.paletteNum);
     }
     else
     {
@@ -102,18 +102,7 @@ void LoadSpecialReflectionPalette(struct Sprite *sprite)
     reflectionPalette.tag = GetSpritePaletteTagByPaletteNum(sprite->oam.paletteNum) + 0x1000;
     LoadSpritePalette(&reflectionPalette);
     sprite->oam.paletteNum = IndexOfSpritePaletteTag(reflectionPalette.tag);
-}
-
-void LoadObjectRegularReflectionPalette(struct EventObject *eventObject, u8 paletteIndex)
-{
-    const struct EventObjectGraphicsInfo *graphicsInfo;
-
-    graphicsInfo = GetEventObjectGraphicsInfo(eventObject->graphicsId);
-    if (graphicsInfo->paletteTag2 != EVENT_OBJ_PAL_TAG_NONE)
-    {
-        PatchObjectPalette(GetObjectPaletteTag(paletteIndex), paletteIndex);
-        UpdateSpritePaletteWithWeather(paletteIndex);
-    }
+    UpdateSpritePaletteWithWeather(sprite->oam.paletteNum);
 }
 
 void UpdateObjectReflectionSprite(struct Sprite *reflectionSprite)
