@@ -1,10 +1,10 @@
 #include "global.h" //includes constants/costumes.h
-#include "main.h"
 #include "bg.h"
 #include "costume_menu.h"
 #include "decompress.h"
 #include "event_object_movement.h"
 #include "gpu_regs.h"
+#include "main.h"
 #include "menu.h"
 #include "menu_helpers.h"
 #include "overworld.h"
@@ -31,11 +31,11 @@ extern const u16 sPlayerAvatarGfxIds[][8];
 static EWRAM_DATA struct SpriteTemplate sSpriteTemplateBase = {};
 static EWRAM_DATA u8 gDisplayList[NUMBER_OF_COSTUMES] = {0};
 static EWRAM_DATA u16 gGreyScalePaletteBuffer[0x10] = {0};
-u16 selection;
-u8 sScrollBarState;
-u8 ListMode;
-u8 sMaxSelection;
-u8 sListPosition;
+static EWRAM_DATA u8 selection = 0;
+static EWRAM_DATA u8 sScrollBarState = 0;
+static EWRAM_DATA u8 ListMode = 0;
+static EWRAM_DATA u8 sMaxSelection = 0;
+static EWRAM_DATA u8 sListPosition = 0;
 
 // static declarations
 
@@ -323,10 +323,6 @@ void CB2_CostumeMenu(void)
     }
 }
 
-static const u8 slotSize = 32;
-static const s16 xPos_initial = 120;
-static const s16 yPos = 136;
-
 static void HandleKeyPresses(u8 taskId)
 {
     if (sScrollBarState == NONE && !gPaletteFade.active)
@@ -399,6 +395,10 @@ static void CloseMenuScreen(u8 taskId)
 
 #define slotId data[0]
 #define costumeId data[1]
+
+static const u8 slotSize = 32;
+static const s16 xPos_initial = 120;
+static const s16 yPos = 136;
 
 static void CreateOverworldScrollBar(void)
 {

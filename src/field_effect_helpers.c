@@ -28,7 +28,7 @@ void sub_81556B0(struct EventObject *, struct Sprite *);
 void sub_81556E8(struct EventObject *, struct Sprite *);
 void sub_815577C(struct EventObject *, struct Sprite *, struct Sprite *);
 void sub_8155850(struct Sprite *);
-u32 ShowDisguiseFieldEffect(u8, u8, u8);
+u32 ShowDisguiseFieldEffect(u8, u8);
 
 void LoadSpecialReflectionPalette(struct Sprite *sprite);
 
@@ -1285,13 +1285,13 @@ u32 FldEff_BerryTreeGrowthSparkle(void)
     struct Sprite *sprite;
 
     sub_80930E0((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 4);
+    LoadFieldEffectPalette(22);
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[22], gFieldEffectArguments[0], gFieldEffectArguments[1], gFieldEffectArguments[2]);
     if (spriteId != MAX_SPRITES)
     {
         sprite = &gSprites[spriteId];
         sprite->coordOffsetEnabled = TRUE;
         sprite->oam.priority = gFieldEffectArguments[3];
-        sprite->oam.paletteNum = 5;
         sprite->data[0] = FLDEFF_BERRY_TREE_GROWTH_SPARKLE;
     }
     return 0;
@@ -1299,22 +1299,22 @@ u32 FldEff_BerryTreeGrowthSparkle(void)
 
 u32 ShowTreeDisguiseFieldEffect(void)
 {
-    return ShowDisguiseFieldEffect(FLDEFF_TREE_DISGUISE, 24, 4);
+    return ShowDisguiseFieldEffect(FLDEFF_TREE_DISGUISE, 24);
 }
 
 
 u32 ShowMountainDisguiseFieldEffect(void)
 {
-    return ShowDisguiseFieldEffect(FLDEFF_MOUNTAIN_DISGUISE, 25, 3);
+    return ShowDisguiseFieldEffect(FLDEFF_MOUNTAIN_DISGUISE, 25);
 }
 
 
 u32 ShowSandDisguiseFieldEffect(void)
 {
-    return ShowDisguiseFieldEffect(FLDEFF_SAND_DISGUISE, 28, 2);
+    return ShowDisguiseFieldEffect(FLDEFF_SAND_DISGUISE, 28);
 }
 
-u32 ShowDisguiseFieldEffect(u8 fldEff, u8 templateIdx, u8 paletteNum)
+u32 ShowDisguiseFieldEffect(u8 fldEff, u8 templateIdx)
 {
     u8 spriteId;
     struct Sprite *sprite;
@@ -1324,12 +1324,12 @@ u32 ShowDisguiseFieldEffect(u8 fldEff, u8 templateIdx, u8 paletteNum)
         FieldEffectActiveListRemove(fldEff);
         return MAX_SPRITES;
     }
+    LoadFieldEffectPalette(templateIdx);
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[templateIdx], 0, 0, 0);
     if (spriteId != MAX_SPRITES)
     {
         sprite = &gSprites[spriteId];
         sprite->coordOffsetEnabled ++;
-        sprite->oam.paletteNum = paletteNum;
         sprite->data[1] = fldEff;
         sprite->data[2] = gFieldEffectArguments[0];
         sprite->data[3] = gFieldEffectArguments[1];

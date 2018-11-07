@@ -2132,9 +2132,10 @@ void PlayerObjectTurn(struct PlayerAvatar *playerAvatar, u8 direction)
         {
             berryId = 0;
         }
+        sub_808E894(gBerryTreePaletteTagTablePointers[berryId][berryStage]);
         EventObjectSetGraphicsId(eventObject, gBerryTreeEventObjectGraphicsIdTablePointers[berryId][berryStage]);
         sprite->images = gBerryTreePicTablePointers[berryId];
-        sprite->oam.paletteNum = gBerryTreePaletteSlotTablePointers[berryId][berryStage];
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(gBerryTreePaletteTagTablePointers[berryId][berryStage]);
         StartSpriteAnim(sprite, berryStage);
     }
 }

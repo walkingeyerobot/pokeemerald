@@ -10,7 +10,6 @@
     .include "battle_main.o"
     .include "random.o"
     .include "load_save.o"
-	.include "costume_menu.o"
 
 gInGameOpponentsNo: @ 3005D98
 	.space 0x4
