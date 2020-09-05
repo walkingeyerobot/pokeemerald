@@ -519,16 +519,19 @@ static void CB2_InitBattleInternal(void)
         gBattle_WIN0V = 0x5051;
         ScanlineEffect_Clear();
 
-        for (i = 0; i < 80; i++)
+        i = 0;
+        while (i < 80)
         {
             gScanlineEffectRegBuffers[0][i] = 0xF0;
             gScanlineEffectRegBuffers[1][i] = 0xF0;
+            i++;
         }
 
-        for (; i < 160; i++)
+        while (i < 160)
         {
             gScanlineEffectRegBuffers[0][i] = 0xFF10;
             gScanlineEffectRegBuffers[1][i] = 0xFF10;
+            i++;
         }
 
         ScanlineEffect_SetParams(sIntroScanlineParams16Bit);
@@ -655,7 +658,8 @@ static void SetPlayerBerryDataInBattleStruct(void)
 
 static void SetAllPlayersBerryData(void)
 {
-    s32 i, j;
+    s32 i;
+    s32 j;
 
     if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
     {
@@ -5374,14 +5378,16 @@ static void HandleAction_UseItem(void)
             break;
         case AI_ITEM_CURE_CONDITION:
             gBattleCommunication[MULTISTRING_CHOOSER] = 0;
-            if ((*(gBattleStruct->AI_itemFlags + gBattlerAttacker / 2) & 1)
-            && (*(gBattleStruct->AI_itemFlags + gBattlerAttacker / 2) & 0x3E))
+            if (*(gBattleStruct->AI_itemFlags + gBattlerAttacker >> 1) & 1)
+            {
+                if (*(gBattleStruct->AI_itemFlags + gBattlerAttacker >> 1) & 0x3E)
                     gBattleCommunication[MULTISTRING_CHOOSER] = 5;
+            }
             else
             {
-                while (!(*(gBattleStruct->AI_itemFlags + gBattlerAttacker / 2) & 1))
+                while (!(*(gBattleStruct->AI_itemFlags + gBattlerAttacker >> 1) & 1))
                 {
-                    *(gBattleStruct->AI_itemFlags + gBattlerAttacker / 2) >>= 1;
+                    *(gBattleStruct->AI_itemFlags + gBattlerAttacker >> 1) >>= 1;
                     gBattleCommunication[MULTISTRING_CHOOSER]++;
                 }
             }
@@ -5399,7 +5405,7 @@ static void HandleAction_UseItem(void)
 
                 while (!((*(gBattleStruct->AI_itemFlags + (gBattlerAttacker >> 1))) & 1))
                 {
-                    *(gBattleStruct->AI_itemFlags + gBattlerAttacker / 2) >>= 1;
+                    *(gBattleStruct->AI_itemFlags + gBattlerAttacker >> 1) >>= 1;
                     gBattleTextBuff1[2]++;
                 }
 
@@ -5415,7 +5421,7 @@ static void HandleAction_UseItem(void)
             break;
         }
 
-        gBattlescriptCurrInstr = gBattlescriptsForUsingItem[*(gBattleStruct->AI_itemType + gBattlerAttacker / 2)];
+        gBattlescriptCurrInstr = gBattlescriptsForUsingItem[*(gBattleStruct->AI_itemType + gBattlerAttacker >> 1)];
     }
     gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
 }
