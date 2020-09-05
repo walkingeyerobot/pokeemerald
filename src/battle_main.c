@@ -5374,14 +5374,16 @@ static void HandleAction_UseItem(void)
             break;
         case AI_ITEM_CURE_CONDITION:
             gBattleCommunication[MULTISTRING_CHOOSER] = 0;
-            if ((*(gBattleStruct->AI_itemFlags + gBattlerAttacker / 2) & 1)
-            && (*(gBattleStruct->AI_itemFlags + gBattlerAttacker / 2) & 0x3E))
+            if (*(gBattleStruct->AI_itemFlags + gBattlerAttacker >> 1) & 1)
+            {
+                if (*(gBattleStruct->AI_itemFlags + gBattlerAttacker >> 1) & 0x3E)
                     gBattleCommunication[MULTISTRING_CHOOSER] = 5;
+            }
             else
             {
-                while (!(*(gBattleStruct->AI_itemFlags + gBattlerAttacker / 2) & 1))
+                while (!(*(gBattleStruct->AI_itemFlags + (gBattlerAttacker >> 1)) & 1))
                 {
-                    *(gBattleStruct->AI_itemFlags + gBattlerAttacker / 2) >>= 1;
+                    *(gBattleStruct->AI_itemFlags + (gBattlerAttacker >> 1)) >>= 1;
                     gBattleCommunication[MULTISTRING_CHOOSER]++;
                 }
             }
@@ -5399,7 +5401,7 @@ static void HandleAction_UseItem(void)
 
                 while (!((*(gBattleStruct->AI_itemFlags + (gBattlerAttacker >> 1))) & 1))
                 {
-                    *(gBattleStruct->AI_itemFlags + gBattlerAttacker / 2) >>= 1;
+                    *(gBattleStruct->AI_itemFlags + (gBattlerAttacker >> 1)) >>= 1;
                     gBattleTextBuff1[2]++;
                 }
 
@@ -5415,7 +5417,7 @@ static void HandleAction_UseItem(void)
             break;
         }
 
-        gBattlescriptCurrInstr = gBattlescriptsForUsingItem[*(gBattleStruct->AI_itemType + gBattlerAttacker / 2)];
+        gBattlescriptCurrInstr = gBattlescriptsForUsingItem[*(gBattleStruct->AI_itemType + (gBattlerAttacker >> 1))];
     }
     gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
 }
