@@ -27,6 +27,7 @@
 #include "rtc.h"
 #include "save.h"
 #include "scanline_effect.h"
+#include "shuffler.h"
 #include "sound.h"
 #include "sprite.h"
 #include "string.h"
@@ -1712,6 +1713,7 @@ static void Task_NewGameBirchSpeech_AreYouReady(u8 taskId)
 
     if (gTasks[taskId].tIsDoneFadingSprites)
     {
+        Shuffle();
         gSprites[gTasks[taskId].tBirchSpriteId].invisible = TRUE;
         gSprites[gTasks[taskId].tLotadSpriteId].invisible = TRUE;
         if (gTasks[taskId].tTimer)
