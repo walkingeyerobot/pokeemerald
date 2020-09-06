@@ -1713,7 +1713,6 @@ static void Task_NewGameBirchSpeech_AreYouReady(u8 taskId)
 
     if (gTasks[taskId].tIsDoneFadingSprites)
     {
-        Shuffle();
         gSprites[gTasks[taskId].tBirchSpriteId].invisible = TRUE;
         gSprites[gTasks[taskId].tLotadSpriteId].invisible = TRUE;
         if (gTasks[taskId].tTimer)
@@ -1735,6 +1734,7 @@ static void Task_NewGameBirchSpeech_AreYouReady(u8 taskId)
         StringExpandPlaceholders(gStringVar4, gText_Birch_AreYouReady);
         AddTextPrinterForMessage(1);
         gTasks[taskId].func = Task_NewGameBirchSpeech_ShrinkPlayer;
+        Shuffle();
     }
 }
 
