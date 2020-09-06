@@ -4,9 +4,9 @@ InsideOfTruck_MapScripts:: @ 823BEDA
 	.byte 0
 
 InsideOfTruck_OnLoad: @ 823BEE5
-	setmetatile 4, 1, METATILE_InsideOfTruck_ExitLight_Top, 0
-	setmetatile 4, 2, METATILE_InsideOfTruck_ExitLight_Mid, 0
-	setmetatile 4, 3, METATILE_InsideOfTruck_ExitLight_Bottom, 0
+	@setmetatile 4, 1, METATILE_InsideOfTruck_ExitLight_Top, 0
+	@setmetatile 4, 2, METATILE_InsideOfTruck_ExitLight_Mid, 0
+	@setmetatile 4, 3, METATILE_InsideOfTruck_ExitLight_Bottom, 0
 	end
 
 InsideOfTruck_OnResume: @ 823BF01
@@ -58,3 +58,11 @@ InsideOfTruck_Text_BoxPrintedWithMonLogo: @ 823BF75
 	.string "It's a POKéMON brand moving and\n"
 	.string "delivery service.$"
 
+InsideOfTruck_EventScript_EnableWarps::
+	lockall
+	setmetatile 4, 1, METATILE_InsideOfTruck_ExitLight_Top, 0
+	setmetatile 4, 2, METATILE_InsideOfTruck_ExitLight_Mid, 0
+	setmetatile 4, 3, METATILE_InsideOfTruck_ExitLight_Bottom, 0
+	special DrawWholeMapView
+	releaseall
+	return

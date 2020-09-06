@@ -215,9 +215,9 @@ void Task_HandleTruckSequence(u8 taskId)
         data[1]++;
         if (data[1] == 120)
         {
-            MapGridSetMetatileIdAt(11, 8, METATILE_InsideOfTruck_ExitLight_Top);
-            MapGridSetMetatileIdAt(11, 9, METATILE_InsideOfTruck_ExitLight_Mid);
-            MapGridSetMetatileIdAt(11, 10, METATILE_InsideOfTruck_ExitLight_Bottom);
+            //MapGridSetMetatileIdAt(11, 8, METATILE_InsideOfTruck_ExitLight_Top);
+            //MapGridSetMetatileIdAt(11, 9, METATILE_InsideOfTruck_ExitLight_Mid);
+            //MapGridSetMetatileIdAt(11, 10, METATILE_InsideOfTruck_ExitLight_Bottom);
             DrawWholeMapView();
             PlaySE(SE_TRUCK_DOOR);
             DestroyTask(taskId);
