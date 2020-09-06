@@ -1,9 +1,9 @@
 #include "global.h"
 #include "shuffler.h"
 #include "random.h"
-#include "species.h"
+#include "constants/species.h"
 
-static const u16 possibleStarters[41] = {
+static const u16 possibleStarters[42] = {
     SPECIES_BULBASAUR,
     SPECIES_CHARMANDER,
     SPECIES_SQUIRTLE,
@@ -57,7 +57,7 @@ void Shuffle() {
     u8 i = 0;
     while (TRUE) {
         u16 r = Random() & 63;
-        if (r > 41) {
+        if (r > 42) {
             continue;
         }
         /*
