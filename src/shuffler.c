@@ -60,7 +60,6 @@ void Shuffle() {
         if (r > 42) {
             continue;
         }
-        /*
         if (i >= 1) {
             if (realStarterMon[0] == possibleStarters[r]) {
                 continue;
@@ -71,7 +70,6 @@ void Shuffle() {
                 continue;
             }
         }
-        */
         realStarterMon[i] = possibleStarters[r];
         i++;
         if (i == 3) {
