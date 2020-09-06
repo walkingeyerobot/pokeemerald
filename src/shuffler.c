@@ -48,7 +48,7 @@ static const u16 possibleStarters[42] = {
     SPECIES_BELDUM
 };
 
-u16 realStarterMon[3] = 
+EWRAM_DATA u16 realStarterMon[3] = 
 {
     0,0,0
 };
