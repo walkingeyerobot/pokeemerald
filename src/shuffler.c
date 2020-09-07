@@ -2,6 +2,11 @@
 #include "shuffler.h"
 #include "random.h"
 #include "constants/species.h"
+#include "item.h"
+#include "constants/items.h"
+
+#include "printf.h"
+#include "mgba.h"
 
 static const u16 possibleStarters[42] = {
     SPECIES_BULBASAUR,
@@ -57,7 +62,7 @@ void Shuffle() {
     u8 i = 0;
     while (TRUE) {
         u16 r = Random() & 63;
-        if (r > 42) {
+        if (r >= 42) {
             continue;
         }
         if (i >= 1) {
@@ -71,9 +76,47 @@ void Shuffle() {
             }
         }
         realStarterMon[i] = possibleStarters[r];
+        mgba_printf(MGBA_LOG_DEBUG, "%d", possibleStarters[r]);
         i++;
         if (i == 3) {
             break;
         }
     }
+
+    // add 3 random TMs / HMs
+    i = 0;
+    do {
+        u16 r = Random() & 63;
+        if (r > 57) {
+            continue;
+        }
+        i++;
+        AddBagItem(r + 289, 1);
+    } while (i < 3);
+
+    AddBagItem(ITEM_POTION, 3);
+    AddBagItem(ITEM_ELIXIR, 3);
+    AddBagItem(ITEM_REVIVE, 1);
+
+    // add 3 random berries
+    i = 0;
+    do {
+        u16 r = Random() & 63;
+        if (r > 42) {
+            continue;
+        }
+        i++;
+        AddBagItem(r + 133, 1);
+    } while (i < 3);
+
+    // add 3 random battle items
+    i = 0;
+    do {
+        u16 r = Random() & 63;
+        if (r > 46) {
+            continue;
+        }
+        i++;
+        AddBagItem(r + 179, 1);
+    } while (i < 3);
 }
