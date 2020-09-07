@@ -15,12 +15,16 @@ InsideOfTruck_OnResume: @ 823BF01
 
 InsideOfTruck_EventScript_SetIntroFlags:: @ 823BF04
 	lockall
+	setvar VAR_LITTLEROOT_INTRO_STATE, 1
 	setflag FLAG_HIDE_MAP_NAME_POPUP
-	checkplayergender
-	compare VAR_RESULT, MALE
-	goto_if_eq InsideOfTruck_EventScript_SetIntroFlagsMale
-	compare VAR_RESULT, FEMALE
-	goto_if_eq InsideOfTruck_EventScript_SetIntroFlagsFemale
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK
+	setdynamicwarp MAP_LITTLEROOT_TOWN, 255, 3, 10
+	releaseall
+	@checkplayergender
+	@compare VAR_RESULT, MALE
+	@goto_if_eq InsideOfTruck_EventScript_SetIntroFlagsMale
+	@compare VAR_RESULT, FEMALE
+	@goto_if_eq InsideOfTruck_EventScript_SetIntroFlagsFemale
 	end
 
 InsideOfTruck_EventScript_SetIntroFlagsMale:: @ 823BF20
