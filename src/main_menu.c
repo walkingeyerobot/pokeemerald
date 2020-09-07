@@ -27,7 +27,6 @@
 #include "rtc.h"
 #include "save.h"
 #include "scanline_effect.h"
-#include "shuffler.h"
 #include "sound.h"
 #include "sprite.h"
 #include "string.h"
@@ -1734,7 +1733,6 @@ static void Task_NewGameBirchSpeech_AreYouReady(u8 taskId)
         StringExpandPlaceholders(gStringVar4, gText_Birch_AreYouReady);
         AddTextPrinterForMessage(1);
         gTasks[taskId].func = Task_NewGameBirchSpeech_ShrinkPlayer;
-        Shuffle();
     }
 }
 
