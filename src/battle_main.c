@@ -4751,16 +4751,15 @@ static void HandleEndTurn_RanFromBattle(void)
     {
         switch (gProtectStructs[gBattlerAttacker].fleeFlag)
         {
-        default:
-            gBattlescriptCurrInstr = BattleScript_GotAwaySafely;
-            break;
         case 1:
             gBattlescriptCurrInstr = BattleScript_SmokeBallEscape;
             break;
         case 2:
             gBattlescriptCurrInstr = BattleScript_RanAwayUsingMonAbility;
             break;
-        }
+        default:
+            gBattlescriptCurrInstr = BattleScript_GotAwaySafely;
+            break;        }
     }
 
     gBattleMainFunc = HandleEndTurn_FinishBattle;
@@ -5348,7 +5347,9 @@ static void HandleAction_UseItem(void)
     gBattlerAttacker = gBattlerTarget = gBattlerByTurnOrder[gCurrentTurnActionNumber];
     gBattle_BG0_X = 0;
     gBattle_BG0_Y = 0;
+
     ClearFuryCutterDestinyBondGrudge(gBattlerAttacker);
+
     gLastUsedItem = gBattleResources->bufferB[gBattlerAttacker][1] | (gBattleResources->bufferB[gBattlerAttacker][2] << 8);
 
     if (gLastUsedItem <= LAST_BALL) // is ball
