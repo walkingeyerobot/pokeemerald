@@ -2543,8 +2543,7 @@ void SpriteCallbackDummy_2(struct Sprite *sprite)
 
 static void sub_80398D0(struct Sprite *sprite)
 {
-    sprite->data[4]--;
-    if (sprite->data[4] == 0)
+    if (--sprite->data[4] == 0)
     {
         sprite->data[4] = 8;
         sprite->invisible ^= 1;
@@ -3643,11 +3642,7 @@ u8 IsRunningFromBattleImpossible(void)
         return 1;
     }
 
-    if (holdEffect == HOLD_EFFECT_CAN_ALWAYS_RUN)
-        return 0;
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
-        return 0;
-    if (gBattleMons[gActiveBattler].ability == ABILITY_RUN_AWAY)
+    if ((holdEffect == HOLD_EFFECT_CAN_ALWAYS_RUN) || (gBattleTypeFlags & BATTLE_TYPE_LINK) || (gBattleMons[gActiveBattler].ability == ABILITY_RUN_AWAY))
         return 0;
 
     if ((i = IsAbilityPreventingEscape(gActiveBattler)))
