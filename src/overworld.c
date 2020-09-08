@@ -48,6 +48,7 @@
 #include "script.h"
 #include "script_pokemon_util.h"
 #include "secret_base.h"
+#include "shuffler.h"
 #include "sound.h"
 #include "start_menu.h"
 #include "task.h"
@@ -539,6 +540,7 @@ const struct MapLayout *GetMapLayout(void)
 
 void ApplyCurrentWarp(void)
 {
+    RedirectShuffledWarp(&sWarpDestination);
     gLastUsedWarp = gSaveBlock1Ptr->location;
     gSaveBlock1Ptr->location = sWarpDestination;
     sFixedDiveWarp = sDummyWarpData;

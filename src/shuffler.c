@@ -58,8 +58,14 @@ EWRAM_DATA u16 realStarterMon[3] =
     0,0,0
 };
 
+EWRAM_DATA struct WarpData realWarps[TOTAL_WARPS][2] = {};
+
 void Shuffle() {
     u8 i = 0;
+    realWarps[0][0] = (struct WarpData){0,9,0,-1,-1};
+    realWarps[0][1] = (struct WarpData){0,9,1,-1,-1};
+    realWarps[1][0] = (struct WarpData){1,0,1,-1,-1};
+    realWarps[1][1] = (struct WarpData){1,2,0,-1,-1};
     while (TRUE) {
         u16 r = Random() & 63;
         if (r >= 42) {
@@ -119,4 +125,39 @@ void Shuffle() {
         i++;
         AddBagItem(r + 179, 1);
     } while (i < 3);
+}
+
+void RedirectShuffledWarp(struct WarpData *warp) {
+    u8 min = 0;
+    u8 max = TOTAL_WARPS - 1;
+    u8 mid = (max + min) >> 1;
+    struct WarpData w = realWarps[mid][0];
+    while (min < max && min <= mid && mid <= max && max < TOTAL_WARPS && min < TOTAL_WARPS) {
+        if (w.mapGroup < warp->mapGroup) {
+            min = mid + 1;
+        } else if (w.mapGroup > warp->mapGroup) {
+            max = mid - 1;
+        } else if (w.mapNum < warp->mapNum) {
+            min = mid + 1;
+        } else if (w.mapNum > warp->mapNum) {
+            max = mid - 1;
+        } else if (w.warpId > warp->mapNum) {
+            min = mid + 1;
+        } else if (w.warpId < warp->warpId) {
+            max = mid - 1;
+        } else {
+            break;
+        }
+        mid = (max + min) >> 1;
+        w = realWarps[mid][0];
+    }
+    if (w.mapGroup != warp->mapGroup || w.mapNum != warp->mapNum || w.warpId != warp->warpId) {
+        return;
+    }
+    w = realWarps[mid][1];
+    warp->mapGroup = w.mapGroup;
+    warp->mapNum = w.mapNum;
+    warp->warpId = w.warpId;
+    warp->x = w.x;
+    warp->y = w.y;
 }
