@@ -8898,11 +8898,11 @@ static void Cmd_forcerandomswitch(void)
     s32 battler1PartyId = 0;
     s32 battler2PartyId = 0;
     s32 lastMonId = 0; // + 1
-    s32 firstMonId = 0;
-    s32 monsCount = 0;
+    s32 firstMonId;
+    s32 monsCount;
     struct Pokemon *party = NULL;
     s32 validMons = 0;
-    s32 minNeeded = 0;
+    s32 minNeeded;
 
     // Swapping pokemon happens in:
     // trainer battles
@@ -12239,4 +12239,3 @@ static bool32 CriticalCapture(u32 odds)
 
     return FALSE;
 }
-
