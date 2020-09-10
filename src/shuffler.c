@@ -62,12 +62,14 @@ EWRAM_DATA struct WarpData realWarps[TOTAL_WARPS][2] = {};
 
 void Shuffle() {
     u8 i = 0;
+    u16 r = 0;
     realWarps[0][0] = (struct WarpData){0,9,0,-1,-1};
     realWarps[0][1] = (struct WarpData){0,9,1,-1,-1};
     realWarps[1][0] = (struct WarpData){1,0,1,-1,-1};
     realWarps[1][1] = (struct WarpData){1,2,0,-1,-1};
     while (TRUE) {
-        u16 r = Random() & 63;
+        r = Random();
+        r &= 63;
         if (r >= 42) {
             continue;
         }
@@ -81,8 +83,8 @@ void Shuffle() {
                 continue;
             }
         }
-        realStarterMon[i] = possibleStarters[r];
         mgba_printf(MGBA_LOG_DEBUG, "%d", possibleStarters[r]);
+        realStarterMon[i] = possibleStarters[r];
         i++;
         if (i == 3) {
             break;
@@ -92,7 +94,7 @@ void Shuffle() {
     // add 3 random TMs / HMs
     i = 0;
     do {
-        u16 r = Random() & 63;
+        r = Random() & 63;
         if (r > 57) {
             continue;
         }
@@ -107,7 +109,7 @@ void Shuffle() {
     // add 3 random berries
     i = 0;
     do {
-        u16 r = Random() & 63;
+        r = Random() & 63;
         if (r > 42) {
             continue;
         }
@@ -118,7 +120,7 @@ void Shuffle() {
     // add 3 random battle items
     i = 0;
     do {
-        u16 r = Random() & 63;
+        r = Random() & 63;
         if (r > 46) {
             continue;
         }
