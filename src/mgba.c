@@ -31,14 +31,14 @@
 #define REG_DEBUG_STRING (char*) 0x4FFF600
 
 void mgba_printf(int level, const char* ptr, ...) {
-#if !MODERN
+// #if !MODERN
 	va_list args;
 	level &= 0x7;
 	va_start(args, ptr);
 	vsnprintf(REG_DEBUG_STRING, 0x100, ptr, args);
 	va_end(args);
 	*REG_DEBUG_FLAGS = level | 0x100;
-#endif
+// #endif
 }
 
 bool8 mgba_open(void) {
