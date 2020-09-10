@@ -67,7 +67,7 @@ void Shuffle() {
     realWarps[0][1] = (struct WarpData){0,9,1,-1,-1};
     realWarps[1][0] = (struct WarpData){1,0,1,-1,-1};
     realWarps[1][1] = (struct WarpData){1,2,0,-1,-1};
-    while (TRUE) {
+    do {
         r = Random();
         r &= 63;
         if (r >= 42) {
@@ -86,10 +86,7 @@ void Shuffle() {
         mgba_printf(MGBA_LOG_DEBUG, "%d", possibleStarters[r]);
         realStarterMon[i] = possibleStarters[r];
         i++;
-        if (i == 3) {
-            break;
-        }
-    }
+    } while (i < 3);
 
     // add 3 random TMs / HMs
     i = 0;
