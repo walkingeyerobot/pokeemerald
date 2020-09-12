@@ -119,3 +119,21 @@ PlayersHouse_1F_Text_RunningShoesManual: @ 81F7F66
 	.string "wearing your RUNNING SHOES.\p"
 	.string "“Lace up your RUNNING SHOES and hit\n"
 	.string "the road running!”$"
+
+PlayersHouse_2F_Text_HowDoYouLikeYourRoom: @ 81F869A
+	.string "MOM: {PLAYER}, how do you like your\n"
+	.string "new room?\p"
+	.string "Good! Everything's put away neatly!\p"
+	.string "They finished moving everything in\n"
+	.string "downstairs, too.\p"
+	.string "POKéMON movers are so convenient!\p"
+	.string "Oh, you should make sure that\n"
+	.string "everything's all there on your desk.$"
+
+PlayersHouse_2F_Text_ClockIsStopped: @ 81F8668
+	.string "The clock is stopped…\p"
+	.string "Better set it and start it!$"
+
+Common_Text_LookCloserAtMap: @ 81F8820
+	.string "{PLAYER} took a closer look at the\n"
+	.string "HOENN region map.$"

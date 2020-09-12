@@ -67,6 +67,8 @@ void Shuffle() {
     realWarps[0][1] = (struct WarpData){0,9,1,-1,-1};
     realWarps[1][0] = (struct WarpData){1,0,1,-1,-1};
     realWarps[1][1] = (struct WarpData){1,2,0,-1,-1};
+    realWarps[2][0] = (struct WarpData){1,3,0,-1,-1};
+    realWarps[2][1] = (struct WarpData){1,1,0,-1,-1};
     do {
         r = Random();
         r &= 63;
@@ -83,7 +85,7 @@ void Shuffle() {
                 continue;
             }
         }
-        mgba_printf(MGBA_LOG_DEBUG, "%d", possibleStarters[r]);
+        mgba_printf(MGBA_LOG_INFO, "%d", possibleStarters[r]);
         realStarterMon[i] = possibleStarters[r];
         i++;
     } while (i < 3);
@@ -129,9 +131,11 @@ void Shuffle() {
 void RedirectShuffledWarp(struct WarpData *warp) {
     u8 min = 0;
     u8 max = TOTAL_WARPS - 1;
-    u8 mid = (max + min) >> 1;
-    struct WarpData w = realWarps[mid][0];
-    while (min < max && min <= mid && mid <= max && max < TOTAL_WARPS && min < TOTAL_WARPS) {
+    u8 mid;
+    struct WarpData w;
+    do {
+        mid = (max + min) >> 1;
+        w = realWarps[mid][0];
         if (w.mapGroup < warp->mapGroup) {
             min = mid + 1;
         } else if (w.mapGroup > warp->mapGroup) {
@@ -140,23 +144,18 @@ void RedirectShuffledWarp(struct WarpData *warp) {
             min = mid + 1;
         } else if (w.mapNum > warp->mapNum) {
             max = mid - 1;
-        } else if (w.warpId > warp->mapNum) {
-            min = mid + 1;
         } else if (w.warpId < warp->warpId) {
+            min = mid + 1;
+        } else if (w.warpId > warp->warpId) {
             max = mid - 1;
         } else {
-            break;
+            w = realWarps[mid][1];
+            warp->mapGroup = w.mapGroup;
+            warp->mapNum = w.mapNum;
+            warp->warpId = w.warpId;
+            warp->x = w.x;
+            warp->y = w.y;
+            return;
         }
-        mid = (max + min) >> 1;
-        w = realWarps[mid][0];
-    }
-    if (w.mapGroup != warp->mapGroup || w.mapNum != warp->mapNum || w.warpId != warp->warpId) {
-        return;
-    }
-    w = realWarps[mid][1];
-    warp->mapGroup = w.mapGroup;
-    warp->mapNum = w.mapNum;
-    warp->warpId = w.warpId;
-    warp->x = w.x;
-    warp->y = w.y;
+    } while(min <= max && max < TOTAL_WARPS && min < TOTAL_WARPS);
 }

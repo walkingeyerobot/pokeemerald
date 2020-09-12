@@ -3,7 +3,7 @@
 
 #include "global.h"
 
-#define TOTAL_WARPS 2
+#define TOTAL_WARPS 3
 
 extern u16 realStarterMon[3];
 extern struct WarpData realWarps[TOTAL_WARPS][2];
