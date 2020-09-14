@@ -14,6 +14,7 @@
 #include "menu.h"
 #include "palette.h"
 #include "recorded_battle.h"
+#include "shuffler.h"
 #include "string_util.h"
 #include "strings.h"
 #include "text.h"
@@ -2549,7 +2550,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 else if (gBattleTypeFlags & BATTLE_TYPE_EREADER_TRAINER)
                     toCpy = gTrainerClassNames[GetEreaderTrainerClassId()];
                 else
-                    toCpy = gTrainerClassNames[gTrainers[gTrainerBattleOpponent_A].trainerClass];
+                    toCpy = gTrainerClassNames[RedirectTrainer(gTrainerBattleOpponent_A).trainerClass];
                 break;
             case B_TXT_TRAINER1_NAME: // trainer1 name
                 if (gBattleTypeFlags & BATTLE_TYPE_SECRET_BASE)
@@ -2586,7 +2587,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 }
                 else
                 {
-                    toCpy = gTrainers[gTrainerBattleOpponent_A].trainerName;
+                    toCpy = RedirectTrainer(gTrainerBattleOpponent_A).trainerName;
                 }
                 break;
             case B_TXT_LINK_PLAYER_NAME: // link player name
@@ -2689,7 +2690,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
                     toCpy = gTrainerClassNames[GetTrainerHillOpponentClass(gTrainerBattleOpponent_B)];
                 else
-                    toCpy = gTrainerClassNames[gTrainers[gTrainerBattleOpponent_B].trainerClass];
+                    toCpy = gTrainerClassNames[RedirectTrainer(gTrainerBattleOpponent_B).trainerClass];
                 break;
             case B_TXT_TRAINER2_NAME:
                 if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
@@ -2704,7 +2705,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 }
                 else
                 {
-                    toCpy = gTrainers[gTrainerBattleOpponent_B].trainerName;
+                    toCpy = RedirectTrainer(gTrainerBattleOpponent_B).trainerName;
                 }
                 break;
             case B_TXT_TRAINER2_LOSE_TEXT:

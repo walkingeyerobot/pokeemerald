@@ -39,6 +39,7 @@
 #include "roamer.h"
 #include "safari_zone.h"
 #include "scanline_effect.h"
+#include "shuffler.h"
 #include "sound.h"
 #include "sprite.h"
 #include "string_util.h"
@@ -1921,6 +1922,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
     u8 fixedIV;
     s32 i, j;
     u8 monsCount;
+    struct Trainer t = RedirectTrainer(trainerNum);
 
     if (trainerNum == TRAINER_SECRET_BASE)
         return 0;
@@ -1934,34 +1936,34 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
 
         if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
         {
-            if (gTrainers[trainerNum].partySize > 3)
+            if (t.partySize > 3)
                 monsCount = 3;
             else
-                monsCount = gTrainers[trainerNum].partySize;
+                monsCount = t.partySize;
         }
         else
         {
-            monsCount = gTrainers[trainerNum].partySize;
+            monsCount = t.partySize;
         }
 
         for (i = 0; i < monsCount; i++)
         {
 
-            if (gTrainers[trainerNum].doubleBattle == TRUE)
+            if (t.doubleBattle == TRUE)
                 personalityValue = 0x80;
-            else if (gTrainers[trainerNum].encounterMusic_gender & 0x80)
+            else if (t.encounterMusic_gender & 0x80)
                 personalityValue = 0x78;
             else
                 personalityValue = 0x88;
 
-            for (j = 0; gTrainers[trainerNum].trainerName[j] != EOS; j++)
-                nameHash += gTrainers[trainerNum].trainerName[j];
+            for (j = 0; t.trainerName[j] != EOS; j++)
+                nameHash += t.trainerName[j];
 
-            switch (gTrainers[trainerNum].partyFlags)
+            switch (t.partyFlags)
             {
             case 0:
             {
-                const struct TrainerMonNoItemDefaultMoves *partyData = gTrainers[trainerNum].party.NoItemDefaultMoves;
+                const struct TrainerMonNoItemDefaultMoves *partyData = t.party.NoItemDefaultMoves;
 
                 for (j = 0; gSpeciesNames[partyData[i].species][j] != EOS; j++)
                     nameHash += gSpeciesNames[partyData[i].species][j];
@@ -1973,7 +1975,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             }
             case F_TRAINER_PARTY_CUSTOM_MOVESET:
             {
-                const struct TrainerMonNoItemCustomMoves *partyData = gTrainers[trainerNum].party.NoItemCustomMoves;
+                const struct TrainerMonNoItemCustomMoves *partyData = t.party.NoItemCustomMoves;
 
                 for (j = 0; gSpeciesNames[partyData[i].species][j] != EOS; j++)
                     nameHash += gSpeciesNames[partyData[i].species][j];
@@ -1991,7 +1993,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             }
             case F_TRAINER_PARTY_HELD_ITEM:
             {
-                const struct TrainerMonItemDefaultMoves *partyData = gTrainers[trainerNum].party.ItemDefaultMoves;
+                const struct TrainerMonItemDefaultMoves *partyData = t.party.ItemDefaultMoves;
 
                 for (j = 0; gSpeciesNames[partyData[i].species][j] != EOS; j++)
                     nameHash += gSpeciesNames[partyData[i].species][j];
@@ -2005,7 +2007,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             }
             case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM:
             {
-                const struct TrainerMonItemCustomMoves *partyData = gTrainers[trainerNum].party.ItemCustomMoves;
+                const struct TrainerMonItemCustomMoves *partyData = t.party.ItemCustomMoves;
 
                 for (j = 0; gSpeciesNames[partyData[i].species][j] != EOS; j++)
                     nameHash += gSpeciesNames[partyData[i].species][j];
@@ -2026,10 +2028,10 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             }
         }
 
-        gBattleTypeFlags |= gTrainers[trainerNum].doubleBattle;
+        gBattleTypeFlags |= t.doubleBattle;
     }
 
-    return gTrainers[trainerNum].partySize;
+    return t.partySize;
 }
 
 void sub_8038A04(void) // unused
@@ -4901,7 +4903,7 @@ static void HandleEndTurn_BattleWon(void)
         BattleStopLowHpSound();
         gBattlescriptCurrInstr = BattleScript_LocalTrainerBattleWon;
 
-        switch (gTrainers[gTrainerBattleOpponent_A].trainerClass)
+        switch (RedirectTrainer(gTrainerBattleOpponent_A).trainerClass)
         {
         case TRAINER_CLASS_ELITE_FOUR:
         case TRAINER_CLASS_CHAMPION:

@@ -40,6 +40,7 @@
 #include "script_movement.h"
 #include "script_pokemon_util.h"
 #include "shop.h"
+#include "shuffler.h"
 #include "slot_machine.h"
 #include "sound.h"
 #include "string_util.h"
@@ -2280,7 +2281,10 @@ bool8 ScrCmd_buffertrainername(struct ScriptContext *ctx)
     u8 stringVarIndex = ScriptReadByte(ctx);
     u16 trainerClassId = VarGet(ScriptReadHalfword(ctx));
 
-    StringCopy(sScriptStringVars[stringVarIndex], GetTrainerNameFromId(trainerClassId));
+    if (trainerClassId >= TRAINERS_COUNT) {
+        trainerClassId = TRAINER_NONE;
+    }
+    StringCopy(sScriptStringVars[stringVarIndex], RedirectTrainer(trainerClassId).trainerName);
     return FALSE;
 }
 

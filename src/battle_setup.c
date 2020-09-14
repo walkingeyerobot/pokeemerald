@@ -37,6 +37,7 @@
 #include "mirage_tower.h"
 #include "field_screen_effect.h"
 #include "data.h"
+#include "shuffler.h"
 #include "constants/battle_frontier.h"
 #include "constants/battle_setup.h"
 #include "constants/game_stat.h"
@@ -736,18 +737,19 @@ static u8 GetSumOfEnemyPartyLevel(u16 opponentId, u8 numMons)
     u8 i;
     u8 sum;
     u32 count = numMons;
+    struct Trainer t = RedirectTrainer(opponentId);
 
-    if (gTrainers[opponentId].partySize < count)
-        count = gTrainers[opponentId].partySize;
+    if (t.partySize < count)
+        count = t.partySize;
 
     sum = 0;
 
-    switch (gTrainers[opponentId].partyFlags)
+    switch (t.partyFlags)
     {
     case 0:
         {
             const struct TrainerMonNoItemDefaultMoves *party;
-            party = gTrainers[opponentId].party.NoItemDefaultMoves;
+            party = t.party.NoItemDefaultMoves;
             for (i = 0; i < count; i++)
                 sum += party[i].lvl;
         }
@@ -755,7 +757,7 @@ static u8 GetSumOfEnemyPartyLevel(u16 opponentId, u8 numMons)
     case F_TRAINER_PARTY_CUSTOM_MOVESET:
         {
             const struct TrainerMonNoItemCustomMoves *party;
-            party = gTrainers[opponentId].party.NoItemCustomMoves;
+            party = t.party.NoItemCustomMoves;
             for (i = 0; i < count; i++)
                 sum += party[i].lvl;
         }
@@ -763,7 +765,7 @@ static u8 GetSumOfEnemyPartyLevel(u16 opponentId, u8 numMons)
     case F_TRAINER_PARTY_HELD_ITEM:
         {
             const struct TrainerMonItemDefaultMoves *party;
-            party = gTrainers[opponentId].party.ItemDefaultMoves;
+            party = t.party.ItemDefaultMoves;
             for (i = 0; i < count; i++)
                 sum += party[i].lvl;
         }
@@ -771,7 +773,7 @@ static u8 GetSumOfEnemyPartyLevel(u16 opponentId, u8 numMons)
     case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM:
         {
             const struct TrainerMonItemCustomMoves *party;
-            party = gTrainers[opponentId].party.ItemCustomMoves;
+            party = t.party.ItemCustomMoves;
             for (i = 0; i < count; i++)
                 sum += party[i].lvl;
         }
@@ -809,11 +811,12 @@ static u8 GetTrainerBattleTransition(void)
     u8 transitionType;
     u8 enemyLevel;
     u8 playerLevel;
+    struct Trainer t = RedirectTrainer(gTrainerBattleOpponent_A);
 
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
         return B_TRANSITION_CHAMPION;
 
-    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR)
+    if (t.trainerClass == TRAINER_CLASS_ELITE_FOUR)
     {
         if (gTrainerBattleOpponent_A == TRAINER_SIDNEY)
             return B_TRANSITION_SIDNEY;
@@ -826,20 +829,20 @@ static u8 GetTrainerBattleTransition(void)
         return B_TRANSITION_CHAMPION;
     }
 
-    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION)
+    if (t.trainerClass == TRAINER_CLASS_CHAMPION)
         return B_TRANSITION_CHAMPION;
 
-    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_TEAM_MAGMA
-        || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_MAGMA_LEADER
-        || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_MAGMA_ADMIN)
+    if (t.trainerClass == TRAINER_CLASS_TEAM_MAGMA
+        || t.trainerClass == TRAINER_CLASS_MAGMA_LEADER
+        || t.trainerClass == TRAINER_CLASS_MAGMA_ADMIN)
         return B_TRANSITION_MAGMA;
 
-    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_TEAM_AQUA
-        || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_AQUA_LEADER
-        || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_AQUA_ADMIN)
+    if (t.trainerClass == TRAINER_CLASS_TEAM_AQUA
+        || t.trainerClass == TRAINER_CLASS_AQUA_LEADER
+        || t.trainerClass == TRAINER_CLASS_AQUA_ADMIN)
         return B_TRANSITION_AQUA;
 
-    if (gTrainers[gTrainerBattleOpponent_A].doubleBattle == TRUE)
+    if (t.doubleBattle == TRUE)
         minPartyCount = 2; // double battles always at least have 2 pokemon.
     else
         minPartyCount = 1;

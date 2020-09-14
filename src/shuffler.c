@@ -4,6 +4,8 @@
 #include "constants/species.h"
 #include "item.h"
 #include "constants/items.h"
+#include "data.h"
+#include "constants/trainers.h"
 
 #include "printf.h"
 #include "mgba.h"
@@ -58,6 +60,11 @@ EWRAM_DATA u16 realStarterMon[3] =
     0,0,0
 };
 
+EWRAM_DATA struct Trainer savedTrainers[MAX_SAVED_TRAINERS];
+EWRAM_DATA u16 savedTrainerIds[MAX_SAVED_TRAINERS];
+EWRAM_DATA union TrainerMon savedTrainerParties[MAX_SAVED_TRAINERS];
+EWRAM_DATA u8 nextSavedTrainer;
+
 // this needs to be sorted.
 EWRAM_DATA struct WarpData realWarps[TOTAL_WARPS][2] = {};
 
@@ -77,7 +84,10 @@ void Shuffle() {
     u16 i = 0;
     u16 r = 0;
     u8 visited = 1;
-    u8 x = 0;
+
+    savedTrainerIds[0] = 0;
+    savedTrainerIds[0] = 0;
+    nextSavedTrainer = 0;
 
     realWarps[ 0][0] = (struct WarpData){0,9,1,-1,-1};
     realWarps[ 1][0] = (struct WarpData){1,0,1,-1,-1};
@@ -252,4 +262,60 @@ void RedirectShuffledWarp(struct WarpData *warp) {
         }
     } while(min <= max && max < TOTAL_WARPS && min < TOTAL_WARPS);
     mgba_printf(MGBA_LOG_INFO, "not redirecting");
+}
+
+struct Trainer RedirectTrainer(u16 index) {
+    size_t moves_bytes;
+    u8 i;
+
+    if (savedTrainerIds[0] == index) {
+        return savedTrainers[0];
+    } else if (savedTrainerIds[1] == index) {
+        return savedTrainers[1];
+    }
+
+    memcpy(&savedTrainers[nextSavedTrainer], &gTrainers[index], sizeof(struct Trainer));
+
+    switch(savedTrainers[nextSavedTrainer].partyFlags & 3) {
+        case 0:
+            moves_bytes = gTrainers[index].partySize * sizeof(struct TrainerMonNoItemDefaultMoves);
+            memcpy(&savedTrainerParties[nextSavedTrainer], gTrainers[index].party.NoItemDefaultMoves, moves_bytes);
+            for (i = 0; i < savedTrainers[nextSavedTrainer].partySize; i++) {
+                savedTrainerParties[nextSavedTrainer].NoItemDefaultMoves[i].lvl = 1;
+            }
+            savedTrainers[nextSavedTrainer].party.NoItemDefaultMoves = &savedTrainerParties[nextSavedTrainer].NoItemDefaultMoves;
+            break;
+        case F_TRAINER_PARTY_CUSTOM_MOVESET:
+            moves_bytes = gTrainers[index].partySize * sizeof(struct TrainerMonNoItemCustomMoves);
+            memcpy(&savedTrainerParties[nextSavedTrainer], gTrainers[index].party.NoItemCustomMoves, moves_bytes);
+            for (i = 0; i < savedTrainers[nextSavedTrainer].partySize; i++) {
+                savedTrainerParties[nextSavedTrainer].NoItemCustomMoves[i].lvl = 1;
+            }
+            savedTrainers[nextSavedTrainer].party.NoItemCustomMoves = &savedTrainerParties[nextSavedTrainer].NoItemCustomMoves;
+            break;
+        case F_TRAINER_PARTY_HELD_ITEM:
+            moves_bytes = gTrainers[index].partySize * sizeof(struct TrainerMonItemDefaultMoves);
+            memcpy(&savedTrainerParties[nextSavedTrainer], gTrainers[index].party.ItemDefaultMoves, moves_bytes);
+            for (i = 0; i < savedTrainers[nextSavedTrainer].partySize; i++) {
+                savedTrainerParties[nextSavedTrainer].ItemDefaultMoves[i].lvl = 1;
+            }
+            savedTrainers[nextSavedTrainer].party.ItemDefaultMoves = &savedTrainerParties[nextSavedTrainer].ItemDefaultMoves;
+            break;
+        case F_TRAINER_PARTY_HELD_ITEM | F_TRAINER_PARTY_CUSTOM_MOVESET:
+            moves_bytes = gTrainers[index].partySize * sizeof(struct TrainerMonItemCustomMoves);
+            memcpy(&savedTrainerParties[nextSavedTrainer], gTrainers[index].party.ItemCustomMoves, moves_bytes);
+            for (i = 0; i < savedTrainers[nextSavedTrainer].partySize; i++) {
+                savedTrainerParties[nextSavedTrainer].ItemCustomMoves[i].lvl = 1;
+            }
+            savedTrainers[nextSavedTrainer].party.ItemCustomMoves = &savedTrainerParties[nextSavedTrainer].ItemCustomMoves;
+            break;
+    }
+
+    i = nextSavedTrainer;
+    nextSavedTrainer++;
+    if (nextSavedTrainer == MAX_SAVED_TRAINERS) {
+        nextSavedTrainer = 0;
+    }
+
+    return savedTrainers[i];
 }

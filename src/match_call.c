@@ -20,6 +20,7 @@
 #include "rtc.h"
 #include "script.h"
 #include "script_movement.h"
+#include "shuffler.h"
 #include "sound.h"
 #include "string_util.h"
 #include "strings.h"
@@ -1588,7 +1589,7 @@ static void PopulateTrainerName(int matchCallId, u8 *destStr)
         }
     }
 
-    StringCopy(destStr, gTrainers[trainerId].trainerName);
+    StringCopy(destStr, RedirectTrainer(trainerId).trainerName);
 }
 
 static void PopulateMapName(int matchCallId, u8 *destStr)
@@ -1692,12 +1693,14 @@ static void PopulateSpeciesFromTrainerParty(int matchCallId, u8 *destStr)
     union TrainerMonPtr party;
     u8 monId;
     const u8 *speciesName;
+    struct Trainer t;
 
     trainerId = GetLastBeatenRematchTrainerId(sMatchCallTrainers[matchCallId].trainerId);
-    party = gTrainers[trainerId].party;
-    monId = Random() % gTrainers[trainerId].partySize;
+    t = RedirectTrainer(trainerId);
+    party = t.party;
+    monId = Random() % t.partySize;
 
-    switch (gTrainers[trainerId].partyFlags)
+    switch (t.partyFlags)
     {
     case 0:
     default:

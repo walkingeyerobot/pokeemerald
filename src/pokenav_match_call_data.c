@@ -1087,6 +1087,7 @@ static void MatchCall_GetNameAndDesc_Birch(match_call_t matchCall, const u8 **de
 
 static void MatchCall_GetNameAndDescByRematchIdx(u32 idx, const u8 **desc, const u8 **name)
 {
+    // walkingeye: I hope this never gets called because I don't know how to redirect this properly.
     const struct Trainer *trainer = gTrainers + GetTrainerIdxByRematchIdx(idx);
     *desc = gTrainerClassNames[trainer->trainerClass];
     *name = trainer->trainerName;
