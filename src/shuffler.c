@@ -58,17 +58,108 @@ EWRAM_DATA u16 realStarterMon[3] =
     0,0,0
 };
 
+// this needs to be sorted.
 EWRAM_DATA struct WarpData realWarps[TOTAL_WARPS][2] = {};
 
+// values are indicies into realWarps.
+// room index, north/south, into me / out of me
+static const u8 Rooms[7][2][2] = {
+    {{0,1},{-1,-1}}, // outside
+    {{2,4},{1,0}},   // brendan 1f
+    {{3,9},{4,2}},   // brendan 2f
+    {{10,5},{9,3}},  // lab
+    {{6,8},{5,10}},  // may 1f
+    {{7,11},{8,6}},  // may 2f
+    {{-1,-1},{11,7}} // oldale house
+};
+
 void Shuffle() {
-    u8 i = 0;
+    u16 i = 0;
     u16 r = 0;
-    realWarps[0][0] = (struct WarpData){0,9,0,-1,-1};
-    realWarps[0][1] = (struct WarpData){0,9,1,-1,-1};
-    realWarps[1][0] = (struct WarpData){1,0,1,-1,-1};
-    realWarps[1][1] = (struct WarpData){1,2,0,-1,-1};
-    realWarps[2][0] = (struct WarpData){1,3,0,-1,-1};
-    realWarps[2][1] = (struct WarpData){1,1,0,-1,-1};
+    u8 visited = 1;
+    u8 x = 0;
+
+    realWarps[ 0][0] = (struct WarpData){0,9,1,-1,-1};
+    realWarps[ 1][0] = (struct WarpData){1,0,1,-1,-1};
+    realWarps[ 2][0] = (struct WarpData){1,0,2,-1,-1};
+    realWarps[ 3][0] = (struct WarpData){1,1,0,-1,-1};
+    realWarps[ 4][0] = (struct WarpData){1,1,1,-1,-1};
+    realWarps[ 5][0] = (struct WarpData){1,2,0,-1,-1};
+    realWarps[ 6][0] = (struct WarpData){1,2,2,-1,-1};
+    realWarps[ 7][0] = (struct WarpData){1,3,0,-1,-1};
+    realWarps[ 8][0] = (struct WarpData){1,3,1,-1,-1};
+    realWarps[ 9][0] = (struct WarpData){1,4,0,-1,-1};
+    realWarps[10][0] = (struct WarpData){1,4,2,-1,-1};
+    realWarps[11][0] = (struct WarpData){2,0,0,-1,-1};
+
+    for (i = 0; i < TOTAL_WARPS; i++) {
+        mgba_printf(MGBA_LOG_INFO, "%d,%d,%d->%d,%d,%d", realWarps[i][0].mapGroup, realWarps[i][0].mapNum, realWarps[i][0].warpId, realWarps[i][1].mapGroup, realWarps[i][1].mapNum, realWarps[i][1].warpId);
+    }
+    i = 0;
+
+    mgba_printf(MGBA_LOG_INFO, "ROOMS");
+    mgba_printf(MGBA_LOG_INFO, "ADDING FIRST ROOM: %d", i);
+    r = Random() % 7;
+    while(visited <= 63) {
+        if (visited == 63) {
+            mgba_printf(MGBA_LOG_INFO, "visited is == 63, %d, setting r = 6", visited);
+            r = 6;
+        } else {
+            r = Random() % 7;
+            mgba_printf(MGBA_LOG_INFO, "rolled r = %d", r);
+        }
+        if (visited < 63) {
+            mgba_printf(MGBA_LOG_INFO, "visited < 63, = %d", visited);
+            if (r > 5) {
+                mgba_printf(MGBA_LOG_INFO, "r > 5, = %d", r);
+                continue;
+            } else if ((visited & (1 << r)) > 0) {
+                mgba_printf(MGBA_LOG_INFO, "room already visited: %d %d %d", visited, r, visited & (1 << r));
+                continue;
+            }
+        } else {
+            mgba_printf(MGBA_LOG_INFO, "visited >= 63, = %d", visited);
+        }
+
+        visited |= 1 << r;
+        mgba_printf(MGBA_LOG_INFO, "ADDING ROOM: %d", r);
+        memcpy(&realWarps[Rooms[i][0][1]][1],
+               &realWarps[Rooms[r][1][0]][0],
+               sizeof(struct WarpData));
+        memcpy(&realWarps[Rooms[r][1][1]][1],
+               &realWarps[Rooms[i][0][0]][0],
+               sizeof(struct WarpData));
+
+        i = r;
+    }
+    mgba_printf(MGBA_LOG_INFO, "DONE ROOMS");
+    for (i = 0; i < TOTAL_WARPS; i++) {
+        mgba_printf(MGBA_LOG_INFO, "%d,%d,%d->%d,%d,%d", realWarps[i][0].mapGroup, realWarps[i][0].mapNum, realWarps[i][0].warpId, realWarps[i][1].mapGroup, realWarps[i][1].mapNum, realWarps[i][1].warpId);
+    }
+    i = 0;
+    /*
+    // OLDALE TOWN HOUSE
+    (struct WarpData){1,3,0,-1,-1}; // to may 2f
+    (struct WarpData){2,0,0,-1,-1}; // to oldale town house 1
+    // MAY 2F
+    (struct WarpData){1,2,2,-1,-1}; // to may 1f
+    (struct WarpData){1,3,1,-1,-1}; // to may 2f
+    // MAY 1F
+    (struct WarpData){1,4,2,-1,-1}; // to lab
+    (struct WarpData){1,2,0,-1,-1}; // to may 1f
+    // LAB
+    (struct WarpData){1,1,0,-1,-1}; // to brendan 2f
+    (struct WarpData){1,4,0,-1,-1}; // to lab
+    // BRENDAN 2F
+    (struct WarpData){1,0,2,-1,-1}; // to brendan 1f
+    (struct WarpData){1,1,1,-1,-1}; // to brendan 2f
+    // BRENDAN 1F
+    (struct WarpData){0,9,1,-1,-1}; // to outside
+    (struct WarpData){1,0,1,-1,-1}; // to brendan 1f
+    // START
+    */
+
+    i = 0;
     do {
         r = Random();
         r &= 63;
@@ -133,6 +224,7 @@ void RedirectShuffledWarp(struct WarpData *warp) {
     u8 max = TOTAL_WARPS - 1;
     u8 mid;
     struct WarpData w;
+    mgba_printf(MGBA_LOG_INFO, "looking for warp: %d,%d,%d", warp->mapGroup, warp->mapNum, warp->warpId);
     do {
         mid = (max + min) >> 1;
         w = realWarps[mid][0];
@@ -150,6 +242,7 @@ void RedirectShuffledWarp(struct WarpData *warp) {
             max = mid - 1;
         } else {
             w = realWarps[mid][1];
+            mgba_printf(MGBA_LOG_INFO, "redirecting: %d,%d,%d", w.mapGroup, w.mapNum, w.warpId);
             warp->mapGroup = w.mapGroup;
             warp->mapNum = w.mapNum;
             warp->warpId = w.warpId;
@@ -158,4 +251,5 @@ void RedirectShuffledWarp(struct WarpData *warp) {
             return;
         }
     } while(min <= max && max < TOTAL_WARPS && min < TOTAL_WARPS);
+    mgba_printf(MGBA_LOG_INFO, "not redirecting");
 }
