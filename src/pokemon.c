@@ -6572,6 +6572,7 @@ const u8 *GetTrainerPartnerName(void)
     {
         if (gPartnerTrainerId == TRAINER_STEVEN_PARTNER)
         {
+            // walkingeye: this might be incorrect to do
             return RedirectTrainer(TRAINER_STEVEN).trainerName;
         }
         else
