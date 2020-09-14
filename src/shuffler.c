@@ -283,7 +283,7 @@ struct Trainer RedirectTrainer(u16 index) {
             for (i = 0; i < savedTrainers[nextSavedTrainer].partySize; i++) {
                 savedTrainerParties[nextSavedTrainer].NoItemDefaultMoves[i].lvl = 1;
             }
-            savedTrainers[nextSavedTrainer].party.NoItemDefaultMoves = &savedTrainerParties[nextSavedTrainer].NoItemDefaultMoves;
+            savedTrainers[nextSavedTrainer].party.NoItemDefaultMoves = &savedTrainerParties[nextSavedTrainer].NoItemDefaultMoves[0];
             break;
         case F_TRAINER_PARTY_CUSTOM_MOVESET:
             moves_bytes = gTrainers[index].partySize * sizeof(struct TrainerMonNoItemCustomMoves);
@@ -291,7 +291,7 @@ struct Trainer RedirectTrainer(u16 index) {
             for (i = 0; i < savedTrainers[nextSavedTrainer].partySize; i++) {
                 savedTrainerParties[nextSavedTrainer].NoItemCustomMoves[i].lvl = 1;
             }
-            savedTrainers[nextSavedTrainer].party.NoItemCustomMoves = &savedTrainerParties[nextSavedTrainer].NoItemCustomMoves;
+            savedTrainers[nextSavedTrainer].party.NoItemCustomMoves = &savedTrainerParties[nextSavedTrainer].NoItemCustomMoves[0];
             break;
         case F_TRAINER_PARTY_HELD_ITEM:
             moves_bytes = gTrainers[index].partySize * sizeof(struct TrainerMonItemDefaultMoves);
@@ -299,7 +299,7 @@ struct Trainer RedirectTrainer(u16 index) {
             for (i = 0; i < savedTrainers[nextSavedTrainer].partySize; i++) {
                 savedTrainerParties[nextSavedTrainer].ItemDefaultMoves[i].lvl = 1;
             }
-            savedTrainers[nextSavedTrainer].party.ItemDefaultMoves = &savedTrainerParties[nextSavedTrainer].ItemDefaultMoves;
+            savedTrainers[nextSavedTrainer].party.ItemDefaultMoves = &savedTrainerParties[nextSavedTrainer].ItemDefaultMoves[0];
             break;
         case F_TRAINER_PARTY_HELD_ITEM | F_TRAINER_PARTY_CUSTOM_MOVESET:
             moves_bytes = gTrainers[index].partySize * sizeof(struct TrainerMonItemCustomMoves);
@@ -307,7 +307,7 @@ struct Trainer RedirectTrainer(u16 index) {
             for (i = 0; i < savedTrainers[nextSavedTrainer].partySize; i++) {
                 savedTrainerParties[nextSavedTrainer].ItemCustomMoves[i].lvl = 1;
             }
-            savedTrainers[nextSavedTrainer].party.ItemCustomMoves = &savedTrainerParties[nextSavedTrainer].ItemCustomMoves;
+            savedTrainers[nextSavedTrainer].party.ItemCustomMoves = &savedTrainerParties[nextSavedTrainer].ItemCustomMoves[0];
             break;
     }
 
