@@ -14,7 +14,7 @@ LittlerootTown_BrendansHouse_1F_OnFrame: @ 81F77EA
 	.2byte 0
 
 LittlerootTown_BrendansHouse_EventScript_Tiana::
-	trainerbattle_single TRAINER_TIANA, LittlerootTown_BrendansHouse_Text_TianaIntro, LittlerootTown_BrendansHouse_Text_TianaDefeated
+	trainerbattle_single TRAINER_SAWYER_1, LittlerootTown_BrendansHouse_Text_TianaIntro, LittlerootTown_BrendansHouse_Text_TianaDefeated
 	msgbox LittlerootTown_BrendansHouse_Text_TianaPostBattle, MSGBOX_AUTOCLOSE
 	end
 

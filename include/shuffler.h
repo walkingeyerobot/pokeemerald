@@ -6,6 +6,9 @@
 
 #define TOTAL_WARPS 12
 #define MAX_SAVED_TRAINERS 2
+#define TOTAL_ROOMS 7
+#define MAX_TRAINERS_PER_ROOM 2
+#define MAX_TRAINER_ID TRAINER_GRUNT_PETALBURG_WOODS // 10
 
 union TrainerMon
 {

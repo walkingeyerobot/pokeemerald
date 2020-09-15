@@ -70,7 +70,7 @@ EWRAM_DATA struct WarpData realWarps[TOTAL_WARPS][2] = {};
 
 // values are indicies into realWarps.
 // room index, north/south, into me / out of me
-static const u8 Rooms[7][2][2] = {
+static const u8 Rooms[TOTAL_ROOMS][2][2] = {
     {{0,1},{-1,-1}}, // outside
     {{2,4},{1,0}},   // brendan 1f
     {{3,9},{4,2}},   // brendan 2f
@@ -80,10 +80,25 @@ static const u8 Rooms[7][2][2] = {
     {{-1,-1},{11,7}} // oldale house
 };
 
+static const u16 RoomTrainers[TOTAL_ROOMS][MAX_TRAINERS_PER_ROOM] = {
+    {TRAINER_NONE, TRAINER_NONE},     // outside
+    {TRAINER_SAWYER_1, TRAINER_NONE}, // brendan 1f
+    {TRAINER_NONE, TRAINER_NONE},     // brendan 2f
+    {TRAINER_NONE, TRAINER_NONE},     // lab
+    {TRAINER_NONE, TRAINER_NONE},     // may 1f
+    {TRAINER_NONE, TRAINER_NONE},     // may 2f
+    {TRAINER_NONE, TRAINER_NONE}      // oldale house
+};
+
+EWRAM_DATA u16 AdjustedTrainers[MAX_TRAINER_ID + 1][2] = {};
+
 void Shuffle() {
     u16 i = 0;
     u16 r = 0;
     u8 visited = 1;
+    u8 distance = 1;
+    u8 j = 0;
+    u16 r2 = 0;
 
     savedTrainerIds[0] = 0;
     savedTrainerIds[0] = 0;
@@ -109,21 +124,17 @@ void Shuffle() {
 
     mgba_printf(MGBA_LOG_INFO, "ROOMS");
     mgba_printf(MGBA_LOG_INFO, "ADDING FIRST ROOM: %d", i);
-    r = Random() % 7;
     while(visited <= 63) {
         if (visited == 63) {
             mgba_printf(MGBA_LOG_INFO, "visited is == 63, %d, setting r = 6", visited);
             r = 6;
         } else {
-            r = Random() % 7;
+            r = Random() % (TOTAL_ROOMS - 1);
             mgba_printf(MGBA_LOG_INFO, "rolled r = %d", r);
         }
         if (visited < 63) {
             mgba_printf(MGBA_LOG_INFO, "visited < 63, = %d", visited);
-            if (r > 5) {
-                mgba_printf(MGBA_LOG_INFO, "r > 5, = %d", r);
-                continue;
-            } else if ((visited & (1 << r)) > 0) {
+            if ((visited & (1 << r)) > 0) {
                 mgba_printf(MGBA_LOG_INFO, "room already visited: %d %d %d", visited, r, visited & (1 << r));
                 continue;
             }
@@ -140,6 +151,16 @@ void Shuffle() {
                &realWarps[Rooms[i][0][0]][0],
                sizeof(struct WarpData));
 
+        for (j = 0; j < MAX_TRAINERS_PER_ROOM; j++) {
+            if (RoomTrainers[r][j] != TRAINER_NONE) {
+                r2 = Random() % (MAX_TRAINER_ID + 1);
+                mgba_printf(MGBA_LOG_INFO, "trainer found, mapping %d to %d, level %d", RoomTrainers[r][j], r2, distance);
+                AdjustedTrainers[RoomTrainers[r][j]][0] = r2;
+                AdjustedTrainers[RoomTrainers[r][j]][1] = distance;
+            }
+        }
+
+        distance++;
         i = r;
     }
     mgba_printf(MGBA_LOG_INFO, "DONE ROOMS");
@@ -267,45 +288,52 @@ void RedirectShuffledWarp(struct WarpData *warp) {
 struct Trainer RedirectTrainer(u16 index) {
     size_t moves_bytes;
     u8 i;
+    u16 newLevel;
+    u16 newIndex;
 
     if (savedTrainerIds[0] == index) {
         return savedTrainers[0];
     } else if (savedTrainerIds[1] == index) {
         return savedTrainers[1];
+    } else if (index > MAX_TRAINER_ID) {
+        return gTrainers[index];
     }
 
-    memcpy(&savedTrainers[nextSavedTrainer], &gTrainers[index], sizeof(struct Trainer));
+    newIndex = AdjustedTrainers[index][0];
+    newLevel = AdjustedTrainers[index][1];
+
+    memcpy(&savedTrainers[nextSavedTrainer], &gTrainers[newIndex], sizeof(struct Trainer));
 
     switch(savedTrainers[nextSavedTrainer].partyFlags & 3) {
         case 0:
-            moves_bytes = gTrainers[index].partySize * sizeof(struct TrainerMonNoItemDefaultMoves);
-            memcpy(&savedTrainerParties[nextSavedTrainer], gTrainers[index].party.NoItemDefaultMoves, moves_bytes);
+            moves_bytes = gTrainers[newIndex].partySize * sizeof(struct TrainerMonNoItemDefaultMoves);
+            memcpy(&savedTrainerParties[nextSavedTrainer], gTrainers[newIndex].party.NoItemDefaultMoves, moves_bytes);
             for (i = 0; i < savedTrainers[nextSavedTrainer].partySize; i++) {
-                savedTrainerParties[nextSavedTrainer].NoItemDefaultMoves[i].lvl = 1;
+                savedTrainerParties[nextSavedTrainer].NoItemDefaultMoves[i].lvl = newLevel;
             }
             savedTrainers[nextSavedTrainer].party.NoItemDefaultMoves = &savedTrainerParties[nextSavedTrainer].NoItemDefaultMoves[0];
             break;
         case F_TRAINER_PARTY_CUSTOM_MOVESET:
-            moves_bytes = gTrainers[index].partySize * sizeof(struct TrainerMonNoItemCustomMoves);
-            memcpy(&savedTrainerParties[nextSavedTrainer], gTrainers[index].party.NoItemCustomMoves, moves_bytes);
+            moves_bytes = gTrainers[newIndex].partySize * sizeof(struct TrainerMonNoItemCustomMoves);
+            memcpy(&savedTrainerParties[nextSavedTrainer], gTrainers[newIndex].party.NoItemCustomMoves, moves_bytes);
             for (i = 0; i < savedTrainers[nextSavedTrainer].partySize; i++) {
-                savedTrainerParties[nextSavedTrainer].NoItemCustomMoves[i].lvl = 1;
+                savedTrainerParties[nextSavedTrainer].NoItemCustomMoves[i].lvl = newLevel;
             }
             savedTrainers[nextSavedTrainer].party.NoItemCustomMoves = &savedTrainerParties[nextSavedTrainer].NoItemCustomMoves[0];
             break;
         case F_TRAINER_PARTY_HELD_ITEM:
-            moves_bytes = gTrainers[index].partySize * sizeof(struct TrainerMonItemDefaultMoves);
-            memcpy(&savedTrainerParties[nextSavedTrainer], gTrainers[index].party.ItemDefaultMoves, moves_bytes);
+            moves_bytes = gTrainers[newIndex].partySize * sizeof(struct TrainerMonItemDefaultMoves);
+            memcpy(&savedTrainerParties[nextSavedTrainer], gTrainers[newIndex].party.ItemDefaultMoves, moves_bytes);
             for (i = 0; i < savedTrainers[nextSavedTrainer].partySize; i++) {
-                savedTrainerParties[nextSavedTrainer].ItemDefaultMoves[i].lvl = 1;
+                savedTrainerParties[nextSavedTrainer].ItemDefaultMoves[i].lvl = newLevel;
             }
             savedTrainers[nextSavedTrainer].party.ItemDefaultMoves = &savedTrainerParties[nextSavedTrainer].ItemDefaultMoves[0];
             break;
         case F_TRAINER_PARTY_HELD_ITEM | F_TRAINER_PARTY_CUSTOM_MOVESET:
-            moves_bytes = gTrainers[index].partySize * sizeof(struct TrainerMonItemCustomMoves);
-            memcpy(&savedTrainerParties[nextSavedTrainer], gTrainers[index].party.ItemCustomMoves, moves_bytes);
+            moves_bytes = gTrainers[newIndex].partySize * sizeof(struct TrainerMonItemCustomMoves);
+            memcpy(&savedTrainerParties[nextSavedTrainer], gTrainers[newIndex].party.ItemCustomMoves, moves_bytes);
             for (i = 0; i < savedTrainers[nextSavedTrainer].partySize; i++) {
-                savedTrainerParties[nextSavedTrainer].ItemCustomMoves[i].lvl = 1;
+                savedTrainerParties[nextSavedTrainer].ItemCustomMoves[i].lvl = newLevel;
             }
             savedTrainers[nextSavedTrainer].party.ItemCustomMoves = &savedTrainerParties[nextSavedTrainer].ItemCustomMoves[0];
             break;
