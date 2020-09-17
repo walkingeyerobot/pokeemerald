@@ -62,6 +62,7 @@
 #include "frontier_util.h"
 #include "constants/abilities.h"
 #include "constants/layouts.h"
+#include "constants/map_scripts.h"
 #include "constants/map_types.h"
 #include "constants/maps.h"
 #include "constants/region_map_sections.h"
@@ -592,6 +593,12 @@ static void LoadCurrentMapData(void)
 {
     sLastMapSectionId = gMapHeader.regionMapSectionId;
     gMapHeader = *Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
+    
+    // walkingeye: run map script to declare trainer sprites that need adjusting
+    // This appears to be run twice each time a map loads:
+    // once from WarpIntoMap() and once from LoadMapFromWarp()
+    MapHeaderRunScriptType(MAP_SCRIPT_ON_INTRO_TRAINERS);
+
     gSaveBlock1Ptr->mapLayoutId = gMapHeader.mapLayoutId;
     gMapHeader.mapLayout = GetMapLayout();
 }

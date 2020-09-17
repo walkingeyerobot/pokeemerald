@@ -1607,6 +1607,11 @@
 	.2byte \quantity
 	.endm
 
+	.macro sayhi objnum:req, trainerid:req
+	.byte 0xe4
+	.byte \objnum
+	.2byte \trainerid
+	.endm
 
 @ Supplementary
 

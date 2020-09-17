@@ -50,6 +50,7 @@
 #include "tv.h"
 #include "window.h"
 #include "constants/event_objects.h"
+#include "shuffler.h"
 
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(void);
@@ -2304,5 +2305,15 @@ bool8 ScrCmd_warpsootopolislegend(struct ScriptContext *ctx)
     SetWarpDestination(mapGroup, mapNum, warpId, x, y);
     DoSootopolisLegendWarp();
     ResetInitialPlayerAvatarState();
+    return TRUE;
+}
+
+bool8 ScrCmd_sayhi(struct ScriptContext *ctx)
+{
+    u8 objNum = ScriptReadByte(ctx) - 1;
+    u16 trainerId = ScriptReadHalfword(ctx);
+
+    AdjustTrainerSprite(objNum, trainerId);
+
     return TRUE;
 }

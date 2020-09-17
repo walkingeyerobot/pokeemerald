@@ -92,6 +92,10 @@ static const u16 RoomTrainers[TOTAL_ROOMS][MAX_TRAINERS_PER_ROOM] = {
 
 EWRAM_DATA u16 AdjustedTrainers[MAX_TRAINER_ID + 1][2] = {};
 
+EWRAM_DATA struct MapEvents AdjustedMapEvents;
+EWRAM_DATA struct ObjectEventTemplate AdjustedTemplates[MAX_OBJECTS];
+EWRAM_DATA u16 CurrentAdjustedRoom = 0xFFFF;
+
 void Shuffle() {
     u16 i = 0;
     u16 r = 0;
@@ -346,4 +350,31 @@ struct Trainer RedirectTrainer(u16 index) {
     }
 
     return savedTrainers[i];
+}
+
+void AdjustTrainerSprite(u8 objNum, u16 trainerId) {
+    u16 currentRoom = gSaveBlock1Ptr->location.mapNum | (gSaveBlock1Ptr->location.mapGroup << 8);
+    if (CurrentAdjustedRoom != currentRoom) {
+        CurrentAdjustedRoom = currentRoom;
+
+        size_t mapevents_bytes = sizeof(struct MapEvents);
+        memcpy(&AdjustedMapEvents, gMapHeader.events, mapevents_bytes);
+        
+        u8 num_objs = AdjustedMapEvents.objectEventCount;
+        if (num_objs > MAX_OBJECTS) {
+            mgba_printf(MGBA_LOG_INFO, "num_objs > MAX_OBJECTS, shit is broken: %d", num_objs);
+        } else {
+            size_t objs_bytes = num_objs * sizeof(struct ObjectEventTemplate);
+            memcpy(&AdjustedTemplates, AdjustedMapEvents.objectEvents, objs_bytes);
+            AdjustedMapEvents.objectEvents = &AdjustedTemplates[0];
+        }
+    }
+
+    gMapHeader.events = &AdjustedMapEvents;
+
+    if (objNum >= MAX_OBJECTS) {
+        mgba_printf(MGBA_LOG_INFO, "objNum >= MAX_OBJECTS, shit is broken: %d", objNum);
+    } else {
+        AdjustedTemplates[objNum].graphicsId = RedirectTrainer(trainerId).graphicsId;
+    }
 }
