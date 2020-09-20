@@ -1873,7 +1873,10 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
     u8 level = ScriptReadByte(ctx);
     u16 item = ScriptReadHalfword(ctx);
 
-    CreateScriptedWildMon(species, level, item);
+    CreateScriptedWildMon(
+        AdjustedWildMons[species][0],
+        AdjustedWildMons[species][1],
+        AdjustedWildMons[species][2]);
     return FALSE;
 }
 
@@ -2308,12 +2311,22 @@ bool8 ScrCmd_warpsootopolislegend(struct ScriptContext *ctx)
     return TRUE;
 }
 
-bool8 ScrCmd_sayhi(struct ScriptContext *ctx)
+bool8 ScrCmd_declaretrainer(struct ScriptContext *ctx)
 {
     u8 objNum = ScriptReadByte(ctx) - 1;
     u16 trainerId = ScriptReadHalfword(ctx);
 
     AdjustTrainerSprite(objNum, trainerId);
+
+    return TRUE;
+}
+
+bool8 ScrCmd_declarewildmon(struct ScriptContext *ctx)
+{
+    u8 objNum = ScriptReadByte(ctx) - 1;
+    u16 monId = ScriptReadHalfword(ctx);
+
+    AdjustWildMonSprite(objNum, monId);
 
     return TRUE;
 }

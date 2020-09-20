@@ -230,7 +230,8 @@ gScriptCmdTable:: @ 81DB67C
 	@ walkingeye: something is hardcoded somewhere that calls nop at this location.
 	@ so we add an extra copy of nop before we add our sayhi function.
 	.4byte ScrCmd_nop 
-	.4byte ScrCmd_sayhi
+	.4byte ScrCmd_declaretrainer
+	.4byte ScrCmd_declarewildmon
 
 gScriptCmdTableEnd:: @ 81DBA08
 	.4byte ScrCmd_nop

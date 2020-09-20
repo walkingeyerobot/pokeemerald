@@ -6,6 +6,7 @@
 #include "constants/items.h"
 #include "data.h"
 #include "constants/trainers.h"
+#include "constants/event_objects.h"
 
 #include "printf.h"
 #include "mgba.h"
@@ -55,6 +56,10 @@ static const u16 possibleStarters[42] = {
     SPECIES_BELDUM
 };
 
+static const u16 SpeciesToGraphicsId[386 + 1] = {
+    // import sprites for ALL pokemon, then fill this in.
+};
+
 EWRAM_DATA u16 realStarterMon[3] = 
 {
     0,0,0
@@ -90,6 +95,17 @@ static const u16 RoomTrainers[TOTAL_ROOMS][MAX_TRAINERS_PER_ROOM] = {
     {TRAINER_NONE, TRAINER_NONE}      // oldale house
 };
 
+static const u16 RoomWildMons[TOTAL_ROOMS][MAX_WILDMONS_PER_ROOM] = {
+    {0, 0}, // outside
+    {1, 0}, // brendan 1f
+    {0, 0}, // brendan 2f
+    {0, 0}, // lab
+    {0, 0}, // may 1f
+    {0, 0}, // may 2f
+    {0, 0}  // oldale house
+};
+
+EWRAM_DATA u16 AdjustedWildMons[MAX_WILDMON_ID + 1][3] = {};
 EWRAM_DATA u16 AdjustedTrainers[MAX_TRAINER_ID + 1][2] = {};
 
 EWRAM_DATA struct MapEvents AdjustedMapEvents;
@@ -164,6 +180,20 @@ void Shuffle() {
             }
         }
 
+        for (j = 0; j < MAX_WILDMONS_PER_ROOM; j++) {
+            if (RoomWildMons[r][j] != 0) {
+                // this needs to be adjusted.
+                // lower the chance of legendaries.
+                // make the evolution appropriate for the level.
+                // add an item, not necessarily a battle item.
+                r2 = Random() % (386 + 1);
+                mgba_printf(MGBA_LOG_INFO, "wildmon found, mapping %d to %d, level %d", j, r2, distance);
+                AdjustedWildMons[RoomWildMons[r][j]][0] = r2;
+                AdjustedWildMons[RoomWildMons[r][j]][1] = distance;
+                AdjustedWildMons[RoomWildMons[r][j]][2] = 0;
+            }
+        }
+
         distance++;
         i = r;
     }
@@ -230,6 +260,10 @@ void Shuffle() {
     AddBagItem(ITEM_POTION, 3);
     AddBagItem(ITEM_ELIXIR, 3);
     AddBagItem(ITEM_REVIVE, 1);
+
+    AddBagItem(ITEM_POKE_BALL, 5);
+    AddBagItem(ITEM_GREAT_BALL, 1);
+    AddBagItem(ITEM_MASTER_BALL, 1);
 
     // add 3 random berries
     i = 0;
@@ -352,7 +386,7 @@ struct Trainer RedirectTrainer(u16 index) {
     return savedTrainers[i];
 }
 
-void AdjustTrainerSprite(u8 objNum, u16 trainerId) {
+void MirrorMapData() {
     u16 currentRoom = gSaveBlock1Ptr->location.mapNum | (gSaveBlock1Ptr->location.mapGroup << 8);
     if (CurrentAdjustedRoom != currentRoom) {
         CurrentAdjustedRoom = currentRoom;
@@ -371,10 +405,26 @@ void AdjustTrainerSprite(u8 objNum, u16 trainerId) {
     }
 
     gMapHeader.events = &AdjustedMapEvents;
+}
+
+void AdjustTrainerSprite(u8 objNum, u16 trainerId) {
+    MirrorMapData();
 
     if (objNum >= MAX_OBJECTS) {
         mgba_printf(MGBA_LOG_INFO, "objNum >= MAX_OBJECTS, shit is broken: %d", objNum);
     } else {
         AdjustedTemplates[objNum].graphicsId = RedirectTrainer(trainerId).graphicsId;
+    }
+}
+
+void AdjustWildMonSprite(u8 objNum, u16 monId) {
+    MirrorMapData();
+
+    if (objNum >= MAX_OBJECTS) {
+        mgba_printf(MGBA_LOG_INFO, "objNum >= MAX_OBJECTS, shit is broken: %d", objNum);
+    } else {
+        // this line is correct once SpeciesToGraphicsId is filled in.
+        // AdjustedTemplates[objNum].graphicsId = SpeciesToGraphicsId[AdjustedWildMons[monId][0]];
+        AdjustedTemplates[objNum].graphicsId = OBJ_EVENT_GFX_MEW;
     }
 }

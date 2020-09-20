@@ -1607,10 +1607,16 @@
 	.2byte \quantity
 	.endm
 
-	.macro sayhi objnum:req, trainerid:req
+	.macro declaretrainer objnum:req, trainerid:req
 	.byte 0xe4
 	.byte \objnum
 	.2byte \trainerid
+	.endm
+
+	.macro declarewildmon objnum:req, monid:req
+	.byte 0xe5
+	.byte \objnum
+	.2byte \monid
 	.endm
 
 @ Supplementary
