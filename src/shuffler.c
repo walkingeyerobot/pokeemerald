@@ -263,6 +263,7 @@ void Shuffle() {
 
     AddBagItem(ITEM_POKE_BALL, 5);
     AddBagItem(ITEM_GREAT_BALL, 1);
+    AddBagItem(ITEM_ULTRA_BALL, 1);
     AddBagItem(ITEM_MASTER_BALL, 1);
 
     // add 3 random berries
