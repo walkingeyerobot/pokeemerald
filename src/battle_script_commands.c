@@ -9773,70 +9773,88 @@ static void Cmd_handleballthrow(void)
     }
     else
     {
-        u32 odds;
+        u32 odds = 0;
         u8 catchRate;
+        u8 hpLevel = GetHPBarLevel(gBattleMons[gBattlerTarget].hp, gBattleMons[gBattlerTarget].maxHP);
+        u8 hasStatus = gBattleMons[gBattlerTarget].status1 & STATUS1_ANY;
 
         if (gLastUsedItem == ITEM_SAFARI_BALL)
             catchRate = gBattleStruct->safariCatchFactor * 1275 / 100;
         else
             catchRate = gBaseStats[gBattleMons[gBattlerTarget].species].catchRate;
 
-        if (gLastUsedItem > ITEM_SAFARI_BALL)
+        switch (gLastUsedItem)
         {
-            switch (gLastUsedItem)
-            {
-            case ITEM_NET_BALL:
-                if (IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_WATER) || IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_BUG))
-                    ballMultiplier = 30;
-                else
-                    ballMultiplier = 10;
-                break;
-            case ITEM_DIVE_BALL:
-                if (GetCurrentMapType() == MAP_TYPE_UNDERWATER)
-                    ballMultiplier = 35;
-                else
-                    ballMultiplier = 10;
-                break;
-            case ITEM_NEST_BALL:
-                if (gBattleMons[gBattlerTarget].level < 40)
-                {
-                    ballMultiplier = 40 - gBattleMons[gBattlerTarget].level;
-                    if (ballMultiplier <= 9)
-                        ballMultiplier = 10;
-                }
-                else
-                {
-                    ballMultiplier = 10;
-                }
-                break;
-            case ITEM_REPEAT_BALL:
-                if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(gBattleMons[gBattlerTarget].species), FLAG_GET_CAUGHT))
-                    ballMultiplier = 30;
-                else
-                    ballMultiplier = 10;
-                break;
-            case ITEM_TIMER_BALL:
-                ballMultiplier = gBattleResults.battleTurnCounter + 10;
-                if (ballMultiplier > 40)
-                    ballMultiplier = 40;
-                break;
-            case ITEM_LUXURY_BALL:
-            case ITEM_PREMIER_BALL:
-                ballMultiplier = 10;
-                break;
-            }
-        }
-        else
+        case ITEM_MASTER_BALL:
+            // walkingeye: I'm pretty sure this preserves existing behavior, but it doesn't make sense to me.
             ballMultiplier = sBallCatchBonuses[gLastUsedItem - ITEM_ULTRA_BALL];
+            break;
+        case ITEM_ULTRA_BALL:
+            if ((hpLevel == HP_BAR_GREEN && hasStatus) || hpLevel == HP_BAR_YELLOW || hpLevel == HP_BAR_RED) {
+                odds = 255;
+            }
+            break;
+        case ITEM_GREAT_BALL:
+            if ((hpLevel == HP_BAR_YELLOW && hasStatus) || hpLevel == HP_BAR_RED) {
+                odds = 255;
+            }
+            break;
+        case ITEM_POKE_BALL:
+            if (hpLevel == HP_BAR_RED && hasStatus) {
+                odds = 255;
+            }
+            break;
+        case ITEM_NET_BALL:
+            if (IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_WATER) || IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_BUG))
+                ballMultiplier = 30;
+            else
+                ballMultiplier = 10;
+            break;
+        case ITEM_DIVE_BALL:
+            if (GetCurrentMapType() == MAP_TYPE_UNDERWATER)
+                ballMultiplier = 35;
+            else
+                ballMultiplier = 10;
+            break;
+        case ITEM_NEST_BALL:
+            if (gBattleMons[gBattlerTarget].level < 40)
+            {
+                ballMultiplier = 40 - gBattleMons[gBattlerTarget].level;
+                if (ballMultiplier <= 9)
+                    ballMultiplier = 10;
+            }
+            else
+            {
+                ballMultiplier = 10;
+            }
+            break;
+        case ITEM_REPEAT_BALL:
+            if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(gBattleMons[gBattlerTarget].species), FLAG_GET_CAUGHT))
+                ballMultiplier = 30;
+            else
+                ballMultiplier = 10;
+            break;
+        case ITEM_TIMER_BALL:
+            ballMultiplier = gBattleResults.battleTurnCounter + 10;
+            if (ballMultiplier > 40)
+                ballMultiplier = 40;
+            break;
+        case ITEM_LUXURY_BALL:
+        case ITEM_PREMIER_BALL:
+            ballMultiplier = 10;
+            break;
+        }
 
-        odds = (catchRate * ballMultiplier / 10)
-            * (gBattleMons[gBattlerTarget].maxHP * 3 - gBattleMons[gBattlerTarget].hp * 2)
-            / (3 * gBattleMons[gBattlerTarget].maxHP);
+        if (gLastUsedItem > ITEM_SAFARI_BALL) {
+            odds = (catchRate * ballMultiplier / 10)
+                * (gBattleMons[gBattlerTarget].maxHP * 3 - gBattleMons[gBattlerTarget].hp * 2)
+                / (3 * gBattleMons[gBattlerTarget].maxHP);
 
-        if (gBattleMons[gBattlerTarget].status1 & (STATUS1_SLEEP | STATUS1_FREEZE))
-            odds *= 2;
-        if (gBattleMons[gBattlerTarget].status1 & (STATUS1_POISON | STATUS1_BURN | STATUS1_PARALYSIS | STATUS1_TOXIC_POISON))
-            odds = (odds * 15) / 10;
+            if (gBattleMons[gBattlerTarget].status1 & (STATUS1_SLEEP | STATUS1_FREEZE))
+                odds *= 2;
+            if (gBattleMons[gBattlerTarget].status1 & (STATUS1_POISON | STATUS1_BURN | STATUS1_PARALYSIS | STATUS1_TOXIC_POISON))
+                odds = (odds * 15) / 10;
+        }
 
         if (gLastUsedItem != ITEM_SAFARI_BALL)
         {
@@ -9867,8 +9885,10 @@ static void Cmd_handleballthrow(void)
         {
             u8 shakes;
 
-            odds = Sqrt(Sqrt(16711680 / odds));
-            odds = 1048560 / odds;
+            if (odds > 0) {
+                odds = Sqrt(Sqrt(16711680 / odds));
+                odds = 1048560 / odds;
+            }
 
             for (shakes = 0; shakes < BALL_3_SHAKES_SUCCESS && Random() < odds; shakes++);
 
