@@ -532,7 +532,7 @@ static const struct BgTemplate sBgTemplates[] =
    },
    {
        .bg = 1,
-       .charBaseIndex = 10,
+       .charBaseIndex = 2, // walkingeye: was "10", but field is only 2 bits. this fixes a warning.
        .mapBaseIndex = 20,
        .screenSize = 0,
        .paletteMode = 0,
