@@ -11,34 +11,45 @@
 #include "printf.h"
 #include "mgba.h"
 
-static const u16 possibleStarters[42] = {
+static const u16 possibleStarters[98] = {
     SPECIES_BULBASAUR,
     SPECIES_CHARMANDER,
     SPECIES_SQUIRTLE,
     SPECIES_CATERPIE,
     SPECIES_WEEDLE,
     SPECIES_PIDGEY,
+    SPECIES_PICHU,
     SPECIES_NIDORAN_F,
     SPECIES_NIDORAN_M,
+    SPECIES_CLEFFA,
+    SPECIES_IGGLYBUFF,
+    SPECIES_ZUBAT,
     SPECIES_ODDISH,
     SPECIES_POLIWAG,
     SPECIES_ABRA,
     SPECIES_MACHOP,
     SPECIES_BELLSPROUT,
     SPECIES_GEODUDE,
+    SPECIES_ALOLAN_GEODUDE,
+    SPECIES_MAGNEMITE,
     SPECIES_GASTLY,
+    SPECIES_TYROGUE,
+    SPECIES_RHYHORN,
+    SPECIES_HAPPINY,
+    SPECIES_HORSEA,
+    SPECIES_ELEKID,
+    SPECIES_MAGBY,
     SPECIES_EEVEE,
+    SPECIES_PORYGON,
     SPECIES_DRATINI,
     SPECIES_CHIKORITA,
     SPECIES_CYNDAQUIL,
     SPECIES_TOTODILE,
-    SPECIES_ZUBAT,
-    SPECIES_PICHU,
-    SPECIES_CLEFFA,
-    SPECIES_IGGLYBUFF,
+    SPECIES_TOGEPI,
     SPECIES_MAREEP,
+    SPECIES_AZURILL,
     SPECIES_HOPPIP,
-    SPECIES_HORSEA,
+    SPECIES_SWINUB,
     SPECIES_LARVITAR,
     SPECIES_TREECKO,
     SPECIES_TORCHIC,
@@ -48,12 +59,57 @@ static const u16 possibleStarters[42] = {
     SPECIES_SEEDOT,
     SPECIES_RALTS,
     SPECIES_SLAKOTH,
-    SPECIES_AZURILL,
+    SPECIES_NINCADA,
+    SPECIES_WHISMUR,
     SPECIES_ARON,
+    SPECIES_BUDEW,
     SPECIES_TRAPINCH,
+    SPECIES_DUSKULL,
     SPECIES_SPHEAL,
     SPECIES_BAGON,
-    SPECIES_BELDUM
+    SPECIES_BELDUM,
+    SPECIES_TURTWIG,
+    SPECIES_MONFERNO,
+    SPECIES_PIPLUP,
+    SPECIES_STARLY,
+    SPECIES_SHINX,
+    SPECIES_BUDEW,
+    SPECIES_GIBLE,
+    SPECIES_SNIVY,
+    SPECIES_TEPIG,
+    SPECIES_OSHAWOTT,
+    SPECIES_LILLIPUP,
+    SPECIES_PIDOVE,
+    SPECIES_ROGGENROLA,
+    SPECIES_TIMBURR,
+    SPECIES_TYMPOLE,
+    SPECIES_SEWADDLE,
+    SPECIES_VENIPEDE,
+    SPECIES_SANDILE,
+    SPECIES_GOTHITA,
+    SPECIES_SOLOSIS,
+    SPECIES_VANILLITE,
+    SPECIES_KLINK,
+    SPECIES_TYNAMO,
+    SPECIES_LITWICK,
+    SPECIES_AXEW,
+    SPECIES_DEINO,
+    SPECIES_CHESPIN,
+    SPECIES_FENNEKIN,
+    SPECIES_FROAKIE,
+    SPECIES_FLETCHLING,
+    SPECIES_SCATTERBUG,
+    SPECIES_FLABEBE,
+    SPECIES_HONEDGE,
+    SPECIES_GOOMY,
+    SPECIES_ROWLET,
+    SPECIES_LITTEN,
+    SPECIES_POPPLIO,
+    SPECIES_PIKIPEK,
+    SPECIES_GRUBBIN,
+    SPECIES_BOUNSWEET,
+    SPECIES_JANGMO_O,
+    SPECIES_COSMOG
 };
 
 static const u16 SpeciesToGraphicsId[386 + 1] = {
@@ -173,7 +229,7 @@ void Shuffle() {
 
         for (j = 0; j < MAX_TRAINERS_PER_ROOM; j++) {
             if (RoomTrainers[r][j] != TRAINER_NONE) {
-                r2 = Random() % (MAX_TRAINER_ID + 1);
+                r2 = (Random() % MAX_TRAINER_ID) + 1;
                 mgba_printf(MGBA_LOG_INFO, "trainer found, mapping %d to %d, level %d", RoomTrainers[r][j], r2, distance);
                 AdjustedTrainers[RoomTrainers[r][j]][0] = r2;
                 AdjustedTrainers[RoomTrainers[r][j]][1] = distance;
@@ -186,7 +242,7 @@ void Shuffle() {
                 // lower the chance of legendaries.
                 // make the evolution appropriate for the level.
                 // add an item, not necessarily a battle item.
-                r2 = Random() % (386 + 1);
+                r2 = (Random() % 809) + 1;
                 mgba_printf(MGBA_LOG_INFO, "wildmon found, mapping %d to %d, level %d", j, r2, distance);
                 AdjustedWildMons[RoomWildMons[r][j]][0] = r2;
                 AdjustedWildMons[RoomWildMons[r][j]][1] = distance;
@@ -224,13 +280,8 @@ void Shuffle() {
     // START
     */
 
-    i = 0;
-    do {
-        r = Random();
-        r &= 63;
-        if (r >= 42) {
-            continue;
-        }
+    for (i = 0; i < 3; i++) {
+        r = Random() % 98;
         if (i >= 1) {
             if (realStarterMon[0] == possibleStarters[r]) {
                 continue;
@@ -241,21 +292,16 @@ void Shuffle() {
                 continue;
             }
         }
-        mgba_printf(MGBA_LOG_INFO, "%d", possibleStarters[r]);
+        mgba_printf(MGBA_LOG_INFO, "starter: %d", possibleStarters[r]);
         realStarterMon[i] = possibleStarters[r];
-        i++;
-    } while (i < 3);
+    }
 
     // add 3 random TMs / HMs
-    i = 0;
-    do {
-        r = Random() & 63;
-        if (r > 57) {
-            continue;
-        }
-        i++;
-        AddBagItem(r + 289, 1);
-    } while (i < 3);
+    for (i = 0; i < 3; i++) {
+        r = Random() % 50;
+        AddBagItem(r + 482, 1);
+        mgba_printf(MGBA_LOG_INFO, "tm: %d", r + 482);
+    }
 
     AddBagItem(ITEM_POTION, 3);
     AddBagItem(ITEM_ELIXIR, 3);
@@ -267,26 +313,18 @@ void Shuffle() {
     AddBagItem(ITEM_MASTER_BALL, 1);
 
     // add 3 random berries
-    i = 0;
-    do {
-        r = Random() & 63;
-        if (r > 42) {
-            continue;
-        }
-        i++;
-        AddBagItem(r + 133, 1);
-    } while (i < 3);
+    for (i = 0; i < 3; i++) {
+        r = Random() % 52;
+        AddBagItem(r + 144, 1);
+        mgba_printf(MGBA_LOG_INFO, "berry: %d", r + 144);
+    }
 
     // add 3 random battle items
-    i = 0;
-    do {
-        r = Random() & 63;
-        if (r > 46) {
-            continue;
-        }
-        i++;
-        AddBagItem(r + 179, 1);
-    } while (i < 3);
+    for (i = 0; i < 3; i++) {
+        r = Random() % 102;
+        AddBagItem(r + 211, 1);
+        mgba_printf(MGBA_LOG_INFO, "battle item: %d", r + 211);
+    }
 }
 
 void RedirectShuffledWarp(struct WarpData *warp) {
