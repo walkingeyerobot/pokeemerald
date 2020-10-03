@@ -592,3 +592,4 @@ gUnknown_0203CF5C: @ 203CF5C
 	.space 0x4
 
 	.include "src/rayquaza_scene.o"
+	.include "src/costume_menu.o"

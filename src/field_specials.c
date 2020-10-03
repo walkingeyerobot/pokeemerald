@@ -86,7 +86,7 @@ void sub_813BF60(void);
 u16 GetNumMovedLilycoveFanClubMembers(void);
 
 static void RecordCyclingRoadResults(u32, u8);
-static void LoadLinkPartnerEventObjectSpritePalette(u8 graphicsId, u8 localEventId, u8 paletteNum);
+static void LoadLinkPartnerEventObjectSpritePalette(u16 graphicsId, u8 localEventId, u8 paletteNum);
 static void Task_PetalburgGym(u8);
 static void PetalburgGymFunc(u8, u16);
 static void Task_PCTurnOnEffect(u8);
@@ -523,7 +523,7 @@ void SpawnLinkPartnerEventObject(void)
     };
     u8 myLinkPlayerNumber;
     u8 playerFacingDirection;
-    u8 linkSpriteId;
+    u16 linkSpriteId;
     u8 i;
 
     myLinkPlayerNumber = GetMultiplayerId();
@@ -564,15 +564,15 @@ void SpawnLinkPartnerEventObject(void)
                     break;
                 case VERSION_EMERALD:
                     if (gLinkPlayers[i].gender == 0)
-                        linkSpriteId = EVENT_OBJ_GFX_RIVAL_BRENDAN_NORMAL;
+                        linkSpriteId = EVENT_OBJ_GFX_BRENDAN;
                     else
-                        linkSpriteId = EVENT_OBJ_GFX_RIVAL_MAY_NORMAL;
+                        linkSpriteId = EVENT_OBJ_GFX_MAY;
                     break;
                 default:
                     if (gLinkPlayers[i].gender == 0)
-                        linkSpriteId = EVENT_OBJ_GFX_RIVAL_BRENDAN_NORMAL;
+                        linkSpriteId = EVENT_OBJ_GFX_BRENDAN;
                     else
-                        linkSpriteId = EVENT_OBJ_GFX_RIVAL_MAY_NORMAL;
+                        linkSpriteId = EVENT_OBJ_GFX_MAY;
                     break;
             }
             SpawnSpecialEventObjectParameterized(linkSpriteId, gUnknown_085B2B5C[j], 0xf0 - i, gUnknown_085B2B60[j][0] + x + 7, gUnknown_085B2B60[j][1] + y + 7, 0);
@@ -586,13 +586,13 @@ void SpawnLinkPartnerEventObject(void)
     }
 }
 
-static void LoadLinkPartnerEventObjectSpritePalette(u8 graphicsId, u8 localEventId, u8 paletteNum)
+static void LoadLinkPartnerEventObjectSpritePalette(u16 graphicsId, u8 localEventId, u8 paletteNum)
 {
     paletteNum += 6;
     if (graphicsId == EVENT_OBJ_GFX_LINK_RS_BRENDAN ||
         graphicsId == EVENT_OBJ_GFX_LINK_RS_MAY ||
-        graphicsId == EVENT_OBJ_GFX_RIVAL_BRENDAN_NORMAL ||
-        graphicsId == EVENT_OBJ_GFX_RIVAL_MAY_NORMAL)
+        graphicsId == EVENT_OBJ_GFX_BRENDAN ||
+        graphicsId == EVENT_OBJ_GFX_MAY)
     {
         u8 obj = GetEventObjectIdByLocalIdAndMap(localEventId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
         if (obj != NUM_EVENT_OBJECTS)
@@ -609,10 +609,10 @@ static void LoadLinkPartnerEventObjectSpritePalette(u8 graphicsId, u8 localEvent
                 case EVENT_OBJ_GFX_LINK_RS_MAY:
                     LoadPalette(gEventObjectPalette34, 0x100 + paletteNum * 16, 0x20);
                     break;
-                case EVENT_OBJ_GFX_RIVAL_BRENDAN_NORMAL:
+                case EVENT_OBJ_GFX_BRENDAN:
                     LoadPalette(gEventObjectPalette8, 0x100 + paletteNum * 16, 0x20);
                     break;
-                case EVENT_OBJ_GFX_RIVAL_MAY_NORMAL:
+                case EVENT_OBJ_GFX_MAY:
                     LoadPalette(gEventObjectPalette17, 0x100 + paletteNum * 16, 0x20);
                     break;
             }
@@ -2934,11 +2934,11 @@ void sub_813A76C(void)
     {
         if (gLinkPlayers[i].gender == MALE)
         {
-            VarSet(VAR_OBJ_GFX_ID_F - i, EVENT_OBJ_GFX_BRENDAN_NORMAL);
+            VarSet(VAR_OBJ_GFX_ID_F - i, EVENT_OBJ_GFX_BRENDAN);
         }
         else
         {
-            VarSet(VAR_OBJ_GFX_ID_F - i, EVENT_OBJ_GFX_RIVAL_MAY_NORMAL);
+            VarSet(VAR_OBJ_GFX_ID_F - i, EVENT_OBJ_GFX_MAY);
         }
     }
 }
@@ -4327,4 +4327,17 @@ void sub_813BF60(void)
 u8 sub_813BF7C(void)
 {
     return sub_813BADC(gSpecialVar_0x8004);
+}
+
+extern void UnlockCostumesByGender(u8 playerGender);
+extern void UnlockCostumeByCostumeId(u8 costumeId);
+
+void UnlockCostume_Special(void)
+{
+    UnlockCostumeByCostumeId(gSpecialVar_0x8004);
+}
+
+void UnlockCostumesByGender_Special(void)
+{
+    UnlockCostumesByGender(gSpecialVar_0x8004);
 }

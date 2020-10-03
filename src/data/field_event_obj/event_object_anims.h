@@ -387,8 +387,7 @@ const union AnimCmd gEventObjectImageAnim_FieldMove[] =
     ANIMCMD_FRAME(0, 4),
     ANIMCMD_FRAME(1, 4),
     ANIMCMD_FRAME(2, 4),
-    ANIMCMD_FRAME(3, 4),
-    ANIMCMD_FRAME(4, 8),
+    ANIMCMD_FRAME(3, 8),
     ANIMCMD_END,
 };
 
@@ -971,7 +970,7 @@ const union AnimCmd *const gEventObjectImageAnimTable_Rayquaza2[] = {
     gEventObjectImageAnim_8509210,
 };
 
-const union AnimCmd *const gEventObjectImageAnimTable_BrendanMayNormal[] = {
+const union AnimCmd *const gEventObjectImageAnimTable_WalkRun[] = {
     gEventObjectImageAnim_FaceSouth,
     gEventObjectImageAnim_FaceNorth,
     gEventObjectImageAnim_FaceWest,
@@ -1138,6 +1137,71 @@ const union AffineAnimCmd *const gEventObjectRotScalAnimTable_KyogreGroudon[] = 
     gEventObjectRotScalAnim_8509060,
 };
 
+const union AnimCmd gEventObjectImageAnim_FaceEast_Asymmetric[] =
+{
+    ANIMCMD_FRAME(9, 16),
+    ANIMCMD_JUMP(0),
+};
+
+const union AnimCmd gEventObjectImageAnim_GoEast_Asymmetric[] =
+{
+    ANIMCMD_FRAME(10, 8),
+    ANIMCMD_FRAME(9, 8),
+    ANIMCMD_FRAME(11, 8),
+    ANIMCMD_FRAME(9, 8),
+    ANIMCMD_JUMP(0),
+};
+
+const union AnimCmd gEventObjectImageAnim_GoFastEast_Asymmetric[] =
+{
+    ANIMCMD_FRAME(10, 4),
+    ANIMCMD_FRAME(9, 4),
+    ANIMCMD_FRAME(11, 4),
+    ANIMCMD_FRAME(9, 4),
+    ANIMCMD_JUMP(0),
+};
+
+const union AnimCmd gEventObjectImageAnim_GoFasterEast_Asymmetric[] =
+{
+    ANIMCMD_FRAME(10, 2),
+    ANIMCMD_FRAME(9, 2),
+    ANIMCMD_FRAME(11, 2),
+    ANIMCMD_FRAME(9, 2),
+    ANIMCMD_JUMP(0),
+};
+
+const union AnimCmd gEventObjectImageAnim_GoFastestEast_Asymmetric[] =
+{
+    ANIMCMD_FRAME(10, 1),
+    ANIMCMD_FRAME(9, 1),
+    ANIMCMD_FRAME(11, 1),
+    ANIMCMD_FRAME(9, 1),
+    ANIMCMD_JUMP(0),
+};
+
+const union AnimCmd *const gEventObjectImageAnimTable_Standard_Asymmetric[] = {
+    gEventObjectImageAnim_FaceSouth,
+    gEventObjectImageAnim_FaceNorth,
+    gEventObjectImageAnim_FaceWest,
+    gEventObjectImageAnim_FaceEast_Asymmetric,
+    gEventObjectImageAnim_GoSouth,
+    gEventObjectImageAnim_GoNorth,
+    gEventObjectImageAnim_GoWest,
+    gEventObjectImageAnim_GoEast_Asymmetric,
+    gEventObjectImageAnim_GoFastSouth,
+    gEventObjectImageAnim_GoFastNorth,
+    gEventObjectImageAnim_GoFastWest,
+    gEventObjectImageAnim_GoFastEast_Asymmetric,
+    gEventObjectImageAnim_GoFasterSouth,
+    gEventObjectImageAnim_GoFasterNorth,
+    gEventObjectImageAnim_GoFasterWest,
+    gEventObjectImageAnim_GoFasterEast_Asymmetric,
+    gEventObjectImageAnim_GoFastestSouth,
+    gEventObjectImageAnim_GoFastestNorth,
+    gEventObjectImageAnim_GoFastestWest,
+    gEventObjectImageAnim_GoFastestEast_Asymmetric,
+};
+
 const struct UnkStruct_085094AC gUnknown_085094AC[] = {
     {
         .anims = gEventObjectImageAnimTable_QuintyPlump,
@@ -1148,7 +1212,7 @@ const struct UnkStruct_085094AC gUnknown_085094AC[] = {
         .animPos = {1, 3, 0, 2},
     },
     {
-        .anims = gEventObjectImageAnimTable_BrendanMayNormal,
+        .anims = gEventObjectImageAnimTable_WalkRun,
         .animPos = {1, 3, 0, 2},
     },
     {
@@ -1165,6 +1229,10 @@ const struct UnkStruct_085094AC gUnknown_085094AC[] = {
     },
     {
         .anims = gEventObjectImageAnimTable_Fishing,
+        .animPos = {1, 3, 0, 2},
+    },
+    {
+        .anims = gEventObjectImageAnimTable_Standard_Asymmetric,
         .animPos = {1, 3, 0, 2},
     },
     {

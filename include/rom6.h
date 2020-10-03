@@ -12,7 +12,7 @@ void UpdateFrontierManiac(u16 days);
 void UpdateFrontierGambler(u16 days);
 void SetShoalItemFlag(u16 days);
 
-bool8 CheckObjectGraphicsInFrontOfPlayer(u8 graphicsId);
+bool8 CheckObjectGraphicsInFrontOfPlayer(u16 graphicsId);
 u8 oei_task_add(void);
 
 #endif //GUARD_ROM6_H

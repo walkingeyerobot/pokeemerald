@@ -1843,8 +1843,8 @@ static bool32 map_loading_iteration_3(u8 *state)
     case 3:
         sub_8086AE4();
         sub_80869DC();
-        sub_8086B14();
-        sub_8086AAC();
+        sub_8086B14(); //link player
+        sub_8086AAC(); //camera callback for link player
         (*state)++;
         break;
     case 4:
@@ -1919,7 +1919,7 @@ static bool32 load_map_stuff(u8 *state, u32 a2)
         break;
     case 3:
         mli4_mapscripts_and_other();
-        sub_8086A80();
+        sub_8086A80(); //track player avatar with camera
         (*state)++;
         break;
     case 4:
@@ -2140,7 +2140,6 @@ static void InitOverworldGraphicsRegisters(void)
     ShowBg(3);
     sub_8098128();
 }
-
 static void sub_8086988(u32 a1)
 {
     ResetTasks();
@@ -2150,11 +2149,7 @@ static void sub_8086988(u32 a1)
     ResetAllPicSprites();
     ResetCameraUpdateInfo();
     InstallCameraPanAheadCallback();
-    if (!a1)
-        InitEventObjectPalettes(0);
-    else
-        InitEventObjectPalettes(1);
-
+    FreeAllSpritePalettes();
     FieldEffectActiveListClear();
     sub_80AAFA4();
     sub_80AEE84();
@@ -2168,7 +2163,7 @@ static void sub_80869DC(void)
 {
     gUnknown_03005DEC = 0;
     gUnknown_03005DE8 = 0;
-    sub_808D438();
+    sub_808D438();         // clears all event objects
     TrySpawnEventObjects(0, 0);
     mapheader_run_first_tag4_script_list_match();
 }
@@ -2192,7 +2187,7 @@ static void mli4_mapscripts_and_other(void)
 
 static void sub_8086A68(void)
 {
-    sub_808E16C(0, 0);
+    sub_808E16C(0, 0); // Initial load of event_objects?
     RotatingGate_InitPuzzleAndGraphics();
     mapheader_run_script_with_tag_x7();
 }

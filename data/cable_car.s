@@ -80,8 +80,8 @@ gSpriteTemplate_85CDBCC:: @ 85CDBCC
 	spr_template 3, 1, gOamData_85CDB94, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, nullsub_58
 
 gCableCarPlayerGraphicsIDs:: @ 85CDBE4
-	.byte EVENT_OBJ_GFX_RIVAL_BRENDAN_NORMAL
-	.byte EVENT_OBJ_GFX_RIVAL_MAY_NORMAL
+	.byte EVENT_OBJ_GFX_BRENDAN
+	.byte EVENT_OBJ_GFX_MAY
 
 gMtChimneyHikerGraphicsIDs:: @ 85CDBE6
 	.byte EVENT_OBJ_GFX_HIKER

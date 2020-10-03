@@ -25,8 +25,6 @@
 
 // this file was known as evobjmv.c in Game Freak's original source
 
-EWRAM_DATA u8 sCurrentReflectionType = 0;
-EWRAM_DATA u16 sCurrentSpecialObjectPaletteTag = 0;
 EWRAM_DATA struct LockedAnimEventObjects *gLockedAnimEventObjects = {0};
 
 static void MoveCoordsInDirection(u32, s16 *, s16 *, s16, s16);
@@ -84,7 +82,6 @@ static void UpdateEventObjectVisibility(struct EventObject *, struct Sprite *);
 static void MakeObjectTemplateFromEventObjectTemplate(struct EventObjectTemplate *, struct SpriteTemplate *, const struct SubspriteTable **);
 static void GetEventObjectMovingCameraOffset(s16 *, s16 *);
 static struct EventObjectTemplate *GetEventObjectTemplateByLocalIdAndMap(u8, u8, u8);
-static void sub_808E894(u16);
 static void RemoveEventObjectIfOutsideView(struct EventObject *);
 static void sub_808E1B8(u8, s16, s16);
 static void SetPlayerAvatarEventObjectIdAndObjectId(u8, u8);
@@ -100,8 +97,6 @@ static void CameraObject_2(struct Sprite *);
 static struct EventObjectTemplate *FindEventObjectTemplateByLocalId(u8 localId, struct EventObjectTemplate *templates, u8 count);
 static void ClearEventObjectMovement(struct EventObject *, struct Sprite *);
 static void EventObjectSetSingleMovement(struct EventObject *, struct Sprite *, u8);
-
-const u8 gReflectionEffectPaletteMap[] = {1, 1, 6, 7, 8, 9, 6, 7, 8, 9, 11, 11, 0, 0, 0, 0};
 
 const struct SpriteTemplate gCameraSpriteTemplate = {0, 0xFFFF, &gDummyOamData, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, ObjectCB_CameraObject};
 
@@ -404,13 +399,189 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define EVENT_OBJ_PAL_TAG_34 0x1123
 #define EVENT_OBJ_PAL_TAG_NONE 0x11FF
 
-#include "data/field_event_obj/event_object_graphics_info_pointers.h"
+enum EventObjectPalettes
+{
+    EVENT_OBJ_PAL_RED = 0x1124,
+    EVENT_OBJ_PAL_LEAF,
+    EVENT_OBJ_PAL_ETHAN,
+    EVENT_OBJ_PAL_KRIS,
+    EVENT_OBJ_PAL_LYRA,
+    EVENT_OBJ_PAL_BRENDAN,
+    EVENT_OBJ_PAL_MAY,
+    EVENT_OBJ_PAL_LUCAS,
+    EVENT_OBJ_PAL_DAWN,
+//Professors
+    EVENT_OBJ_PAL_PROF_OAK,
+    EVENT_OBJ_PAL_PROF_ELM,
+    EVENT_OBJ_PAL_PROF_BIRCH,
+    EVENT_OBJ_PAL_PROF_ROWAN,
+//Rivals
+    EVENT_OBJ_PAL_BLUE,
+    EVENT_OBJ_PAL_SILVER,
+    EVENT_OBJ_PAL_WALLY,
+    EVENT_OBJ_PAL_BARRY,
+// Team Rocket
+    EVENT_OBJ_PAL_ROCKET_M,
+    EVENT_OBJ_PAL_ROCKET_F,
+    EVENT_OBJ_PAL_ARCHER,
+    EVENT_OBJ_PAL_ARIANA,
+    EVENT_OBJ_PAL_PETREL,
+    EVENT_OBJ_PAL_PROTON,
+    EVENT_OBJ_PAL_GIOVANNI,
+// Team Aqua
+    EVENT_OBJ_PAL_AQUA_M,
+    EVENT_OBJ_PAL_AQUA_F,
+    EVENT_OBJ_PAL_MATT,
+    EVENT_OBJ_PAL_SHELLEY,
+    EVENT_OBJ_PAL_ARCHIE,
+// Team Magma
+    EVENT_OBJ_PAL_MAGMA_M,
+    EVENT_OBJ_PAL_MAGMA_F,
+    EVENT_OBJ_PAL_COURTNEY,
+    EVENT_OBJ_PAL_TABITHA,
+    EVENT_OBJ_PAL_MAXIE,
+// Team Galactic
+    EVENT_OBJ_PAL_GALACTIC_M,
+    EVENT_OBJ_PAL_GALACTIC_F,
+    EVENT_OBJ_PAL_SATURN,
+    EVENT_OBJ_PAL_MARS,
+    EVENT_OBJ_PAL_JUPITER,
+    EVENT_OBJ_PAL_CHARON,
+    EVENT_OBJ_PAL_CYRUS,
+// Standard Trainers
+    EVENT_OBJ_PAL_AROMA_LADY,
+    EVENT_OBJ_PAL_BATTLE_GIRL,
+    EVENT_OBJ_PAL_BEAUTY,
+    EVENT_OBJ_PAL_BIRD_KEEPER,
+    EVENT_OBJ_PAL_BLACK_BELT,
+    EVENT_OBJ_PAL_BUG_CATCHER,
+    EVENT_OBJ_PAL_BUG_MANIAC,
+    EVENT_OBJ_PAL_CAMERAMAN,
+    EVENT_OBJ_PAL_CAMPER,
+    EVENT_OBJ_PAL_COLLECTOR,
+    EVENT_OBJ_PAL_COOLTRAINER_F,
+    EVENT_OBJ_PAL_COOLTRAINER_M,
+    EVENT_OBJ_PAL_DRAGON_TAMER,
+    EVENT_OBJ_PAL_EXPERT_F,
+    EVENT_OBJ_PAL_EXPERT_M,
+    EVENT_OBJ_PAL_FISHERMAN,
+    EVENT_OBJ_PAL_GENTLEMAN,
+    EVENT_OBJ_PAL_GUITARIST,
+    EVENT_OBJ_PAL_HEX_MANIAC,
+    EVENT_OBJ_PAL_HIKER,
+    EVENT_OBJ_PAL_KINDLER,
+    EVENT_OBJ_PAL_LADY,
+    EVENT_OBJ_PAL_LASS,
+    EVENT_OBJ_PAL_LASS_2,
+    EVENT_OBJ_PAL_NINJA_BOY,
+    EVENT_OBJ_PAL_PARASOL_LADY,
+    EVENT_OBJ_PAL_PICNICKER,
+    EVENT_OBJ_PAL_POKEFAN_F,
+    EVENT_OBJ_PAL_POKEFAN_M,
+    EVENT_OBJ_PAL_POKEMANIAC,
+    EVENT_OBJ_PAL_POKEMON_BREEDER_F,
+    EVENT_OBJ_PAL_POKEMON_BREEDER_M,
+    EVENT_OBJ_PAL_PSYCHIC_F,
+    EVENT_OBJ_PAL_PSYCHIC_M,
+    EVENT_OBJ_PAL_REPORTER_F,
+    EVENT_OBJ_PAL_RICH_BOY,
+    EVENT_OBJ_PAL_RUIN_MANIAC,
+    EVENT_OBJ_PAL_SAILOR,
+    EVENT_OBJ_PAL_SCHOOL_KID_F,
+    EVENT_OBJ_PAL_SCHOOL_KID_M,
+    EVENT_OBJ_PAL_SWIMMER_F,
+    EVENT_OBJ_PAL_SWIMMER_M,
+    EVENT_OBJ_PAL_TRIATHLETE_F,
+    EVENT_OBJ_PAL_TRIATHLETE_M,
+    EVENT_OBJ_PAL_TUBER_F,
+    EVENT_OBJ_PAL_TUBER_M,
+    EVENT_OBJ_PAL_TUBER_M_2,
+    EVENT_OBJ_PAL_TWINS,
+    EVENT_OBJ_PAL_YOUNG_COUPLE_F,
+    EVENT_OBJ_PAL_YOUNG_COUPLE_M,
+    EVENT_OBJ_PAL_YOUNGSTER,
+// Gym Leaders - Kanto
+    EVENT_OBJ_PAL_BROCK,
+    EVENT_OBJ_PAL_MISTY,
+    EVENT_OBJ_PAL_LT_SURGE,
+    EVENT_OBJ_PAL_ERIKA,
+    EVENT_OBJ_PAL_KOGA,
+    EVENT_OBJ_PAL_JANINE,
+    EVENT_OBJ_PAL_SABRINA,
+    EVENT_OBJ_PAL_BLAINE,
+// Elite Four
+    EVENT_OBJ_PAL_LORELEI,
+    EVENT_OBJ_PAL_BRUNO,
+    EVENT_OBJ_PAL_AGATHA,
+    EVENT_OBJ_PAL_LANCE,
+// Gym Leaders - Johto
+    EVENT_OBJ_PAL_FALKNER,
+    EVENT_OBJ_PAL_BUGSY,
+    EVENT_OBJ_PAL_WHITNEY,
+    EVENT_OBJ_PAL_MORTY,
+    EVENT_OBJ_PAL_CHUCK,
+    EVENT_OBJ_PAL_JASMINE,
+    EVENT_OBJ_PAL_PRYCE,
+    EVENT_OBJ_PAL_CLAIR,
+// Elite Four
+    EVENT_OBJ_PAL_WILL,
+    EVENT_OBJ_PAL_KAREN,
+// Gym Leaders - Hoenn
+    EVENT_OBJ_PAL_ROXANNE,
+    EVENT_OBJ_PAL_BRAWLY,
+    EVENT_OBJ_PAL_WATTSON,
+    EVENT_OBJ_PAL_FLANNERY,
+    EVENT_OBJ_PAL_NORMAN,
+    EVENT_OBJ_PAL_WINONA,
+    EVENT_OBJ_PAL_LIZA,
+    EVENT_OBJ_PAL_TATE,
+    EVENT_OBJ_PAL_JUAN,
+// Elite Four
+    EVENT_OBJ_PAL_SIDNEY,
+    EVENT_OBJ_PAL_PHOEBE,
+    EVENT_OBJ_PAL_GLACIA,
+    EVENT_OBJ_PAL_DRAKE,
+    EVENT_OBJ_PAL_WALLACE,
+    EVENT_OBJ_PAL_STEVEN,
+// Gym Leaders - Sinnoh
+    EVENT_OBJ_PAL_ROARK,
+    EVENT_OBJ_PAL_GARDENIA,
+    EVENT_OBJ_PAL_MAYLENE,
+    EVENT_OBJ_PAL_CRASHER_WAKE,
+    EVENT_OBJ_PAL_FANTINA,
+    EVENT_OBJ_PAL_BYRON,
+    EVENT_OBJ_PAL_CANDICE,
+    EVENT_OBJ_PAL_VOLKNER,
+// Elite Four
+    EVENT_OBJ_PAL_AARON,
+    EVENT_OBJ_PAL_BERTHA,
+    EVENT_OBJ_PAL_FLINT,
+    EVENT_OBJ_PAL_LUCIAN,
+    EVENT_OBJ_PAL_CYNTHIA,
+// Frontier Brains - Hoenn
+    EVENT_OBJ_PAL_ANABEL,
+    EVENT_OBJ_PAL_BRANDON,
+    EVENT_OBJ_PAL_GRETA,
+    EVENT_OBJ_PAL_LUCY,
+    EVENT_OBJ_PAL_NOLAND,
+    EVENT_OBJ_PAL_SPENSER,
+    EVENT_OBJ_PAL_TUCKER,
+// Frontier Brains - Sinnoh/Johto
+    EVENT_OBJ_PAL_ARGENTA,
+    EVENT_OBJ_PAL_CAITLIN,
+    EVENT_OBJ_PAL_DAHLIA,
+    EVENT_OBJ_PAL_DARACH,
+    EVENT_OBJ_PAL_PALMER,
+    EVENT_OBJ_PAL_THORTON,
+};
+
 #include "data/field_event_obj/field_effect_object_template_pointers.h"
 #include "data/field_event_obj/event_object_pic_tables.h"
 #include "data/field_event_obj/event_object_anims.h"
 #include "data/field_event_obj/base_oam.h"
 #include "data/field_event_obj/event_object_subsprites.h"
 #include "data/field_event_obj/event_object_graphics_info.h"
+#include "data/field_event_obj/event_object_graphics_info_pointers.h"
 
 const struct SpritePalette sEventObjectSpritePalettes[] = {
     {gEventObjectPalette0,  EVENT_OBJ_PAL_TAG_0},
@@ -448,189 +619,180 @@ const struct SpritePalette sEventObjectSpritePalettes[] = {
     {gEventObjectPalette32, EVENT_OBJ_PAL_TAG_32},
     {gEventObjectPalette33, EVENT_OBJ_PAL_TAG_33},
     {gEventObjectPalette34, EVENT_OBJ_PAL_TAG_34},
+// Main characters
+    {gEventObjectPalette_Red, EVENT_OBJ_PAL_RED},
+    {gEventObjectPalette_Leaf, EVENT_OBJ_PAL_LEAF},
+    {gEventObjectPalette_Ethan, EVENT_OBJ_PAL_ETHAN},
+    {gEventObjectPalette_Kris, EVENT_OBJ_PAL_KRIS},
+    {gEventObjectPalette_Lyra, EVENT_OBJ_PAL_LYRA},
+    {gEventObjectPalette_Brendan, EVENT_OBJ_PAL_BRENDAN},
+    {gEventObjectPalette_May, EVENT_OBJ_PAL_MAY},
+    {gEventObjectPalette_Lucas, EVENT_OBJ_PAL_LUCAS},
+    {gEventObjectPalette_Dawn, EVENT_OBJ_PAL_DAWN},
+// Professors
+    {gEventObjectPalette_ProfOak, EVENT_OBJ_PAL_PROF_OAK},
+    {gEventObjectPalette_ProfElm, EVENT_OBJ_PAL_PROF_ELM},
+    {gEventObjectPalette_ProfBirch, EVENT_OBJ_PAL_PROF_BIRCH},
+    {gEventObjectPalette_ProfRowan, EVENT_OBJ_PAL_PROF_ROWAN},
+// Rivals
+    {gEventObjectPalette_Blue, EVENT_OBJ_PAL_BLUE},
+    {gEventObjectPalette_Silver, EVENT_OBJ_PAL_SILVER},
+    {gEventObjectPalette_Wally, EVENT_OBJ_PAL_WALLY},
+    {gEventObjectPalette_Barry, EVENT_OBJ_PAL_BARRY},
+// Team Rocket
+    {gEventObjectPalette_RocketGruntM, EVENT_OBJ_PAL_ROCKET_M},
+    {gEventObjectPalette_RocketGruntF, EVENT_OBJ_PAL_ROCKET_F},
+    {gEventObjectPalette_Archer, EVENT_OBJ_PAL_ARCHER},
+    {gEventObjectPalette_Ariana, EVENT_OBJ_PAL_ARIANA},
+    {gEventObjectPalette_Petrel, EVENT_OBJ_PAL_PETREL},
+    {gEventObjectPalette_Proton, EVENT_OBJ_PAL_PROTON},
+    {gEventObjectPalette_Giovanni, EVENT_OBJ_PAL_GIOVANNI},
+// Team Aqua
+    {gEventObjectPalette_AquaGruntM, EVENT_OBJ_PAL_AQUA_M},
+    {gEventObjectPalette_AquaGruntF, EVENT_OBJ_PAL_AQUA_F},
+    {gEventObjectPalette_Matt, EVENT_OBJ_PAL_MATT},
+    {gEventObjectPalette_Shelley, EVENT_OBJ_PAL_SHELLEY},
+    {gEventObjectPalette_Archie, EVENT_OBJ_PAL_ARCHIE},
+// Team Magma
+    {gEventObjectPalette_MagmaGruntM, EVENT_OBJ_PAL_MAGMA_M},
+    {gEventObjectPalette_MagmaGruntF, EVENT_OBJ_PAL_MAGMA_F},
+    {gEventObjectPalette_Courtney, EVENT_OBJ_PAL_COURTNEY},
+    {gEventObjectPalette_Tabitha, EVENT_OBJ_PAL_TABITHA},
+    {gEventObjectPalette_Maxie, EVENT_OBJ_PAL_MAXIE},
+// Team Galactic
+    {gEventObjectPalette_GalacticGruntM, EVENT_OBJ_PAL_GALACTIC_M},
+    {gEventObjectPalette_GalacticGruntF, EVENT_OBJ_PAL_GALACTIC_F},
+    {gEventObjectPalette_Saturn, EVENT_OBJ_PAL_SATURN},
+    {gEventObjectPalette_Mars, EVENT_OBJ_PAL_MARS},
+    {gEventObjectPalette_Jupiter, EVENT_OBJ_PAL_JUPITER},
+    {gEventObjectPalette_Charon, EVENT_OBJ_PAL_CHARON},
+    {gEventObjectPalette_Cyrus, EVENT_OBJ_PAL_CYRUS},
+/*
+// Standard trainers
+    {gEventObjectPalette_AromaLady, EVENT_OBJ_PAL_AROMA_LADY},
+    {gEventObjectPalette_BattleGirl, EVENT_OBJ_PAL_BATTLE_GIRL},
+    {gEventObjectPalette_Beauty, EVENT_OBJ_PAL_BEAUTY},
+    {gEventObjectPalette_BirdKeeper, EVENT_OBJ_PAL_BIRD_KEEPER},
+    {gEventObjectPalette_BlackBelt, EVENT_OBJ_PAL_BLACK_BELT},
+    {gEventObjectPalette_BugCatcher, EVENT_OBJ_PAL_BUG_CATCHER},
+    {gEventObjectPalette_BugManiac, EVENT_OBJ_PAL_BUG_MANIAC},
+    {gEventObjectPalette_Cameraman, EVENT_OBJ_PAL_CAMERAMAN},
+    {gEventObjectPalette_Camper, EVENT_OBJ_PAL_CAMPER},
+    {gEventObjectPalette_Collector, EVENT_OBJ_PAL_COLLECTOR},
+    {gEventObjectPalette_CooltrainerF, EVENT_OBJ_PAL_COOLTRAINER_F},
+    {gEventObjectPalette_CooltrainerM, EVENT_OBJ_PAL_COOLTRAINER_M},
+    {gEventObjectPalette_DragonTamer, EVENT_OBJ_PAL_DRAGON_TAMER},
+    {gEventObjectPalette_ExpertF, EVENT_OBJ_PAL_EXPERT_F},
+    {gEventObjectPalette_ExpertM, EVENT_OBJ_PAL_EXPERT_M},
+    {gEventObjectPalette_Fisherman, EVENT_OBJ_PAL_FISHERMAN},
+    {gEventObjectPalette_Gentleman, EVENT_OBJ_PAL_GENTLEMAN},
+    {gEventObjectPalette_Guitarist, EVENT_OBJ_PAL_GUITARIST},
+    {gEventObjectPalette_HexManiac, EVENT_OBJ_PAL_HEX_MANIAC},
+    {gEventObjectPalette_Hiker, EVENT_OBJ_PAL_HIKER},
+    {gEventObjectPalette_Kindler, EVENT_OBJ_PAL_KINDLER},
+    {gEventObjectPalette_Lady, EVENT_OBJ_PAL_LADY},
+    {gEventObjectPalette_Lass, EVENT_OBJ_PAL_LASS},
+    {gEventObjectPalette_Lass_2, EVENT_OBJ_PAL_LASS_2},
+    {gEventObjectPalette_NinjaBoy, EVENT_OBJ_PAL_NINJA_BOY},
+    {gEventObjectPalette_ParasolLady, EVENT_OBJ_PAL_PARASOL_LADY},
+    {gEventObjectPalette_Picnicker, EVENT_OBJ_PAL_PICNICKER},
+    {gEventObjectPalette_PokefanF, EVENT_OBJ_PAL_POKEFAN_F},
+    {gEventObjectPalette_PokefanM, EVENT_OBJ_PAL_POKEFAN_M},
+    {gEventObjectPalette_Pokemaniac, EVENT_OBJ_PAL_POKEMANIAC},
+    {gEventObjectPalette_PokemonBreederF, EVENT_OBJ_PAL_POKEMON_BREEDER_F},
+    {gEventObjectPalette_PokemonBreederM, EVENT_OBJ_PAL_POKEMON_BREEDER_M},
+    {gEventObjectPalette_PsychicF, EVENT_OBJ_PAL_PSYCHIC_F},
+    {gEventObjectPalette_PsychicM, EVENT_OBJ_PAL_PSYCHIC_M},
+    {gEventObjectPalette_ReportF, EVENT_OBJ_PAL_REPORTER_F},
+    {gEventObjectPalette_RichBoy, EVENT_OBJ_PAL_RICH_BOY},
+    {gEventObjectPalette_RuinManiac, EVENT_OBJ_PAL_RUIN_MANIAC},
+    {gEventObjectPalette_Sailor, EVENT_OBJ_PAL_SAILOR},
+    {gEventObjectPalette_SchoolKidF, EVENT_OBJ_PAL_SWIMMER_F},
+    {gEventObjectPalette_SchoolKidM, EVENT_OBJ_PAL_SWIMMER_M},
+    {gEventObjectPalette_TriathleteF, EVENT_OBJ_PAL_TRIATHLETE_F},
+    {gEventObjectPalette_TriathleteM, EVENT_OBJ_PAL_TRIATHLETE_M},
+    {gEventObjectPalette_TuberF, EVENT_OBJ_PAL_TUBER_F},
+    {gEventObjectPalette_TuberM, EVENT_OBJ_PAL_TUBER_M},
+    {gEventObjectPalette_TuberM_2, EVENT_OBJ_PAL_TUBER_M_2},
+    {gEventObjectPalette_Twins, EVENT_OBJ_PAL_TWINS},
+    {gEventObjectPalette_YoungCoupleF, EVENT_OBJ_PAL_YOUNG_COUPLE_F},
+    {gEventObjectPalette_YoungCoupleM, EVENT_OBJ_PAL_YOUNG_COUPLE_M},
+    {gEventObjectPalette_Youngster, EVENT_OBJ_PAL_YOUNGSTER},
+*/
+// Gym Leaders - Kanto
+    {gEventObjectPalette_Brock, EVENT_OBJ_PAL_BROCK},
+    {gEventObjectPalette_Misty, EVENT_OBJ_PAL_MISTY},
+    {gEventObjectPalette_LtSurge, EVENT_OBJ_PAL_LT_SURGE},
+    {gEventObjectPalette_Erika, EVENT_OBJ_PAL_ERIKA},
+    {gEventObjectPalette_Koga, EVENT_OBJ_PAL_KOGA},
+    {gEventObjectPalette_Janine, EVENT_OBJ_PAL_JANINE},
+    {gEventObjectPalette_Sabrina, EVENT_OBJ_PAL_SABRINA},
+    {gEventObjectPalette_Blaine, EVENT_OBJ_PAL_BLAINE},
+// Elite Four
+    {gEventObjectPalette_Lorelei, EVENT_OBJ_PAL_LORELEI},
+    {gEventObjectPalette_Bruno, EVENT_OBJ_PAL_BRUNO},
+    {gEventObjectPalette_Agatha, EVENT_OBJ_PAL_AGATHA},
+    {gEventObjectPalette_Lance, EVENT_OBJ_PAL_LANCE},
+// Gym Leaders - Johto
+    {gEventObjectPalette_Falkner, EVENT_OBJ_PAL_FALKNER},
+    {gEventObjectPalette_Bugsy, EVENT_OBJ_PAL_BUGSY},
+    {gEventObjectPalette_Whitney, EVENT_OBJ_PAL_WHITNEY},
+    {gEventObjectPalette_Morty, EVENT_OBJ_PAL_MORTY},
+    {gEventObjectPalette_Chuck, EVENT_OBJ_PAL_CHUCK},
+    {gEventObjectPalette_Jasmine, EVENT_OBJ_PAL_JASMINE},
+    {gEventObjectPalette_Pryce, EVENT_OBJ_PAL_PRYCE},
+    {gEventObjectPalette_Clair, EVENT_OBJ_PAL_CLAIR},
+// Elite Four
+    {gEventObjectPalette_Will, EVENT_OBJ_PAL_WILL},
+    {gEventObjectPalette_Karen, EVENT_OBJ_PAL_KAREN},
+// Gym Leaders - Hoenn
+    {gEventObjectPalette_Roxanne, EVENT_OBJ_PAL_ROXANNE},
+    {gEventObjectPalette_Brawly, EVENT_OBJ_PAL_BRAWLY},
+    {gEventObjectPalette_Wattson, EVENT_OBJ_PAL_WATTSON},
+    {gEventObjectPalette_Flannery, EVENT_OBJ_PAL_FLANNERY},
+    {gEventObjectPalette_Norman, EVENT_OBJ_PAL_NORMAN},
+    {gEventObjectPalette_Winona, EVENT_OBJ_PAL_WINONA},
+    {gEventObjectPalette_Liza, EVENT_OBJ_PAL_LIZA},
+    {gEventObjectPalette_Tate, EVENT_OBJ_PAL_TATE},
+    {gEventObjectPalette_Juan, EVENT_OBJ_PAL_JUAN},
+// Elite Four
+    {gEventObjectPalette_Sidney, EVENT_OBJ_PAL_SIDNEY},
+    {gEventObjectPalette_Phoebe, EVENT_OBJ_PAL_PHOEBE},
+    {gEventObjectPalette_Glacia, EVENT_OBJ_PAL_GLACIA},
+    {gEventObjectPalette_Drake, EVENT_OBJ_PAL_DRAKE},
+    {gEventObjectPalette_Wallace, EVENT_OBJ_PAL_WALLACE},
+    {gEventObjectPalette_Steven, EVENT_OBJ_PAL_STEVEN},
+// Gym Leaders - Sinnoh
+    {gEventObjectPalette_Roark, EVENT_OBJ_PAL_ROARK},
+    {gEventObjectPalette_Gardenia, EVENT_OBJ_PAL_GARDENIA},
+    {gEventObjectPalette_Maylene, EVENT_OBJ_PAL_MAYLENE},
+    {gEventObjectPalette_CrasherWake, EVENT_OBJ_PAL_CRASHER_WAKE},
+    {gEventObjectPalette_Fantina, EVENT_OBJ_PAL_FANTINA},
+    {gEventObjectPalette_Byron, EVENT_OBJ_PAL_BYRON},
+    {gEventObjectPalette_Candice, EVENT_OBJ_PAL_CANDICE},
+    {gEventObjectPalette_Volkner, EVENT_OBJ_PAL_VOLKNER},
+// Elite Four
+    {gEventObjectPalette_Aaron, EVENT_OBJ_PAL_AARON},
+    {gEventObjectPalette_Bertha, EVENT_OBJ_PAL_BERTHA},
+    {gEventObjectPalette_Flint, EVENT_OBJ_PAL_FLINT},
+    {gEventObjectPalette_Lucian, EVENT_OBJ_PAL_LUCIAN},
+    {gEventObjectPalette_Cynthia, EVENT_OBJ_PAL_CYNTHIA},
+// Frontier Brains - Hoenn
+    {gEventObjectPalette_Anabel, EVENT_OBJ_PAL_ANABEL},
+    {gEventObjectPalette_Brandon, EVENT_OBJ_PAL_BRANDON},
+    {gEventObjectPalette_Greta, EVENT_OBJ_PAL_GRETA},
+    {gEventObjectPalette_Lucy, EVENT_OBJ_PAL_LUCY},
+    {gEventObjectPalette_Noland, EVENT_OBJ_PAL_NOLAND},
+    {gEventObjectPalette_Spenser, EVENT_OBJ_PAL_SPENSER},
+    {gEventObjectPalette_Tucker, EVENT_OBJ_PAL_TUCKER},
+// Frontier Brains - Sinnoh/Johto
+    {gEventObjectPalette_Argenta, EVENT_OBJ_PAL_ARGENTA},
+    {gEventObjectPalette_Caitlin, EVENT_OBJ_PAL_CAITLIN},
+    {gEventObjectPalette_Dahlia, EVENT_OBJ_PAL_DAHLIA},
+    {gEventObjectPalette_Darach, EVENT_OBJ_PAL_DARACH},
+    {gEventObjectPalette_Palmer, EVENT_OBJ_PAL_PALMER},
+    {gEventObjectPalette_Thorton, EVENT_OBJ_PAL_THORTON},
     {NULL,                  0x0000},
-};
-
-const u16 gPlayerReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_9,
-};
-
-const u16 Unknown_0850BCF0[] = {
-    EVENT_OBJ_PAL_TAG_18,
-    EVENT_OBJ_PAL_TAG_18,
-    EVENT_OBJ_PAL_TAG_18,
-    EVENT_OBJ_PAL_TAG_18,
-};
-
-const u16 gPlayerUnderwaterReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_11,
-    EVENT_OBJ_PAL_TAG_11,
-    EVENT_OBJ_PAL_TAG_11,
-    EVENT_OBJ_PAL_TAG_11,
-};
-
-const struct PairedPalettes gPlayerReflectionPaletteSets[] = {
-    {EVENT_OBJ_PAL_TAG_8, gPlayerReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_17, Unknown_0850BCF0},
-    {EVENT_OBJ_PAL_TAG_11, gPlayerUnderwaterReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_NONE, NULL},
-};
-
-const u16 gQuintyPlumpReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_13,
-    EVENT_OBJ_PAL_TAG_13,
-    EVENT_OBJ_PAL_TAG_13,
-    EVENT_OBJ_PAL_TAG_13,
-};
-
-const u16 gTruckReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_14,
-    EVENT_OBJ_PAL_TAG_14,
-    EVENT_OBJ_PAL_TAG_14,
-    EVENT_OBJ_PAL_TAG_14,
-};
-
-const u16 gVigorothMoverReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_15,
-    EVENT_OBJ_PAL_TAG_15,
-    EVENT_OBJ_PAL_TAG_15,
-    EVENT_OBJ_PAL_TAG_15,
-};
-
-const u16 gMovingBoxReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_19,
-    EVENT_OBJ_PAL_TAG_19,
-    EVENT_OBJ_PAL_TAG_19,
-    EVENT_OBJ_PAL_TAG_19,
-};
-
-const u16 gCableCarReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_20,
-    EVENT_OBJ_PAL_TAG_20,
-    EVENT_OBJ_PAL_TAG_20,
-    EVENT_OBJ_PAL_TAG_20,
-};
-
-const u16 gSSTidalReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_21,
-    EVENT_OBJ_PAL_TAG_21,
-    EVENT_OBJ_PAL_TAG_21,
-    EVENT_OBJ_PAL_TAG_21,
-};
-
-const u16 gSubmarineShadowReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_26,
-    EVENT_OBJ_PAL_TAG_26,
-    EVENT_OBJ_PAL_TAG_26,
-    EVENT_OBJ_PAL_TAG_26,
-};
-
-const u16 Unknown_0850BD58[] = { // Kyogre2?
-    EVENT_OBJ_PAL_TAG_23,
-    EVENT_OBJ_PAL_TAG_23,
-    EVENT_OBJ_PAL_TAG_23,
-    EVENT_OBJ_PAL_TAG_23,
-};
-
-const u16 Unknown_0850BD60[] = { // Groudon2?
-    EVENT_OBJ_PAL_TAG_25,
-    EVENT_OBJ_PAL_TAG_25,
-    EVENT_OBJ_PAL_TAG_25,
-    EVENT_OBJ_PAL_TAG_25,
-};
-
-const u16 Unknown_0850BD68[] = { // Invisible Keckleon?
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_6,
-};
-
-const u16 gRedLeafReflectionPaletteTags[] = {
-    EVENT_OBJ_PAL_TAG_28,
-    EVENT_OBJ_PAL_TAG_28,
-    EVENT_OBJ_PAL_TAG_28,
-    EVENT_OBJ_PAL_TAG_28,
-};
-
-const struct PairedPalettes gSpecialObjectReflectionPaletteSets[] = {
-    {EVENT_OBJ_PAL_TAG_8, gPlayerReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_17, Unknown_0850BCF0},
-    {EVENT_OBJ_PAL_TAG_12, gQuintyPlumpReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_14, gTruckReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_15, gVigorothMoverReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_19, gMovingBoxReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_20, gCableCarReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_21, gSSTidalReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_22, Unknown_0850BD58},
-    {EVENT_OBJ_PAL_TAG_24, Unknown_0850BD60},
-    {EVENT_OBJ_PAL_TAG_2, Unknown_0850BD68},
-    {EVENT_OBJ_PAL_TAG_26, gSubmarineShadowReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_28, gRedLeafReflectionPaletteTags},
-    {EVENT_OBJ_PAL_TAG_NONE, NULL},
-};
-
-const u16 gObjectPaletteTags0[] = {
-    EVENT_OBJ_PAL_TAG_8,
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_0,
-    EVENT_OBJ_PAL_TAG_1,
-    EVENT_OBJ_PAL_TAG_2,
-    EVENT_OBJ_PAL_TAG_3,
-    EVENT_OBJ_PAL_TAG_4,
-    EVENT_OBJ_PAL_TAG_5,
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_7,
-};
-
-const u16 gObjectPaletteTags1[] = {
-    EVENT_OBJ_PAL_TAG_8,
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_0,
-    EVENT_OBJ_PAL_TAG_1,
-    EVENT_OBJ_PAL_TAG_2,
-    EVENT_OBJ_PAL_TAG_3,
-    EVENT_OBJ_PAL_TAG_4,
-    EVENT_OBJ_PAL_TAG_5,
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_7,
-};
-
-const u16 gObjectPaletteTags2[] = {
-    EVENT_OBJ_PAL_TAG_8,
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_0,
-    EVENT_OBJ_PAL_TAG_1,
-    EVENT_OBJ_PAL_TAG_2,
-    EVENT_OBJ_PAL_TAG_3,
-    EVENT_OBJ_PAL_TAG_4,
-    EVENT_OBJ_PAL_TAG_5,
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_7,
-};
-
-const u16 gObjectPaletteTags3[] = {
-    EVENT_OBJ_PAL_TAG_8,
-    EVENT_OBJ_PAL_TAG_9,
-    EVENT_OBJ_PAL_TAG_0,
-    EVENT_OBJ_PAL_TAG_1,
-    EVENT_OBJ_PAL_TAG_2,
-    EVENT_OBJ_PAL_TAG_3,
-    EVENT_OBJ_PAL_TAG_4,
-    EVENT_OBJ_PAL_TAG_5,
-    EVENT_OBJ_PAL_TAG_6,
-    EVENT_OBJ_PAL_TAG_7,
-};
-
-
-const u16 *const gObjectPaletteTagSets[] = {
-    gObjectPaletteTags0,
-    gObjectPaletteTags1,
-    gObjectPaletteTags2,
-    gObjectPaletteTags3,
 };
 
 #include "data/field_event_obj/berry_tree_graphics_tables.h"
@@ -1462,10 +1624,14 @@ void RemoveEventObjectByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup)
 
 static void RemoveEventObjectInternal(struct EventObject *eventObject)
 {
+    u8 paletteNum;
+
     struct SpriteFrameImage image;
     image.size = GetEventObjectGraphicsInfo(eventObject->graphicsId)->size;
     gSprites[eventObject->spriteId].images = &image;
+    paletteNum = gSprites[eventObject->spriteId].oam.paletteNum;
     DestroySprite(&gSprites[eventObject->spriteId]);
+    FieldEffectFreePaletteIfUnused(paletteNum);
 }
 
 void RemoveAllEventObjectsExceptPlayer(void)
@@ -1485,7 +1651,6 @@ static u8 TrySetupEventObjectSprite(struct EventObjectTemplate *eventObjectTempl
     const struct EventObjectGraphicsInfo *graphicsInfo;
     struct Sprite *sprite;
     u8 eventObjectId;
-    u8 paletteSlot;
     u8 spriteId;
 
     eventObjectId = InitEventObjectStateFromTemplate(eventObjectTemplate, mapNum, mapGroup);
@@ -1494,25 +1659,14 @@ static u8 TrySetupEventObjectSprite(struct EventObjectTemplate *eventObjectTempl
 
     eventObject = &gEventObjects[eventObjectId];
     graphicsInfo = GetEventObjectGraphicsInfo(eventObject->graphicsId);
-    paletteSlot = graphicsInfo->paletteSlot;
-    if (paletteSlot == 0)
+    if (spriteTemplate->paletteTag != 0xffff)
     {
-        LoadPlayerObjectReflectionPalette(graphicsInfo->paletteTag1, 0);
-    }
-    else if (paletteSlot == 10)
-    {
-        LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag1, 10);
-    }
-    else if (paletteSlot >= 16)
-    {
-        paletteSlot -= 16;
-        sub_808EAB0(graphicsInfo->paletteTag1, paletteSlot);
+        sub_808E894(spriteTemplate->paletteTag);
     }
     if (eventObject->movementType == 0x4c)
     {
         eventObject->invisible = TRUE;
     }
-    *(u16 *)&spriteTemplate->paletteTag = 0xFFFF;
     spriteId = CreateSprite(spriteTemplate, 0, 0, 0);
     if (spriteId == MAX_SPRITES)
     {
@@ -1525,7 +1679,6 @@ static u8 TrySetupEventObjectSprite(struct EventObjectTemplate *eventObjectTempl
     sprite->centerToCornerVecY = -(graphicsInfo->height >> 1);
     sprite->pos1.x += 8;
     sprite->pos1.y += 16 + sprite->centerToCornerVecY;
-    sprite->oam.paletteNum = paletteSlot;
     sprite->coordOffsetEnabled = TRUE;
     sprite->data[0] = eventObjectId;
     eventObject->spriteId = spriteId;
@@ -1574,7 +1727,7 @@ u8 SpawnSpecialEventObject(struct EventObjectTemplate *eventObjectTemplate)
     return TrySpawnEventObject(eventObjectTemplate, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, cameraX, cameraY);
 }
 
-u8 SpawnSpecialEventObjectParameterized(u8 graphicsId, u8 movementBehavior, u8 localId, s16 x, s16 y, u8 z)
+u8 SpawnSpecialEventObjectParameterized(u16 graphicsId, u8 movementBehavior, u8 localId, s16 x, s16 y, u8 z)
 {
     struct EventObjectTemplate eventObjectTemplate;
 
@@ -1658,7 +1811,7 @@ u8 AddPseudoEventObject(u16 graphicsId, void (*callback)(struct Sprite *), s16 x
     return spriteIdx;
 }
 
-u8 sprite_new(u8 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
+u8 sprite_new(u16 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
 {
     const struct EventObjectGraphicsInfo *graphicsInfo;
     struct SpriteTemplate spriteTemplate;
@@ -1687,11 +1840,7 @@ u8 sprite_new(u8 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
         sprite->coordOffsetEnabled = TRUE;
         sprite->data[0] = a1;
         sprite->data[1] = z;
-        if (graphicsInfo->paletteSlot == 10)
-        {
-            LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag1, graphicsInfo->paletteSlot);
-        }
-        else if (graphicsInfo->paletteSlot >= 16)
+        if (graphicsInfo->paletteSlot >= 16)
         {
             sub_808EAB0(graphicsInfo->paletteTag1, graphicsInfo->paletteSlot | 0xf0);
         }
@@ -1814,7 +1963,6 @@ void sub_808E16C(s16 x, s16 y)
 static void sub_808E1B8(u8 eventObjectId, s16 x, s16 y)
 {
     u8 spriteId;
-    u8 paletteSlot;
     struct EventObject *eventObject;
     const struct SubspriteTable *subspriteTables;
     const struct EventObjectGraphicsInfo *graphicsInfo;
@@ -1838,22 +1986,10 @@ static void sub_808E1B8(u8 eventObjectId, s16 x, s16 y)
     spriteFrameImage.size = graphicsInfo->size;
     MakeObjectTemplateFromEventObjectGraphicsInfoWithCallbackIndex(eventObject->graphicsId, eventObject->movementType, &spriteTemplate, &subspriteTables);
     spriteTemplate.images = &spriteFrameImage;
-    *(u16 *)&spriteTemplate.paletteTag = 0xffff;
-    paletteSlot = graphicsInfo->paletteSlot;
-    if (paletteSlot == 0)
+    if (spriteTemplate.paletteTag != 0xffff)
     {
-        LoadPlayerObjectReflectionPalette(graphicsInfo->paletteTag1, graphicsInfo->paletteSlot);
+        sub_808E894(spriteTemplate.paletteTag);
     }
-    else if (paletteSlot == 10)
-    {
-        LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag1, graphicsInfo->paletteSlot);
-    }
-    else if (paletteSlot >= 16)
-    {
-        paletteSlot -= 16;
-        sub_808EAB0(graphicsInfo->paletteTag1, paletteSlot);
-    }
-    *(u16 *)&spriteTemplate.paletteTag = 0xffff;
     spriteId = CreateSprite(&spriteTemplate, 0, 0, 0);
     if (spriteId != MAX_SPRITES)
     {
@@ -1873,7 +2009,6 @@ static void sub_808E1B8(u8 eventObjectId, s16 x, s16 y)
         {
             SetSubspriteTables(sprite, subspriteTables);
         }
-        sprite->oam.paletteNum = paletteSlot;
         sprite->coordOffsetEnabled = TRUE;
         sprite->data[0] = eventObjectId;
         eventObject->spriteId = spriteId;
@@ -1903,11 +2038,11 @@ static void SetPlayerAvatarEventObjectIdAndObjectId(u8 eventObjectId, u8 spriteI
 {
     gPlayerAvatar.eventObjectId = eventObjectId;
     gPlayerAvatar.spriteId = spriteId;
-    gPlayerAvatar.gender = GetPlayerAvatarGenderByGraphicsId(gEventObjects[eventObjectId].graphicsId);
+    gPlayerAvatar.gender = gSaveBlock2Ptr->playerGender;
     SetPlayerAvatarExtraStateTransition(gEventObjects[eventObjectId].graphicsId, 0x20);
 }
 
-void EventObjectSetGraphicsId(struct EventObject *eventObject, u8 graphicsId)
+void EventObjectSetGraphicsId(struct EventObject *eventObject, u16 graphicsId) // Only used to set player avatar graphicsId
 {
     const struct EventObjectGraphicsInfo *graphicsInfo;
     struct Sprite *sprite;
@@ -1919,10 +2054,6 @@ void EventObjectSetGraphicsId(struct EventObject *eventObject, u8 graphicsId)
     if (paletteSlot == 0)
     {
         PatchObjectPalette(graphicsInfo->paletteTag1, graphicsInfo->paletteSlot);
-    }
-    else if (paletteSlot == 10)
-    {
-        LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag1, graphicsInfo->paletteSlot);
     }
     else if (paletteSlot >= 16)
     {
@@ -1948,7 +2079,7 @@ void EventObjectSetGraphicsId(struct EventObject *eventObject, u8 graphicsId)
     }
 }
 
-void EventObjectSetGraphicsIdByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup, u8 graphicsId)
+void EventObjectSetGraphicsIdByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup, u16 graphicsId)
 {
     u8 eventObjectId;
 
@@ -2001,16 +2132,17 @@ void PlayerObjectTurn(struct PlayerAvatar *playerAvatar, u8 direction)
         {
             berryId = 0;
         }
+        sub_808E894(gBerryTreePaletteTagTablePointers[berryId][berryStage]);
         EventObjectSetGraphicsId(eventObject, gBerryTreeEventObjectGraphicsIdTablePointers[berryId][berryStage]);
         sprite->images = gBerryTreePicTablePointers[berryId];
-        sprite->oam.paletteNum = gBerryTreePaletteSlotTablePointers[berryId][berryStage];
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(gBerryTreePaletteTagTablePointers[berryId][berryStage]);
         StartSpriteAnim(sprite, berryStage);
     }
 }
 
-const struct EventObjectGraphicsInfo *GetEventObjectGraphicsInfo(u8 graphicsId)
+const struct EventObjectGraphicsInfo *GetEventObjectGraphicsInfo(u16 graphicsId)
 {
-    u8 bard;
+    u16 bard;
 
     if (graphicsId >= SPRITE_VAR)
     {
@@ -2113,7 +2245,7 @@ void FreeAndReserveObjectSpritePalettes(void)
     gReservedSpritePaletteCount = 12;
 }
 
-static void sub_808E894(u16 paletteTag)
+void sub_808E894(u16 paletteTag)
 {
     u16 paletteSlot;
 
@@ -2173,37 +2305,6 @@ static u8 FindEventObjectPaletteIndexByTag(u16 tag)
         }
     }
     return 0xff;
-}
-
-void LoadPlayerObjectReflectionPalette(u16 tag, u8 slot)
-{
-    u8 i;
-
-    PatchObjectPalette(tag, slot);
-    for (i = 0; gPlayerReflectionPaletteSets[i].tag != EVENT_OBJ_PAL_TAG_NONE; i++)
-    {
-        if (gPlayerReflectionPaletteSets[i].tag == tag)
-        {
-            PatchObjectPalette(gPlayerReflectionPaletteSets[i].data[sCurrentReflectionType], gReflectionEffectPaletteMap[slot]);
-            return;
-        }
-    }
-}
-
-void LoadSpecialObjectReflectionPalette(u16 tag, u8 slot)
-{
-    u8 i;
-
-    sCurrentSpecialObjectPaletteTag = tag;
-    PatchObjectPalette(tag, slot);
-    for (i = 0; gSpecialObjectReflectionPaletteSets[i].tag != EVENT_OBJ_PAL_TAG_NONE; i++)
-    {
-        if (gSpecialObjectReflectionPaletteSets[i].tag == tag)
-        {
-            PatchObjectPalette(gSpecialObjectReflectionPaletteSets[i].data[sCurrentReflectionType], gReflectionEffectPaletteMap[slot]);
-            return;
-        }
-    }
 }
 
 static void sub_808EAB0(u16 tag, u8 slot)
@@ -2644,40 +2745,6 @@ void sub_808F28C(u8 localId, u8 mapNum, u8 mapGroup, u8 decorCat)
                 break;
         }
     }
-}
-
-void InitEventObjectPalettes(u8 palSlot)
-{
-    FreeAndReserveObjectSpritePalettes();
-    sCurrentSpecialObjectPaletteTag = EVENT_OBJ_PAL_TAG_NONE;
-    sCurrentReflectionType = palSlot;
-    if (palSlot == 1)
-    {
-        PatchObjectPaletteRange(gObjectPaletteTagSets[sCurrentReflectionType], 0, 6);
-        gReservedSpritePaletteCount = 8;
-    }
-    else
-    {
-        PatchObjectPaletteRange(gObjectPaletteTagSets[sCurrentReflectionType], 0, 10);
-    }
-}
-
-u16 GetObjectPaletteTag(u8 palSlot)
-{
-    u8 i;
-
-    if (palSlot < 10)
-    {
-        return gObjectPaletteTagSets[sCurrentReflectionType][palSlot];
-    }
-    for (i = 0; gSpecialObjectReflectionPaletteSets[i].tag != EVENT_OBJ_PAL_TAG_NONE; i++)
-    {
-        if (gSpecialObjectReflectionPaletteSets[i].tag == sCurrentSpecialObjectPaletteTag)
-        {
-            return gSpecialObjectReflectionPaletteSets[i].data[sCurrentReflectionType];
-        }
-    }
-    return EVENT_OBJ_PAL_TAG_NONE;
 }
 
 movement_type_empty_callback(MovementType_None)
@@ -8102,12 +8169,12 @@ void GroundEffect_StepOnLongGrass(struct EventObject *eventObj, struct Sprite *s
 
 void GroundEffect_WaterReflection(struct EventObject *eventObj, struct Sprite *sprite)
 {
-    SetUpReflection(eventObj, sprite, 0);
+    SetUpReflection(eventObj, sprite, FALSE);
 }
 
 void GroundEffect_IceReflection(struct EventObject *eventObj, struct Sprite *sprite)
 {
-    SetUpReflection(eventObj, sprite, 1);
+    SetUpReflection(eventObj, sprite, TRUE);
 }
 
 void GroundEffect_FlowingWater(struct EventObject *eventObj, struct Sprite *sprite)
@@ -8842,7 +8909,7 @@ void sub_8097B78(u8 var1, u8 var2)
         StartSpriteAnim(&gSprites[spriteId], GetFaceDirectionAnimNum(var2));
 }
 
-void sub_8097BB4(u8 var1, u8 graphicsId)
+void sub_8097BB4(u8 var1, u16 graphicsId)
 {
     int spriteId = sub_8097B2C(var1);
 

@@ -127,8 +127,8 @@ static const u16 sBirchSpeechBgPals[][16] = {
     INCBIN_U16("graphics/birch_speech/bg1.gbapal")
 };
 
-static const u8 sBirchSpeechShadowGfx[] = INCBIN_U8("graphics/birch_speech/shadow.4bpp.lz");
-static const u8 sBirchSpeechBgMap[] = INCBIN_U8("graphics/birch_speech/map.bin.lz");
+static const u32 sBirchSpeechShadowGfx[] = INCBIN_U32("graphics/birch_speech/shadow.4bpp.lz");
+static const u32 sBirchSpeechBgMap[] = INCBIN_U32("graphics/birch_speech/map.bin.lz");
 static const u16 sBirchSpeechBgGradientPal[] = INCBIN_U16("graphics/birch_speech/bg2.gbapal");
 static const u16 sBirchSpeechPlatformBlackPal[] = {RGB_BLACK, RGB_BLACK, RGB_BLACK, RGB_BLACK, RGB_BLACK, RGB_BLACK, RGB_BLACK, RGB_BLACK};
 
@@ -1384,12 +1384,16 @@ static void Task_NewGameBirchSpeech_ChooseGender(u8 taskId)
         case MALE:
             PlaySE(SE_SELECT);
             gSaveBlock2Ptr->playerGender = gender;
+            gSaveBlock2Ptr->costume = COSTUME_BRENDAN;
+            gSaveBlock2Ptr->costumeFlags[COSTUME_BRENDAN] = TRUE;
             NewGameBirchSpeech_ClearGenderWindow(1, 1);
             gTasks[taskId].func = Task_NewGameBirchSpeech_WhatsYourName;
             break;
         case FEMALE:
             PlaySE(SE_SELECT);
             gSaveBlock2Ptr->playerGender = gender;
+            gSaveBlock2Ptr->costume = COSTUME_MAY;
+            gSaveBlock2Ptr->costumeFlags[COSTUME_MAY] = TRUE;
             NewGameBirchSpeech_ClearGenderWindow(1, 1);
             gTasks[taskId].func = Task_NewGameBirchSpeech_WhatsYourName;
             break;
