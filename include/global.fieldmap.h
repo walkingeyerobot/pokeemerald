@@ -184,9 +184,8 @@ struct ObjectEvent
              u32 disableJumpLandingGroundEffect:1;
              u32 fixedPriority:1;
              u32 hideReflection:1;
-             int :0;
-    /*0x04*/ u8 spriteId:7;
-    /*0x05*/ u16 graphicsId:9; // walkingeye: this is not enough bits.
+    /*0x04*/ u8 spriteId;
+    /*0x05*/ u16 graphicsId; // byte count is off starting here
     /*0x06*/ u8 movementType;
     /*0x07*/ u8 trainerType;
     /*0x08*/ u8 localId;

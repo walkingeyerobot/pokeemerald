@@ -3325,7 +3325,7 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
     {
         graphicsId = OBJ_EVENT_GFX_NINJA_BOY;
     }
-    
+
     return gObjectEventGraphicsInfoPointers[graphicsId];
 }
 
@@ -3416,11 +3416,7 @@ void FreeAndReserveObjectSpritePalettes(void)
 
 void LoadObjectEventPalette(u16 paletteTag)
 {
-    //mgba_printf(MGBA_LOG_INFO, "looking for paletteTag %d", paletteTag);
     u16 i = FindObjectEventPaletteIndexByTag(paletteTag);
-    if (i == 843) {
-        mgba_printf(MGBA_LOG_INFO, "found %d (%d)", i, OBJ_EVENT_PAL_TAG_NONE);
-    }
 
     if (i != OBJ_EVENT_PAL_TAG_NONE) // always true
     {
