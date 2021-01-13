@@ -117,7 +117,7 @@ static void sub_808E1B8(u8, s16, s16);
 static void SetPlayerAvatarObjectEventIdAndObjectId(u8, u8);
 static void sub_808E38C(struct ObjectEvent *);
 static u8 sub_808E8F4(const struct SpritePalette *);
-static u8 FindObjectEventPaletteIndexByTag(u16);
+static u16 FindObjectEventPaletteIndexByTag(u16);
 static void sub_808EAB0(u16, u8);
 static bool8 ObjectEventDoesZCoordMatch(struct ObjectEvent *, u8);
 static void ObjectCB_CameraObject(struct Sprite *);
@@ -1328,8 +1328,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Lugia,                 OBJ_EVENT_PAL_TAG_LUGIA},
     {gObjectEventPal_RubySapphireBrendan,   OBJ_EVENT_PAL_TAG_RS_BRENDAN},
     {gObjectEventPal_RubySapphireMay,       OBJ_EVENT_PAL_TAG_RS_MAY},
-    {NULL,                                  0x0000},
-{gObjectEventPalette_Pokemon_Species_001, OBJ_EVENT_PAL_TAG_POKEMON_001},
+    {gObjectEventPalette_Pokemon_Species_001, OBJ_EVENT_PAL_TAG_POKEMON_001},
 	{gObjectEventPalette_Pokemon_Species_002, OBJ_EVENT_PAL_TAG_POKEMON_002},
 	{gObjectEventPalette_Pokemon_Species_003, OBJ_EVENT_PAL_TAG_POKEMON_003},
 	{gObjectEventPalette_Pokemon_Species_004, OBJ_EVENT_PAL_TAG_POKEMON_004},
@@ -2138,6 +2137,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
 	{gObjectEventPalette_Pokemon_Species_807, OBJ_EVENT_PAL_TAG_POKEMON_807},
 	{gObjectEventPalette_Pokemon_Species_808, OBJ_EVENT_PAL_TAG_POKEMON_808},
 	{gObjectEventPalette_Pokemon_Species_809, OBJ_EVENT_PAL_TAG_POKEMON_809},
+    {NULL,                                  0x0000},
+    {NULL, OBJ_EVENT_PAL_TAG_NONE},
 };
 
 #include "data/object_events/berry_tree_graphics_tables.h"
@@ -3415,7 +3416,11 @@ void FreeAndReserveObjectSpritePalettes(void)
 
 void LoadObjectEventPalette(u16 paletteTag)
 {
+    //mgba_printf(MGBA_LOG_INFO, "looking for paletteTag %d", paletteTag);
     u16 i = FindObjectEventPaletteIndexByTag(paletteTag);
+    if (i == 843) {
+        mgba_printf(MGBA_LOG_INFO, "found %d (%d)", i, OBJ_EVENT_PAL_TAG_NONE);
+    }
 
     if (i != OBJ_EVENT_PAL_TAG_NONE) // always true
     {
@@ -3459,9 +3464,9 @@ void PatchObjectPaletteRange(const u16 *paletteTags, u8 minSlot, u8 maxSlot)
     }
 }
 
-static u8 FindObjectEventPaletteIndexByTag(u16 tag)
+static u16 FindObjectEventPaletteIndexByTag(u16 tag)
 {
-    u8 i;
+    int i;
 
     for (i = 0; sObjectEventSpritePalettes[i].tag != OBJ_EVENT_PAL_TAG_NONE; i++)
     {
