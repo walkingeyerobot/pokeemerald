@@ -1,7 +1,7 @@
 #ifndef GUARD_CONSTANTS_BATTLE_CONFIG_H
 #define GUARD_CONSTANTS_BATTLE_CONFIG_H
 
-// Species with peculiar battle effects.
+/*// Species with peculiar battle effects.
 #ifndef POKEMON_EXPANSION
     #define SPECIES_DIALGA                  0
     #define SPECIES_PALKIA                  0
@@ -65,7 +65,7 @@
     #define ITEM_YACHE_BERRY    208
     #define ITEM_GRISEOUS_ORB   369
 #endif
-
+*/
 #ifndef GEN_3
     #define GEN_3 0
     #define GEN_4 1
