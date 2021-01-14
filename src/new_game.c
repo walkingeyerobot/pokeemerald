@@ -45,6 +45,7 @@
 #include "berry_powder.h"
 #include "mevent.h"
 #include "union_room_chat.h"
+#include "shuffler.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 
@@ -206,6 +207,8 @@ void NewGameInitData(void)
     WipeTrainerNameRecords();
     ResetTrainerHillResults();
     ResetContestLinkResults();
+
+    Shuffle();
 }
 
 static void ResetMiniGamesResults(void)
