@@ -118,10 +118,22 @@ LittlerootTown_EventScript_SetMomInFrontOfDoorFemale:: @ 81E7EB9
 	return
 
 LittlerootTown_OnFrame: @ 81E7EC1
-	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 1, LittlerootTown_EventScript_StepOffTruckMale
-	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 2, LittlerootTown_EventScript_StepOffTruckFemale
+	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 1, LittleRootTown_EventScript_StepOffTruckWhoCares
+	@map_script_2 VAR_LITTLEROOT_INTRO_STATE, 1, LittlerootTown_EventScript_StepOffTruckMale
+	@map_script_2 VAR_LITTLEROOT_INTRO_STATE, 2, LittlerootTown_EventScript_StepOffTruckFemale
 	map_script_2 VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 1, LittlerootTown_EventScript_BeginDexUpgradeScene
 	.2byte 0
+
+LittleRootTown_EventScript_StepOffTruckWhoCares::
+	lockall
+	setvar VAR_0x8004, 5
+	setvar VAR_0x8005, 8
+	playse SE_LEDGE
+	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_Movement_PlayerStepOffTruck
+	waitmovement 0
+	setvar VAR_LITTLEROOT_INTRO_STATE, 3
+	releaseall
+	end
 
 LittlerootTown_EventScript_StepOffTruckMale:: @ 81E7EDB
 	lockall
@@ -415,12 +427,14 @@ LittlerootTown_EventScript_BirchsLabSign:: @ 81E815A
 
 LittlerootTown_EventScript_BrendansHouseSign:: @ 81E8163
 	lockall
-	checkplayergender
-	compare VAR_RESULT, MALE
-	call_if_eq LittlerootTown_EventScript_PlayersHouseSignMale
-	compare VAR_RESULT, FEMALE
-	call_if_eq LittlerootTown_EventScript_BirchsHouseSignFemale
+	msgbox LittlerootTown_Text_Tower, MSGBOX_SIGN
 	releaseall
+	@checkplayergender
+	@compare VAR_RESULT, MALE
+	@call_if_eq LittlerootTown_EventScript_PlayersHouseSignMale
+	@compare VAR_RESULT, FEMALE
+	@call_if_eq LittlerootTown_EventScript_BirchsHouseSignFemale
+	@releaseall
 	end
 
 LittlerootTown_EventScript_PlayersHouseSignMale:: @ 81E817D
@@ -1070,3 +1084,5 @@ LittlerootTown_Text_BirchSomethingToShowYouAtLab: @ 81E8DA2
 	.string "I have something to show you.\n"
 	.string "Let's go to my LAB.$"
 
+LittlerootTown_Text_Tower:
+	.string "The tower awaits.$"
