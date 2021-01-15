@@ -6,7 +6,7 @@
 #include "printf.h"
 #include "mgba.h"
 
-static const u16 possibleStarters[107] = {
+static const u16 possibleStarters[108] = {
     SPECIES_BULBASAUR,
     SPECIES_CHARMANDER,
     SPECIES_SQUIRTLE,
@@ -113,7 +113,8 @@ static const u16 possibleStarters[107] = {
     SPECIES_ROLYCOLY,
     SPECIES_HATENNA,
     SPECIES_IMPIDIMP,
-    SPECIES_DREEPY
+    SPECIES_DREEPY,
+    SPECIES_ZIGZAGOON_GALARIAN
 };
 
 EWRAM_DATA u16 realStarterMon[3] = { 0, 0, 0 };
@@ -130,7 +131,7 @@ void Shuffle() {
 
     int r;
     for (int i = 0; i < 3; ) {
-        r = tinymt32_generate_uint32(&tinymt) % 107;
+        r = tinymt32_generate_uint32(&tinymt) % 108;
         if (i >= 1) {
             if (realStarterMon[0] == possibleStarters[r]) {
                 continue;
