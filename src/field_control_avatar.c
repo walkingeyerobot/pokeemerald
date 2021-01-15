@@ -225,9 +225,9 @@ static bool8 TryStartInteractionScript(struct MapPosition *position, u16 metatil
         return FALSE;
 
     // Don't play interaction sound for certain scripts.
-    if (script != LittlerootTown_BrendansHouse_2F_EventScript_PC
-     && script != LittlerootTown_MaysHouse_2F_EventScript_PC
-     && script != SecretBase_EventScript_PC
+    if (// script != LittlerootTown_BrendansHouse_2F_EventScript_PC
+     // && script != LittlerootTown_MaysHouse_2F_EventScript_PC
+     script != SecretBase_EventScript_PC
      && script != SecretBase_EventScript_RecordMixingPC
      && script != SecretBase_EventScript_DollInteract
      && script != SecretBase_EventScript_CushionInteract
@@ -541,9 +541,9 @@ static bool8 TryStartStepCountScript(u16 metatileBehavior)
         return FALSE;
     }
 
-    IncrementRematchStepCounter();
+    //IncrementRematchStepCounter();
     UpdateHappinessStepCounter();
-    UpdateFarawayIslandStepCounter();
+    //UpdateFarawayIslandStepCounter();
 
     if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_FORCED_MOVE) && !MetatileBehavior_IsForcedMovementTile(metatileBehavior))
     {
@@ -558,6 +558,7 @@ static bool8 TryStartStepCountScript(u16 metatileBehavior)
             ScriptContext1_SetupScript(EventScript_EggHatch);
             return TRUE;
         }
+        /*
         if (AbnormalWeatherHasExpired() == TRUE)
         {
             ScriptContext1_SetupScript(AbnormalWeather_EventScript_EndEventAndCleanup_1);
@@ -593,6 +594,7 @@ static bool8 TryStartStepCountScript(u16 metatileBehavior)
             ScriptContext1_SetupScript(MossdeepCity_SpaceCenter_2F_EventScript_RivalRayquazaCall);
             return TRUE;
         }
+        */
     }
 
     if (SafariZoneTakeStep() == TRUE)

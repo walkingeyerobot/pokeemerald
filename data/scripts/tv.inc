@@ -90,3 +90,20 @@ EventScript_DoInSearchOfTrainers:: @ 827EEFF
 	goto_if_eq EventScript_DoInSearchOfTrainers
 	goto EventScript_TurnOffTV
 	end
+
+PlayersHouse_1F_Text_TheresAMovieOnTV: @ 81F7F0F
+	.string "There is a movie on TV.\p"
+	.string "Two men are dancing on a big piano\n"
+	.string "keyboard.\p"
+	.string "Better get going!$"
+
+PlayersHouse_1F_Text_LatiEmergencyNewsFlash: @ 81F826F
+	.string "We bring you this emergency\n"
+	.string "news flash!\p"
+	.string "In various HOENN locales, there have\n"
+	.string "been reports of a BZZT…colored\l"
+	.string "POKéMON in flight.\p"
+	.string "The identity of this POKéMON is\n"
+	.string "currently unknown.\p"
+	.string "We now return you to the regular\n"
+	.string "movie program.$"
