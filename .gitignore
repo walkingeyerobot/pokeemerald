@@ -36,3 +36,4 @@ porymap.project.cfg
 *.sna
 *.code-workspace
 mgba.sh
+core

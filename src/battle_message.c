@@ -14,6 +14,7 @@
 #include "menu.h"
 #include "palette.h"
 #include "recorded_battle.h"
+#include "shuffler.h"
 #include "string_util.h"
 #include "strings.h"
 #include "text.h"
@@ -30,6 +31,9 @@
 #include "constants/trainers.h"
 #include "constants/trainer_hill.h"
 #include "constants/weather.h"
+
+#include "printf.h"
+#include "mgba.h"
 
 struct BattleWindowText
 {
@@ -2793,7 +2797,8 @@ static const u8 *BattleStringGetOpponentNameByTrainerId(u16 trainerId, u8 *text,
     }
     else
     {
-        toCpy = gTrainers[trainerId].trainerName;
+        toCpy = GetRedirectTrainerName(trainerId);
+        //toCpy = gTrainers[trainerId].trainerName;
     }
 
     return toCpy;
@@ -2876,7 +2881,7 @@ static const u8 *BattleStringGetOpponentClassByTrainerId(u16 trainerId)
     else if (gBattleTypeFlags & BATTLE_TYPE_EREADER_TRAINER)
         toCpy = gTrainerClassNames[GetEreaderTrainerClassId()];
     else
-        toCpy = gTrainerClassNames[gTrainers[trainerId].trainerClass];
+        toCpy = gTrainerClassNames[RedirectTrainer(trainerId).trainerClass];
 
     return toCpy;
 }

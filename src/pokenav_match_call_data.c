@@ -7,6 +7,7 @@
 #include "gym_leader_rematch.h"
 #include "match_call.h"
 #include "pokenav.h"
+#include "shuffler.h"
 #include "strings.h"
 #include "constants/region_map_sections.h"
 #include "constants/trainers.h"
@@ -1087,9 +1088,10 @@ static void MatchCall_GetNameAndDesc_Birch(match_call_t matchCall, const u8 **de
 
 static void MatchCall_GetNameAndDescByRematchIdx(u32 idx, const u8 **desc, const u8 **name)
 {
-    const struct Trainer *trainer = gTrainers + GetTrainerIdxByRematchIdx(idx);
-    *desc = gTrainerClassNames[trainer->trainerClass];
-    *name = trainer->trainerName;
+    // const struct Trainer *trainer = gTrainers + GetTrainerIdxByRematchIdx(idx);
+    u16 i = GetTrainerIdxByRematchIdx(idx);
+    *desc = gTrainerClassNames[RedirectTrainer(i).trainerClass];
+    *name = RedirectTrainer(i).trainerName;
 }
 
 const u8 *MatchCall_GetOverrideFlavorText(u32 idx, u32 offset)

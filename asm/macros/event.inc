@@ -1620,6 +1620,20 @@
 	.2byte \quantity
 	.endm
 
+	.macro finishdeclare
+	.byte 0xe4
+	.endm
+
+	.macro declaretrainer objnum:req
+	.byte 0xe5
+	.byte \objnum
+	.endm
+
+	.macro declarewildmon objnum:req
+	.byte 0xe6
+	.byte \objnum
+	.endm
+
 
 @ Supplementary
 

@@ -18,6 +18,7 @@
 #include "random.h"
 #include "region_map.h"
 #include "rtc.h"
+#include "shuffler.h"
 #include "script.h"
 #include "script_movement.h"
 #include "sound.h"
@@ -1587,7 +1588,7 @@ static void PopulateTrainerName(int matchCallId, u8 *destStr)
         }
     }
 
-    StringCopy(destStr, gTrainers[trainerId].trainerName);
+    StringCopy(destStr, RedirectTrainer(trainerId).trainerName);
 }
 
 static void PopulateMapName(int matchCallId, u8 *destStr)
@@ -1693,10 +1694,10 @@ static void PopulateSpeciesFromTrainerParty(int matchCallId, u8 *destStr)
     const u8 *speciesName;
 
     trainerId = GetLastBeatenRematchTrainerId(sMatchCallTrainers[matchCallId].trainerId);
-    party = gTrainers[trainerId].party;
-    monId = Random() % gTrainers[trainerId].partySize;
+    party = RedirectTrainer(trainerId).party;
+    monId = Random() % RedirectTrainer(trainerId).partySize;
 
-    switch (gTrainers[trainerId].partyFlags)
+    switch (RedirectTrainer(trainerId).partyFlags)
     {
     case 0:
     default:

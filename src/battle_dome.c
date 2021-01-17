@@ -31,6 +31,7 @@
 #include "scanline_effect.h"
 #include "script_pokemon_util.h"
 #include "graphics.h"
+#include "shuffler.h"
 #include "constants/battle_dome.h"
 #include "constants/frontier_util.h"
 #include "constants/moves.h"
@@ -6068,12 +6069,12 @@ static void CopyDomeTrainerName(u8 *str, u16 trainerId)
 
 static u8 GetDomeBrainTrainerPicId(void)
 {
-    return gTrainers[TRAINER_TUCKER].trainerPic;
+    return RedirectTrainer(TRAINER_TUCKER).trainerPic;
 }
 
 static u8 GetDomeBrainTrainerClass(void)
 {
-    return gTrainers[TRAINER_TUCKER].trainerClass;
+    return RedirectTrainer(TRAINER_TUCKER).trainerClass;
 }
 
 static void CopyDomeBrainTrainerName(u8 *str)
@@ -6081,6 +6082,6 @@ static void CopyDomeBrainTrainerName(u8 *str)
     int i;
 
     for (i = 0; i < PLAYER_NAME_LENGTH; i++)
-        str[i] = gTrainers[TRAINER_TUCKER].trainerName[i];
+        str[i] = RedirectTrainer(TRAINER_TUCKER).trainerName[i];
     str[i] = EOS;
 }

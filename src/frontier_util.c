@@ -28,6 +28,7 @@
 #include "save.h"
 #include "load_save.h"
 #include "battle_dome.h"
+#include "shuffler.h"
 #include "constants/battle_frontier.h"
 #include "constants/frontier_util.h"
 #include "constants/trainers.h"
@@ -2448,7 +2449,7 @@ u8 GetFrontierBrainTrainerPicIndex(void)
     else
         facility = VarGet(VAR_FRONTIER_FACILITY);
 
-    return gTrainers[sFrontierBrainTrainerIds[facility]].trainerPic;
+    return RedirectTrainer(sFrontierBrainTrainerIds[facility]).trainerPic;
 }
 
 u8 GetFrontierBrainTrainerClass(void)
@@ -2460,7 +2461,7 @@ u8 GetFrontierBrainTrainerClass(void)
     else
         facility = VarGet(VAR_FRONTIER_FACILITY);
 
-    return gTrainers[sFrontierBrainTrainerIds[facility]].trainerClass;
+    return RedirectTrainer(sFrontierBrainTrainerIds[facility]).trainerClass;
 }
 
 void CopyFrontierBrainTrainerName(u8 *dst)
@@ -2474,7 +2475,7 @@ void CopyFrontierBrainTrainerName(u8 *dst)
         facility = VarGet(VAR_FRONTIER_FACILITY);
 
     for (i = 0; i < PLAYER_NAME_LENGTH; i++)
-        dst[i] = gTrainers[sFrontierBrainTrainerIds[facility]].trainerName[i];
+        dst[i] = RedirectTrainer(sFrontierBrainTrainerIds[facility]).trainerName[i];
 
     dst[i] = EOS;
 }

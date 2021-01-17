@@ -40,6 +40,7 @@
 #include "script_movement.h"
 #include "script_pokemon_util.h"
 #include "shop.h"
+#include "shuffler.h"
 #include "slot_machine.h"
 #include "sound.h"
 #include "string_util.h"
@@ -49,6 +50,9 @@
 #include "tv.h"
 #include "window.h"
 #include "constants/event_objects.h"
+
+#include "printf.h"
+#include "mgba.h"
 
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(void);
@@ -1877,7 +1881,12 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 
     if(species2 == SPECIES_NONE)
     {
-        CreateScriptedWildMon(species, level, item);
+        CreateScriptedWildMon(
+            GetAdjustedWildMonSpecies(species - 1),
+            GetAdjustedWildMonLevel(species - 1),
+            item
+            //species, level, item
+        );
         gIsScriptedWildDouble = FALSE;
     }
     else
@@ -2323,5 +2332,22 @@ bool8 ScrCmd_warpsootopolislegend(struct ScriptContext *ctx)
     SetWarpDestination(mapGroup, mapNum, warpId, x, y);
     DoSootopolisLegendWarp();
     ResetInitialPlayerAvatarState();
+    return TRUE;
+}
+
+bool8 ScrCmd_finishdeclare(struct ScriptContext *ctx) {
+
+}
+
+bool8 ScrCmd_declaretrainer(struct ScriptContext *ctx) {
+    mgba_printf(MGBA_LOG_INFO, "hello from declaretrainer()!");
+    u8 objNum = ScriptReadByte(ctx) - 1;
+    DeclareTrainer(objNum);
+    return TRUE;
+}
+
+bool8 ScrCmd_declarewildmon(struct ScriptContext *ctx) {
+    u8 objNum = ScriptReadByte(ctx) - 1;
+    DeclareWildMon(objNum);
     return TRUE;
 }

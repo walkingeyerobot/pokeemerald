@@ -2,136 +2,41 @@
 #include "shuffler.h"
 #include "random.h"
 #include "tinymt32.h"
+#include "data.h"
+#include "battle_setup.h"
+#include "constants/trainers.h"
+#include "constants/battle_ai.h"
+#include "constants/event_objects.h"
 
 #include "printf.h"
 #include "mgba.h"
 
-static const u16 possibleStarters[108] = {
-    SPECIES_BULBASAUR,
-    SPECIES_CHARMANDER,
-    SPECIES_SQUIRTLE,
-    SPECIES_CATERPIE,
-    SPECIES_WEEDLE,
-    SPECIES_PIDGEY,
-    SPECIES_PICHU,
-    SPECIES_NIDORAN_F,
-    SPECIES_NIDORAN_M,
-    SPECIES_CLEFFA,
-    SPECIES_IGGLYBUFF,
-    SPECIES_ZUBAT,
-    SPECIES_ODDISH,
-    SPECIES_POLIWAG,
-    SPECIES_ABRA,
-    SPECIES_MACHOP,
-    SPECIES_BELLSPROUT,
-    SPECIES_GEODUDE,
-    SPECIES_GEODUDE_ALOLAN,
-    SPECIES_MAGNEMITE,
-    SPECIES_GASTLY,
-    SPECIES_TYROGUE,
-    SPECIES_RHYHORN,
-    SPECIES_HAPPINY,
-    SPECIES_HORSEA,
-    SPECIES_ELEKID,
-    SPECIES_MAGBY,
-    SPECIES_EEVEE,
-    SPECIES_PORYGON,
-    SPECIES_DRATINI,
-    SPECIES_CHIKORITA,
-    SPECIES_CYNDAQUIL,
-    SPECIES_TOTODILE,
-    SPECIES_TOGEPI,
-    SPECIES_MAREEP,
-    SPECIES_AZURILL,
-    SPECIES_HOPPIP,
-    SPECIES_SWINUB,
-    SPECIES_LARVITAR,
-    SPECIES_TREECKO,
-    SPECIES_TORCHIC,
-    SPECIES_MUDKIP,
-    SPECIES_WURMPLE,
-    SPECIES_LOTAD,
-    SPECIES_SEEDOT,
-    SPECIES_RALTS,
-    SPECIES_SLAKOTH,
-    SPECIES_NINCADA,
-    SPECIES_WHISMUR,
-    SPECIES_ARON,
-    SPECIES_BUDEW,
-    SPECIES_TRAPINCH,
-    SPECIES_DUSKULL,
-    SPECIES_SPHEAL,
-    SPECIES_BAGON,
-    SPECIES_BELDUM,
-    SPECIES_TURTWIG,
-    SPECIES_MONFERNO,
-    SPECIES_PIPLUP,
-    SPECIES_STARLY,
-    SPECIES_SHINX,
-    SPECIES_BUDEW,
-    SPECIES_GIBLE,
-    SPECIES_SNIVY,
-    SPECIES_TEPIG,
-    SPECIES_OSHAWOTT,
-    SPECIES_LILLIPUP,
-    SPECIES_PIDOVE,
-    SPECIES_ROGGENROLA,
-    SPECIES_TIMBURR,
-    SPECIES_TYMPOLE,
-    SPECIES_SEWADDLE,
-    SPECIES_VENIPEDE,
-    SPECIES_SANDILE,
-    SPECIES_GOTHITA,
-    SPECIES_SOLOSIS,
-    SPECIES_VANILLITE,
-    SPECIES_KLINK,
-    SPECIES_TYNAMO,
-    SPECIES_LITWICK,
-    SPECIES_AXEW,
-    SPECIES_DEINO,
-    SPECIES_CHESPIN,
-    SPECIES_FENNEKIN,
-    SPECIES_FROAKIE,
-    SPECIES_FLETCHLING,
-    SPECIES_SCATTERBUG,
-    SPECIES_FLABEBE,
-    SPECIES_HONEDGE,
-    SPECIES_GOOMY,
-    SPECIES_ROWLET,
-    SPECIES_LITTEN,
-    SPECIES_POPPLIO,
-    SPECIES_PIKIPEK,
-    SPECIES_GRUBBIN,
-    SPECIES_BOUNSWEET,
-    SPECIES_JANGMO_O,
-    SPECIES_COSMOG,
-    SPECIES_GROOKEY,
-    SPECIES_SCORBUNNY,
-    SPECIES_SOBBLE,
-    SPECIES_ROOKIDEE,
-    SPECIES_BLIPBUG,
-    SPECIES_ROLYCOLY,
-    SPECIES_HATENNA,
-    SPECIES_IMPIDIMP,
-    SPECIES_DREEPY,
-    SPECIES_ZIGZAGOON_GALARIAN
-};
+#include "data/shuffle_trainers.h"
+#include "data/shuffle_starters.h"
 
-EWRAM_DATA u16 realStarterMon[3] = { 0, 0, 0 };
+EWRAM_DATA int seed;
+EWRAM_DATA tinymt32_t currentRoomSeed;
+EWRAM_DATA u16 realStarterMon[3];
+
+EWRAM_DATA struct MapEvents AdjustedMapEvents;
+EWRAM_DATA struct ObjectEventTemplate AdjustedTemplates[MAX_OBJECTS];
+EWRAM_DATA u16 CurrentAdjustedRoom = 0xFFFF;
+
+EWRAM_DATA union ShuffledObject AdjustedObjects[MAX_OBJECTS];
 
 void Shuffle() {
-    mgba_printf(MGBA_LOG_INFO, "hello from Shuffle()!");
     tinymt32_t tinymt;
-    tinymt.mat1 = 0x8f7011ee;
-    tinymt.mat2 = 0xfc78ff1f;
-    tinymt.tmat = 0x3793fdff;
-    int seed = Random32();
+    tinymt.mat1 = MAT1;
+    tinymt.mat2 = MAT2;
+    tinymt.tmat = TMAT;
+    seed = Random32();
     tinymt32_init(&tinymt, seed);
     mgba_printf(MGBA_LOG_INFO, "seed: %u", seed);
 
     int r;
+    r = tinymt32_generate_uint32(&tinymt); // burn one RN for room seed testing for now.
     for (int i = 0; i < 3; ) {
-        r = tinymt32_generate_uint32(&tinymt) % 108;
+        r = tinymt32_generate_uint32(&tinymt) % POSSIBLE_STARTERS;
         if (i >= 1) {
             if (realStarterMon[0] == possibleStarters[r]) {
                 continue;
@@ -145,4 +50,126 @@ void Shuffle() {
         realStarterMon[i] = possibleStarters[r];
         i++;
     }
+}
+
+void SetCurrentRoomSeed() {
+    tinymt32_t tinymt;
+    tinymt.mat1 = MAT1;
+    tinymt.mat2 = MAT2;
+    tinymt.tmat = TMAT;
+    tinymt32_init(&tinymt, seed);
+    // burn an appropriate amount of RNs here.
+    currentRoomSeed.mat1 = MAT1;
+    currentRoomSeed.mat2 = MAT2;
+    currentRoomSeed.tmat = TMAT;
+    int seed2 = tinymt32_generate_uint32(&tinymt);
+    tinymt32_init(&currentRoomSeed, seed2);
+}
+
+void MirrorMapData() {
+    u16 currentRoom = gSaveBlock1Ptr->location.mapNum | (gSaveBlock1Ptr->location.mapGroup << 8);
+    if (CurrentAdjustedRoom != currentRoom) {
+        CurrentAdjustedRoom = currentRoom;
+        SetCurrentRoomSeed();
+
+        size_t mapevents_bytes = sizeof(struct MapEvents);
+        memcpy(&AdjustedMapEvents, gMapHeader.events, mapevents_bytes);
+        
+        u8 num_objs = AdjustedMapEvents.objectEventCount;
+        if (num_objs > MAX_OBJECTS) {
+            mgba_printf(MGBA_LOG_INFO, "num_objs > MAX_OBJECTS, shit is broken: %d", num_objs);
+        } else {
+            size_t objs_bytes = num_objs * sizeof(struct ObjectEventTemplate);
+            memcpy(&AdjustedTemplates, AdjustedMapEvents.objectEvents, objs_bytes);
+            AdjustedMapEvents.objectEvents = &AdjustedTemplates[0];
+        }
+    }
+
+    gMapHeader.events = &AdjustedMapEvents;
+}
+
+void DeclareTrainer(u8 objNum) {
+    MirrorMapData();
+
+    int i = tinymt32_generate_uint32(&currentRoomSeed) % POSSIBLE_TRAINERS;
+
+    struct TrainerTemplate tt = qTrainers[i];
+
+    AdjustedObjects[objNum].t.trainer.aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY;
+    AdjustedObjects[objNum].t.trainer.doubleBattle = FALSE;
+    AdjustedObjects[objNum].t.trainer.encounterMusic_gender = tt.encounterMusic_gender;
+    AdjustedObjects[objNum].t.trainer.partyFlags = 0;
+    AdjustedObjects[objNum].t.trainer.trainerClass = tt.trainerClass;
+    AdjustedObjects[objNum].t.trainer.trainerPic = tt.trainerPic;
+    if (tt.rarity == 0) {
+        AdjustedObjects[objNum].t.trainer.partySize = 2;
+        AdjustedObjects[objNum].t.trainer.party = tt.party;
+    } else {
+        AdjustedObjects[objNum].t.trainer.partySize = 1;
+        AdjustedObjects[objNum].t.party.NoItemDefaultMoves[0].iv = 0;
+        AdjustedObjects[objNum].t.party.NoItemDefaultMoves[0].lvl = 1;
+        AdjustedObjects[objNum].t.party.NoItemDefaultMoves[0].species = SPECIES_CATERPIE;
+        AdjustedObjects[objNum].t.trainer.party.NoItemDefaultMoves = &AdjustedObjects[objNum].t.party;
+    }
+    AdjustedObjects[objNum].t.defeatText = tt.defeatText;
+    AdjustedObjects[objNum].t.introText = tt.introText;
+    AdjustedObjects[objNum].t.name = tt.trainerName;
+    AdjustedTemplates[objNum].graphicsId = tt.graphicsId;
+}
+
+const u8 *GetAdjustedTrainerIntroText(u16 objNum) {
+    if (objNum < MAX_OBJECTS) {
+        return AdjustedObjects[objNum].t.introText;
+    }
+    return unknown_string;
+}
+
+const u8 *GetAdjustedTrainerDefeatText(u16 objNum) {
+    if (objNum < MAX_OBJECTS) {
+        return AdjustedObjects[objNum].t.defeatText;
+    }
+    return unknown_string;
+}
+
+const u8 *GetRedirectTrainerName(u16 index) {
+    u16 objNum = index - 1;
+    if (objNum < MAX_OBJECTS) {
+        return AdjustedObjects[objNum].t.name;
+    }
+    return unknown_string;
+}
+
+struct Trainer RedirectTrainer(u16 index) {
+    u16 objNum = index - 1;
+    if (objNum < MAX_OBJECTS) {
+        return AdjustedObjects[objNum].t.trainer;
+    }
+    return gTrainers[index];
+}
+
+void DeclareWildMon(u8 objNum) {
+    MirrorMapData();
+    int i = tinymt32_generate_uint32(&currentRoomSeed) % 809;
+    AdjustedObjects[objNum].wm.NoItemDefaultMoves.iv = 15;
+    AdjustedObjects[objNum].wm.NoItemDefaultMoves.lvl = 5;
+    AdjustedObjects[objNum].wm.NoItemDefaultMoves.species = i + 1;
+    AdjustedTemplates[objNum].graphicsId = OBJ_EVENT_GFX_POKEMON_001 + i;
+}
+
+u8 GetAdjustedWildMonLevel(u8 objNum) {
+    return AdjustedObjects[objNum].wm.NoItemDefaultMoves.lvl;
+}
+
+u16 GetAdjustedWildMonSpecies(u8 objNum) {
+    return AdjustedObjects[objNum].wm.NoItemDefaultMoves.species;
+}
+
+void NotifyShufflerChangedRoom() {
+    CurrentAdjustedRoom = 0;
+    // When a pokemon encounter happens, AI data from the last trainer faced is read.
+    // If we've switched rooms since fighting a trainer, this could be an invalid value,
+    // so just 0 it out here.
+    // I don't actually know if the AI flags are used or not during the wild battle.
+    gTrainerBattleOpponent_A = 0;
+    gTrainerBattleOpponent_B = 0;
 }
