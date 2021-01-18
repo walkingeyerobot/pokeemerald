@@ -11873,6 +11873,8 @@ static void Cmd_handleballthrow(void)
     {
         u32 odds, i;
         u8 catchRate;
+        u8 hpLevel = GetHPBarLevel(gBattleMons[gBattlerTarget].hp, gBattleMons[gBattlerTarget].maxHP);
+        u8 hasStatus = gBattleMons[gBattlerTarget].status1 & STATUS1_ANY;
 
         if (gLastUsedItem == ITEM_SAFARI_BALL)
             catchRate = gBattleStruct->safariCatchFactor * 1275 / 100;
@@ -11880,7 +11882,7 @@ static void Cmd_handleballthrow(void)
             catchRate = gBaseStats[gBattleMons[gBattlerTarget].species].catchRate;
 
         
-        #ifdef POKEMON_EXPANSION
+        /* #ifdef POKEMON_EXPANSION
         if (gBaseStats[gBattleMons[gBattlerTarget].species].flags & F_ULTRA_BEAST)
         {
             if (gLastUsedItem == ITEM_BEAST_BALL)
@@ -11890,7 +11892,7 @@ static void Cmd_handleballthrow(void)
         }
         else
         {
-        #endif
+        #endif */
 
         if (gLastUsedItem > ITEM_SAFARI_BALL)
         {
@@ -12060,12 +12062,31 @@ static void Cmd_handleballthrow(void)
                 break;
             }
         }
-        else
+        else {
             ballMultiplier = sBallCatchBonuses[gLastUsedItem - ITEM_ULTRA_BALL];
-
-        #ifdef POKEMON_EXPANSION
+            odds = 0;
+            switch (gLastUsedItem) {
+                case ITEM_ULTRA_BALL:
+                    if ((hpLevel == HP_BAR_FULL && hasStatus) || (hpLevel == HP_BAR_GREEN && hasStatus) || hpLevel == HP_BAR_YELLOW || hpLevel == HP_BAR_RED) {
+                        odds = 255;
+                    }
+                    break;
+                case ITEM_GREAT_BALL:
+                    if ((hpLevel == HP_BAR_YELLOW && hasStatus) || hpLevel == HP_BAR_RED) {
+                        odds = 255;
+                    }
+                    break;
+                case ITEM_POKE_BALL:
+                    if (hpLevel == HP_BAR_RED && hasStatus) {
+                        odds = 255;
+                    }
+                    break;
+            }
         }
-        #endif
+
+        /* #ifdef POKEMON_EXPANSION
+        }
+        #endif */
 
         // catchRate is unsigned, which means that it may potentially overflow if sum is applied directly.
         if (catchRate < 21 && ballAddition == -20)
@@ -12073,14 +12094,16 @@ static void Cmd_handleballthrow(void)
         else
             catchRate = catchRate + ballAddition;
 
-        odds = ((catchRate) * ballMultiplier / 10)
-            * (gBattleMons[gBattlerTarget].maxHP * 3 - gBattleMons[gBattlerTarget].hp * 2)
-            / (3 * gBattleMons[gBattlerTarget].maxHP);
+        if (gLastUsedItem > ITEM_SAFARI_BALL) {
+            odds = ((catchRate) * ballMultiplier / 10)
+                * (gBattleMons[gBattlerTarget].maxHP * 3 - gBattleMons[gBattlerTarget].hp * 2)
+                / (3 * gBattleMons[gBattlerTarget].maxHP);
 
-        if (gBattleMons[gBattlerTarget].status1 & (STATUS1_SLEEP | STATUS1_FREEZE))
-            odds *= 2;
-        if (gBattleMons[gBattlerTarget].status1 & (STATUS1_POISON | STATUS1_BURN | STATUS1_PARALYSIS | STATUS1_TOXIC_POISON))
-            odds = (odds * 15) / 10;
+            if (gBattleMons[gBattlerTarget].status1 & (STATUS1_SLEEP | STATUS1_FREEZE))
+                odds *= 2;
+            if (gBattleMons[gBattlerTarget].status1 & (STATUS1_POISON | STATUS1_BURN | STATUS1_PARALYSIS | STATUS1_TOXIC_POISON))
+                odds = (odds * 15) / 10;
+        }
 
         if (gLastUsedItem != ITEM_SAFARI_BALL)
         {
