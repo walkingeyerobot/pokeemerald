@@ -32,65 +32,383 @@ static const struct TrainerTemplate tt1 = {
 };
 
 
-static const u8 tt2IntroText[] = _("ROCK and roll");
-static const u8 tt2DefeatText[] = _("I am sad now");
-static const u8 tt2Name[] = _("Miker");
-static const struct TrainerTemplate tt2 = {
+static const u8 ttNormalIntroText[] = _("My name is Norman so I legally have to\nuse Normal types.");
+static const u8 ttNormalDefeatText[] = _("I hate being Norman.");
+static const u8 ttNormalName[] = _("Norman");
+static const struct TrainerTemplate ttNormal = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_GENTLEMAN,
+    .trainerName = &ttNormalName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_NORMAL,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttNormalIntroText,
+    .defeatText = &ttNormalDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_GENTLEMAN,
+};
+
+
+static const u8 ttFightingIntroText[] = _("Number one super guy!");
+static const u8 ttFightingDefeatText[] = _("I got cancelled in 1976.");
+static const u8 ttFightingName[] = _("HK Phooey");
+static const struct TrainerTemplate ttFighting = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_BLACK_BELT,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_BLACK_BELT,
+    .trainerName = &ttFightingName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_FIGHTING,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttFightingIntroText,
+    .defeatText = &ttFightingDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_BLACK_BELT,
+};
+
+
+static const u8 ttFlyingIntroText[] = _("Toucan play at this game!");
+static const u8 ttFlyingDefeatText[] = _("I guess birds really are sky garbage.");
+static const u8 ttFlyingName[] = _("Robin");
+static const struct TrainerTemplate ttFlying = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_BIRD_KEEPER,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_BIRD_KEEPER,
+    .trainerName = &ttFlyingName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_FLYING,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttFlyingIntroText,
+    .defeatText = &ttFlyingDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_FISHERMAN,
+};
+
+
+static const u8 ttPoisonIntroText[] = _("A hug without U is just toxic!");
+static const u8 ttPoisonDefeatText[] = _("Get it because Hg is the chemical\nsymbol for mercury.");
+static const u8 ttPoisonName[] = _("Venus");
+static const struct TrainerTemplate ttPoison = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_TEAM_AQUA,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_AQUA_GRUNT_F,
+    .trainerName = &ttPoisonName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_POISON,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttPoisonIntroText,
+    .defeatText = &ttPoisonDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_AQUA_MEMBER_F,
+};
+
+
+static const u8 ttGroundIntroText[] = _("Have you been adding soil to my garden?");
+static const u8 ttGroundDefeatText[] = _("The plot thickens.");
+static const u8 ttGroundName[] = _("Harry");
+static const struct TrainerTemplate ttGround = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_RUIN_MANIAC,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_RUIN_MANIAC,
+    .trainerName = &ttGroundName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_GROUND,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttGroundIntroText,
+    .defeatText = &ttGroundDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_SCIENTIST_1,
+};
+
+
+static const u8 ttRockIntroText[] = _("ROCK and roll!");
+static const u8 ttRockDefeatText[] = _("I am sad now.");
+static const u8 ttRockName[] = _("Mike");
+static const struct TrainerTemplate ttRock = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_HIKER,
     .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
     .trainerPic = TRAINER_PIC_HIKER,
-    .trainerName = &tt2Name,
+    .trainerName = &ttRockName,
     .partySize = 0,
     .party = {},
     .type1 = TYPE_ROCK,
     .type2 = 0,
     .rarity = 1,
-    .introText = &tt2IntroText,
-    .defeatText = &tt2DefeatText,
+    .introText = &ttRockIntroText,
+    .defeatText = &ttRockDefeatText,
     .graphicsId = OBJ_EVENT_GFX_HIKER,
 };
 
-static const u8 tt3IntroText[] = _("Bizz buzz");
-static const u8 tt3DefeatText[] = _("You BUG me");
-static const u8 tt3Name[] = _("Hester");
-static const struct TrainerTemplate tt3 = {
+static const u8 ttBugIntroText[] = _("You're buggin' me.");
+static const u8 ttBugDefeatText[] = _("Buzz off.");
+static const u8 ttBugName[] = _("Jeff");
+static const struct TrainerTemplate ttBug = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_BUG_CATCHER,
     .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
     .trainerPic = TRAINER_PIC_BUG_CATCHER,
-    .trainerName = &tt3Name,
+    .trainerName = &ttBugName,
     .partySize = 0,
     .party = {},
     .type1 = TYPE_BUG,
     .type2 = 0,
     .rarity = 1,
-    .introText = &tt3IntroText,
-    .defeatText = &tt3DefeatText,
+    .introText = &ttBugIntroText,
+    .defeatText = &ttBugDefeatText,
     .graphicsId = OBJ_EVENT_GFX_BUG_CATCHER,
 };
 
-static const u8 tt4IntroText[] = _("Quit DRAGON your feet");
-static const u8 tt4DefeatText[] = _("...");
-static const u8 tt4Name[] = _("Drake");
-static const struct TrainerTemplate tt4 = {
+
+static const u8 ttGhostIntroText[] = _("You're in for a spooktacular battle!");
+static const u8 ttGhostDefeatText[] = _("My favorite holiday is actually\nCanadian Thanksgiving.");
+static const u8 ttGhostName[] = _("Cathrine");
+static const struct TrainerTemplate ttGhost = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_HEX_MANIAC,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_HEX_MANIAC,
+    .trainerName = &ttGhostName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_GHOST,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttGhostIntroText,
+    .defeatText = &ttGhostDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_HEX_MANIAC,
+};
+
+
+static const u8 ttSteelIntroText[] = _("Steel yourself.");
+static const u8 ttSteelDefeatText[] = _("You steeled that victory from me.");
+static const u8 ttSteelName[] = _("Steve");
+static const struct TrainerTemplate ttSteel = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_NINJA_BOY,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_NINJA_BOY,
+    .trainerName = &ttSteelName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_STEEL,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttSteelIntroText,
+    .defeatText = &ttSteelDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_NINJA_BOY,
+};
+
+
+static const u8 ttFireIntroText[] = _("Man it's a hot one.");
+static const u8 ttFireDefeatText[] = _("Like seven inches from the midday\nsun.");
+static const u8 ttFireName[] = _("Rob");
+static const struct TrainerTemplate ttFire = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_TEAM_MAGMA,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_MAGMA_GRUNT_M,
+    .trainerName = &ttFireName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_FIRE,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttFireIntroText,
+    .defeatText = &ttFireDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_MAGMA_MEMBER_M,
+};
+
+
+static const u8 ttWaterIntroText[] = _("Splish splash!");
+static const u8 ttWaterDefeatText[] = _("I'm just a small child.");
+static const u8 ttWaterName[] = _("Tommy");
+static const struct TrainerTemplate ttWater = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_TUBER_M,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_TUBER_M,
+    .trainerName = &ttWaterName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_WATER,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttWaterIntroText,
+    .defeatText = &ttWaterDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_TUBER_M,
+};
+
+
+static const u8 ttGrassIntroText[] = _("I'm over-dew for a win!");
+static const u8 ttGrassDefeatText[] = _("I'm terrible at this.");
+static const u8 ttGrassName[] = _("Mary");
+static const struct TrainerTemplate ttGrass = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_PKMN_BREEDER,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_POKEMON_BREEDER_F,
+    .trainerName = &ttGrassName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_GRASS,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttGrassIntroText,
+    .defeatText = &ttGrassDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_WOMAN_2,
+};
+
+
+static const u8 ttElectricIntroText[] = _("This is my shocked face.");
+static const u8 ttElectricDefeatText[] = _("I'll have to charge you double for that.");
+static const u8 ttElectricName[] = _("Jack");
+static const struct TrainerTemplate ttElectric = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_GUITARIST,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_GUITARIST,
+    .trainerName = &ttElectricName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_ELECTRIC,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttElectricIntroText,
+    .defeatText = &ttElectricDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_MAN_5,
+};
+
+
+static const u8 ttPsychicIntroText[] = _("You're doing fine, but how am I?");
+static const u8 ttPsychicDefeatText[] = _("It's hard to find the happy medium.");
+static const u8 ttPsychicName[] = _("Tina");
+static const struct TrainerTemplate ttPsychic = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_PSYCHIC,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_PSYCHIC_F,
+    .trainerName = &ttPsychicName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_PSYCHIC,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttPsychicIntroText,
+    .defeatText = &ttPsychicDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_LASS,
+};
+
+
+static const u8 ttIceIntroText[] = _("ICE to meet you!");
+static const u8 ttIceDefeatText[] = _("That wasn't very ICE of you.");
+static const u8 ttIceName[] = _("Sam");
+static const struct TrainerTemplate ttIce = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_POKEFAN,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_POKEFAN_F,
+    .trainerName = &ttIceName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_ICE,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttIceIntroText,
+    .defeatText = &ttIceDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_POKEFAN_F,
+};
+
+
+static const u8 ttDragonIntroText[] = _("Quit DRAGON your feet and fight me.");
+static const u8 ttDragonDefeatText[] = _("Dragons can't blow out birthday candles.");
+static const u8 ttDragonName[] = _("Drake");
+static const struct TrainerTemplate ttDragon = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_DRAGON_TAMER,
     .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
     .trainerPic = TRAINER_PIC_DRAGON_TAMER,
-    .trainerName = &tt4Name,
+    .trainerName = &ttDragonName,
     .partySize = 0,
     .party = {},
     .type1 = TYPE_DRAGON,
     .type2 = 0,
     .rarity = 1,
-    .introText = &tt4IntroText,
-    .defeatText = &tt4DefeatText,
-    .graphicsId = OBJ_EVENT_GFX_DRAKE,
+    .introText = &ttDragonIntroText,
+    .defeatText = &ttDragonDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_MAN_3,
+};
+
+
+static const u8 ttDarkIntroText[] = _("I have a dark sense of humor.");
+static const u8 ttDarkDefeatText[] = _("I can't see what's so funny.");
+static const u8 ttDarkName[] = _("Donnie");
+static const struct TrainerTemplate ttDark = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_POKEMANIAC,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_POKEMANIAC,
+    .trainerName = &ttDarkName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_DARK,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttDarkIntroText,
+    .defeatText = &ttDarkDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_MANIAC,
+};
+
+
+static const u8 ttFairyIntroText[] = _("This is a fairly odd game, don't you think?");
+static const u8 ttFairyDefeatText[] = _("No fairy-tale ending for me.");
+static const u8 ttFairyName[] = _("Anabel");
+static const struct TrainerTemplate ttFairy = {
+    .partyFlags = 0,
+    .trainerClass = TRAINER_CLASS_SALON_MAIDEN,
+    .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
+    .trainerPic = TRAINER_PIC_SALON_MAIDEN_ANABEL,
+    .trainerName = &ttFairyName,
+    .partySize = 0,
+    .party = {},
+    .type1 = TYPE_FAIRY,
+    .type2 = 0,
+    .rarity = 1,
+    .introText = &ttFairyIntroText,
+    .defeatText = &ttFairyDefeatText,
+    .graphicsId = OBJ_EVENT_GFX_ANABEL,
 };
 
 static const struct TrainerTemplate qTrainers[POSSIBLE_TRAINERS] = {
-    tt1, tt2, tt3, tt4
+    ttNormal,
+    ttFighting,
+    ttFlying,
+    ttPoison,
+    ttGround,
+    ttRock,
+    ttBug,
+    ttGhost,
+    ttSteel,
+    ttFire,
+    ttWater,
+    ttGrass,
+    ttElectric,
+    ttPsychic,
+    ttIce,
+    ttDragon,
+    ttDark,
+    ttFairy
 };
 
 static const int TrainerMonTypes[19][20] = {
