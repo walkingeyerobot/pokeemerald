@@ -33,14 +33,14 @@
       "x": 3,
       "y": 8,
       "elevation": 0,
-      "dest_map": "MAP_MOSSDEEP_CITY",
+      "dest_map": "MAP_OLDALE_TOWN_HOUSE1",
       "dest_warp_id": 1
     },
     {
       "x": 4,
       "y": 8,
       "elevation": 0,
-      "dest_map": "MAP_MOSSDEEP_CITY",
+      "dest_map": "MAP_OLDALE_TOWN_HOUSE1",
       "dest_warp_id": 1
     }
   ],

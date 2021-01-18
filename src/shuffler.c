@@ -275,7 +275,18 @@ void RedirectShuffledWarp(struct WarpData *warp) {
         warpSkips++;
         return;
     }
-    int fromIndex = warp->mapNum;
+    int fromIndex = -1;
+    int roomId = (warp->mapGroup << 8) | warp->mapNum;
+    for (int i = 0; i < TOTAL_ROOMS; i++) {
+        if (Rooms[i].id == roomId) {
+            fromIndex = i;
+            break;
+        }
+    }
+    if (fromIndex == -1) {
+        mgba_printf(MGBA_LOG_INFO, "unknown warp {%d, %d, %d, %d, %d}", warp->mapGroup, warp->mapNum, warp->warpId, warp->x, warp->y);
+        return;
+    }
     int leavingDirection = warp->warpId;
     struct WarpData w = realWarps[fromIndex][leavingDirection];
     warp->mapGroup = w.mapGroup;
