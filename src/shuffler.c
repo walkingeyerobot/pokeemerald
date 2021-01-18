@@ -284,7 +284,11 @@ void RedirectShuffledWarp(struct WarpData *warp) {
         }
     }
     if (fromIndex == -1) {
-        mgba_printf(MGBA_LOG_INFO, "unknown warp {%d, %d, %d, %d, %d}", warp->mapGroup, warp->mapNum, warp->warpId, warp->x, warp->y);
+        if (warp->mapGroup == 0 && warp->mapNum == 0 && warp->warpId == 0 && warp->x == 0 && warp->y == 0) {
+            mgba_printf(MGBA_LOG_INFO, "white out warp");
+        } else {
+            mgba_printf(MGBA_LOG_INFO, "unknown warp {%d, %d, %d, %d, %d}", warp->mapGroup, warp->mapNum, warp->warpId, warp->x, warp->y);
+        }
         return;
     }
     int leavingDirection = warp->warpId;
