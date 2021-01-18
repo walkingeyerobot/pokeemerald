@@ -21,22 +21,22 @@
       "x": 1,
       "y": 8,
       "elevation": 0,
-      "dest_map": "MAP_LITTLEROOT_TOWN_PROFESSOR_BIRCHS_LAB",
-      "dest_warp_id": 2
+      "dest_map": "MAP_RUSTBORO_CITY",
+      "dest_warp_id": 1
     },
     {
       "x": 2,
       "y": 8,
       "elevation": 0,
-      "dest_map": "MAP_LITTLEROOT_TOWN_PROFESSOR_BIRCHS_LAB",
-      "dest_warp_id": 2
+      "dest_map": "MAP_RUSTBORO_CITY",
+      "dest_warp_id": 1
     },
     {
       "x": 2,
       "y": 2,
       "elevation": 0,
-      "dest_map": "MAP_LITTLEROOT_TOWN_MAYS_HOUSE_2F",
-      "dest_warp_id": 1
+      "dest_map": "MAP_RUSTBORO_CITY",
+      "dest_warp_id": 0
     }
   ],
   "coord_events": [

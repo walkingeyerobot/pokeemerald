@@ -540,6 +540,7 @@ const struct MapLayout *GetMapLayout(void)
 
 void ApplyCurrentWarp(void)
 {
+    RedirectShuffledWarp(&sWarpDestination);
     gLastUsedWarp = gSaveBlock1Ptr->location;
     gSaveBlock1Ptr->location = sWarpDestination;
     sFixedDiveWarp = sDummyWarpData;
@@ -594,8 +595,8 @@ static void LoadCurrentMapData(void)
     // walkingeye: run map script to declare trainer sprites that need adjusting
     // This appears to be run twice each time a map loads:
     // once from WarpIntoMap() and once from LoadMapFromWarp()
-    MapHeaderRunScriptType(MAP_SCRIPT_ON_INTRO_TRAINERS);
     NotifyShufflerChangedRoom();
+    MapHeaderRunScriptType(MAP_SCRIPT_ON_INTRO_TRAINERS);
     
     gSaveBlock1Ptr->mapLayoutId = gMapHeader.mapLayoutId;
     gMapHeader.mapLayout = GetMapLayout();

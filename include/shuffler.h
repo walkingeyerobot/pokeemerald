@@ -5,14 +5,20 @@
 
 #define MAX_OBJECTS 10
 #define POSSIBLE_STARTERS 108
-#define POSSIBLE_TRAINERS 2
-#define TOTAL_ROOMS 6
+#define POSSIBLE_TRAINERS 4
+#define TOTAL_ROOMS 7
+#define TOTAL_WARPS 12
 #define MAT1 0x8f7011ee
 #define MAT2 0xfc78ff1f
 #define TMAT 0x3793fdff
 
+#define NORTH 0
+#define SOUTH 1
+#define EAST 2
+#define WEST 3
+
 struct TrainerTemplate {
-    //u8 partyFlags;
+    u8 partyFlags;
     u8 trainerClass;
     u8 encounterMusic_gender;
     u8 trainerPic;
@@ -20,7 +26,7 @@ struct TrainerTemplate {
     //u16 items[4];
     //bool8 doubleBattle;
     //u32 aiFlags;
-    //u8 partySize;
+    u8 partySize;
     
     union TrainerMonPtr party;
     u8 type1;
@@ -62,6 +68,11 @@ union ShuffledObject {
     struct WildMon wm;
 };
 
+struct RoomInfo {
+    u16 id;
+    u8 warpIds[4];
+};
+
 extern u16 realStarterMon[3];
 
 void Shuffle();
@@ -74,5 +85,6 @@ void DeclareWildMon(u8 objNum);
 u8 GetAdjustedWildMonLevel(u8 objNum);
 u16 GetAdjustedWildMonSpecies(u8 objNum);
 void NotifyShufflerChangedRoom();
+void RedirectShuffledWarp(struct WarpData *warp);
 
 #endif // GUARD_SHUFFLER_H

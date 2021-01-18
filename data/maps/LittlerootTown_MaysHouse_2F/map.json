@@ -21,22 +21,22 @@
       "x": 1,
       "y": 1,
       "elevation": 0,
-      "dest_map": "MAP_OLDALE_TOWN_HOUSE1",
+      "dest_map": "MAP_FORTREE_CITY",
       "dest_warp_id": 0
     },
     {
       "x": 4,
       "y": 7,
       "elevation": 0,
-      "dest_map": "MAP_LITTLEROOT_TOWN_MAYS_HOUSE_1F",
-      "dest_warp_id": 2
+      "dest_map": "MAP_FORTREE_CITY",
+      "dest_warp_id": 1
     },
     {
       "x": 5,
       "y": 7,
       "elevation": 0,
-      "dest_map": "MAP_LITTLEROOT_TOWN_MAYS_HOUSE_1F",
-      "dest_warp_id": 2
+      "dest_map": "MAP_FORTREE_CITY",
+      "dest_warp_id": 1
     }
   ],
   "coord_events": [

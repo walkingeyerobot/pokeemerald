@@ -2340,7 +2340,6 @@ bool8 ScrCmd_finishdeclare(struct ScriptContext *ctx) {
 }
 
 bool8 ScrCmd_declaretrainer(struct ScriptContext *ctx) {
-    mgba_printf(MGBA_LOG_INFO, "hello from declaretrainer()!");
     u8 objNum = ScriptReadByte(ctx) - 1;
     DeclareTrainer(objNum);
     return TRUE;
