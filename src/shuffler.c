@@ -4,8 +4,10 @@
 #include "tinymt32.h"
 #include "data.h"
 #include "battle_setup.h"
+#include "item.h"
 #include "constants/battle_ai.h"
 #include "constants/event_objects.h"
+#include "constants/items.h"
 #include "constants/map_groups.h"
 #include "constants/trainers.h"
 
@@ -88,6 +90,20 @@ void Shuffle() {
         realWarps[targetRoomIndex][SOUTH] = (struct WarpData){roomGroup, roomId, warpId, -1, -1};
         currentRoomIndex = targetRoomIndex;
     }
+
+    for (int i = 0; i < 5; i++) {
+        r = tinymt32_generate_uint32(&tinymt) % 50;
+        AddBagItem(ITEM_TM01 + r, 1);
+    }
+
+    AddBagItem(ITEM_POTION, 5);
+    AddBagItem(ITEM_ELIXIR, 3);
+    AddBagItem(ITEM_REVIVE, 1);
+
+    AddBagItem(ITEM_POKE_BALL, 8);
+    AddBagItem(ITEM_GREAT_BALL, 4);
+    AddBagItem(ITEM_ULTRA_BALL, 2);
+    AddBagItem(ITEM_MASTER_BALL, 1);
 }
 
 void SetCurrentRoomSeed() {
