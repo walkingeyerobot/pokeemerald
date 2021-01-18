@@ -129,7 +129,6 @@ void SetCurrentRoomSeed() {
     currentRoomSeed.mat1 = MAT1;
     currentRoomSeed.mat2 = MAT2;
     currentRoomSeed.tmat = TMAT;
-    //int seed2 = tinymt32_generate_uint32(&tinymt);
     tinymt32_init(&currentRoomSeed, seed2);
 }
 
@@ -238,7 +237,7 @@ const u8 *GetAdjustedTrainerDefeatText(u16 objNum) {
     return unknown_string;
 }
 
-const u8 *GetRedirectTrainerName(u16 index) {
+const u8 *GetAdjustedTrainerName(u16 index) {
     u16 objNum = index - 1;
     if (objNum < MAX_OBJECTS) {
         return AdjustedObjects[objNum].t.name;

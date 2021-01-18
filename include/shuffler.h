@@ -80,7 +80,7 @@ void DeclareTrainer(u8 objNum);
 const u8 *GetAdjustedTrainerIntroText(u16 objNum);
 const u8 *GetAdjustedTrainerDefeatText(u16 objNum);
 struct Trainer RedirectTrainer(u16 index);
-const u8 *GetRedirectTrainerName(u16 index);
+const u8 *GetAdjustedTrainerName(u16 index);
 void DeclareWildMon(u8 objNum);
 u8 GetAdjustedWildMonLevel(u8 objNum);
 u16 GetAdjustedWildMonSpecies(u8 objNum);
