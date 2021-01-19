@@ -16,11 +16,35 @@ LittlerootTown_ProfessorBirchsLab_OnFrame: @ 81F9DB9
 
 LittlerootTown_ProfessorBirchsLab_OnIntroTrainers:
 	declarewildmon 1
+	declarewildmon 2
+	declarewildmon 3
 	end
 
 LittlerootTown_ProfessorBirchsLab_EventScript_WildMon1::
 	lockall
 	setwildbattle 1, 69, ITEM_NONE
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	waitstate
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	removeobject VAR_LAST_TALKED
+	releaseall
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_WildMon2::
+	lockall
+	setwildbattle 2, 69, ITEM_NONE
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	waitstate
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	removeobject VAR_LAST_TALKED
+	releaseall
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_WildMon3::
+	lockall
+	setwildbattle 3, 69, ITEM_NONE
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartLegendaryBattle
 	waitstate

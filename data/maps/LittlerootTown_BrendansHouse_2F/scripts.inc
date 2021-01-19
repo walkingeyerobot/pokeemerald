@@ -8,3 +8,7 @@ LittlerootTown_BrendansHouse_2F_OnTransition: @ 81F83EE
 
 LittlerootTown_BrendansHouse_2F_OnWarp: @ 81F846A
 	.2byte 0
+
+LittlerootTown_BrendansHouse_2F_Item1::
+	finditem 1
+	end
