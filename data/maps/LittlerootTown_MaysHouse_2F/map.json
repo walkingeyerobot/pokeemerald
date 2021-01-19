@@ -25,7 +25,7 @@
       "trainer_type": "TRAINER_TYPE_NORMAL",
       "trainer_sight_or_berry_tree_id": "5",
       "script": "LittlerootTown_MaysHouse_2F_EventScript_Tiana",
-      "flag": "FLAG_HIDE_UNION_ROOM_PLAYER_2"
+      "flag": "TRAINER_GRUNT_AQUA_HIDEOUT_2"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ANABEL",
@@ -38,7 +38,7 @@
       "trainer_type": "TRAINER_TYPE_NORMAL",
       "trainer_sight_or_berry_tree_id": "5",
       "script": "LittlerootTown_MaysHouse_2F_EventScript_Tiana2",
-      "flag": "FLAG_HIDE_UNION_ROOM_PLAYER_3"
+      "flag": "TRAINER_GRUNT_AQUA_HIDEOUT_3"
     }
   ],
   "warp_events": [

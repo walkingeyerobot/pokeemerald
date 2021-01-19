@@ -245,6 +245,15 @@ const u8 *GetAdjustedTrainerName(u16 index) {
     return unknown_string;
 }
 
+u16 GetAdjustedTrainerFlag(u16 index) {
+    u16 objNum = index - 1;
+    if (objNum >= AdjustedMapEvents.objectEventCount) {
+        mgba_printf(MGBA_LOG_INFO, "problem with trainer flags");
+        return TRAINER_FLAGS_START + index;
+    }
+    return TRAINER_FLAGS_START + AdjustedMapEvents.objectEvents[objNum].flagId;
+}
+
 struct Trainer RedirectTrainer(u16 index) {
     u16 objNum = index - 1;
     if (objNum < MAX_OBJECTS) {
