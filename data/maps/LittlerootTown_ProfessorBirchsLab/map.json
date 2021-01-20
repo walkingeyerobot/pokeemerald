@@ -24,7 +24,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "LittlerootTown_ProfessorBirchsLab_EventScript_WildMon1",
+      "script": "Shuffler_WildMon1",
       "flag": "FLAG_HIDE_APPRENTICE"
     },
     {
@@ -37,7 +37,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "LittlerootTown_ProfessorBirchsLab_EventScript_WildMon2",
+      "script": "Shuffler_WildMon2",
       "flag": "FLAG_HIDE_POKEMON_CENTER_2F_MYSTERY_GIFT_MAN"
     },
     {
@@ -50,7 +50,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "LittlerootTown_ProfessorBirchsLab_EventScript_WildMon3",
+      "script": "Shuffler_WildMon3",
       "flag": "FLAG_HIDE_UNION_ROOM_PLAYER_1"
     }
   ],

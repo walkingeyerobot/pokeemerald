@@ -24,7 +24,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NORMAL",
       "trainer_sight_or_berry_tree_id": "1",
-      "script": "LittlerootTown_BrendansHouse_EventScript_Tiana",
+      "script": "Shuffler_Trainer1",
       "flag": "TRAINER_SAWYER_1"
     },
     {
@@ -37,7 +37,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "LittlerootTown_BrendansHouse_1f_EventScript_WildMon1",
+      "script": "Shuffler_WildMon2",
       "flag": "FLAG_HIDE_ROUTE_101_BIRCH_STARTERS_BAG"
     },
     {
@@ -50,7 +50,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NORMAL",
       "trainer_sight_or_berry_tree_id": "3",
-      "script": "LittlerootTown_BrendansHouse_EventScript_Tiana2",
+      "script": "Shuffler_Trainer3",
       "flag": "TRAINER_GRUNT_AQUA_HIDEOUT_1"
     }
   ],

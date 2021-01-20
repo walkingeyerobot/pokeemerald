@@ -24,7 +24,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NORMAL",
       "trainer_sight_or_berry_tree_id": "5",
-      "script": "LittlerootTown_MaysHouse_2F_EventScript_Tiana",
+      "script": "Shuffler_Trainer1",
       "flag": "TRAINER_GRUNT_AQUA_HIDEOUT_2"
     },
     {
@@ -37,7 +37,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NORMAL",
       "trainer_sight_or_berry_tree_id": "5",
-      "script": "LittlerootTown_MaysHouse_2F_EventScript_Tiana2",
+      "script": "Shuffler_Trainer2",
       "flag": "TRAINER_GRUNT_AQUA_HIDEOUT_3"
     }
   ],

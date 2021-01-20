@@ -24,8 +24,8 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "LittlerootTown_BrendansHouse_2F_Item1",
-      "flag": "FLAG_HIDE_UNION_ROOM_PLAYER_3"
+      "script": "Shuffler_Item1",
+      "flag": "FLAG_ITEM_ROUTE_102_POTION"
     }
   ],
   "warp_events": [

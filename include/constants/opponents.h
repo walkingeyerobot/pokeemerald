@@ -2,10 +2,10 @@
 #define GUARD_CONSTANTS_OPPONENTS_H
 
 #define TRAINER_NONE                          0
-#define TRAINER_SAWYER_1                      1
-#define TRAINER_GRUNT_AQUA_HIDEOUT_1          2
-#define TRAINER_GRUNT_AQUA_HIDEOUT_2          3
-#define TRAINER_GRUNT_AQUA_HIDEOUT_3          4
+#define TRAINER_SAWYER_1                      1 // 1-0 obj 1 trainer
+#define TRAINER_GRUNT_AQUA_HIDEOUT_1          2 // 1-0 obj 3 trainer
+#define TRAINER_GRUNT_AQUA_HIDEOUT_2          3 // 1-3 obj 1 trainer
+#define TRAINER_GRUNT_AQUA_HIDEOUT_3          4 // 1-3 obj 2 trainer
 #define TRAINER_GRUNT_AQUA_HIDEOUT_4          5
 #define TRAINER_GRUNT_SEAFLOOR_CAVERN_1       6
 #define TRAINER_GRUNT_SEAFLOOR_CAVERN_2       7
