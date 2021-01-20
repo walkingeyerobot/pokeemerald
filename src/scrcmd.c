@@ -495,8 +495,8 @@ bool8 ScrCmd_additem(struct ScriptContext *ctx)
 {
     u16 itemId = VarGet(ScriptReadHalfword(ctx));
     u32 quantity = VarGet(ScriptReadHalfword(ctx));
-
-    gSpecialVar_Result = AddBagItem(itemId, (u8)quantity);
+    u16 adjustedItemId = AdjustItem(itemId);
+    gSpecialVar_Result = AddBagItem(adjustedItemId, (u8)quantity);
     return FALSE;
 }
 
@@ -1584,8 +1584,7 @@ bool8 ScrCmd_bufferitemname(struct ScriptContext *ctx)
 {
     u8 stringVarIndex = ScriptReadByte(ctx);
     u16 itemId = VarGet(ScriptReadHalfword(ctx));
-
-    CopyItemName(itemId, sScriptStringVars[stringVarIndex]);
+    CopyItemName(AdjustItem(itemId), sScriptStringVars[stringVarIndex]);
     return FALSE;
 }
 
@@ -1594,8 +1593,7 @@ bool8 ScrCmd_bufferitemnameplural(struct ScriptContext *ctx)
     u8 stringVarIndex = ScriptReadByte(ctx);
     u16 itemId = VarGet(ScriptReadHalfword(ctx));
     u16 quantity = VarGet(ScriptReadHalfword(ctx));
-
-    CopyItemNameHandlePlural(itemId, sScriptStringVars[stringVarIndex], quantity);
+    CopyItemNameHandlePlural(AdjustItem(itemId), sScriptStringVars[stringVarIndex], quantity);
     return FALSE;
 }
 
@@ -2335,8 +2333,10 @@ bool8 ScrCmd_warpsootopolislegend(struct ScriptContext *ctx)
     return TRUE;
 }
 
-bool8 ScrCmd_finishdeclare(struct ScriptContext *ctx) {
-
+bool8 ScrCmd_declareitem(struct ScriptContext *ctx) {
+    u8 objNum = ScriptReadByte(ctx) - 1;
+    DeclareItem(objNum);
+    return TRUE;
 }
 
 bool8 ScrCmd_declaretrainer(struct ScriptContext *ctx) {

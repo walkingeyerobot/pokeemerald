@@ -1620,8 +1620,9 @@
 	.2byte \quantity
 	.endm
 
-	.macro finishdeclare
+	.macro declareitem objnum:req
 	.byte 0xe4
+	.byte \objnum
 	.endm
 
 	.macro declaretrainer objnum:req

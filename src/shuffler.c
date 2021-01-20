@@ -17,6 +17,7 @@
 #include "data/shuffle_trainers.h"
 #include "data/shuffle_starters.h"
 #include "data/shuffle_rooms.h"
+#include "data/shuffle_items.h"
 
 EWRAM_DATA int seed;
 EWRAM_DATA tinymt32_t currentRoomSeed;
@@ -97,7 +98,7 @@ void Shuffle() {
     }
 
     AddBagItem(ITEM_POTION, 5);
-    AddBagItem(ITEM_ELIXIR, 3);
+    AddBagItem(ITEM_MAX_ELIXIR, 3);
     AddBagItem(ITEM_REVIVE, 1);
 
     AddBagItem(ITEM_POKE_BALL, 8);
@@ -322,4 +323,15 @@ void RedirectShuffledWarp(struct WarpData *warp) {
     warp->warpId = w.warpId;
     warp->x = w.x;
     warp->y = w.y;
+}
+
+void DeclareItem(u16 objNum) {
+    MirrorMapData();
+    int i = tinymt32_generate_uint32(&currentRoomSeed) % POSSIBLE_ITEMS;
+    AdjustedObjects[objNum].itemId = possibleItems[i];
+}
+
+u16 AdjustItem(u16 index) {
+    u16 objNum = index - 1;
+    return AdjustedObjects[objNum].itemId;
 }

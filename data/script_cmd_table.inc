@@ -228,7 +228,7 @@ gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_buffercontesttype         @ 0xe1
 	.4byte ScrCmd_bufferitemnameplural      @ 0xe2
 	.4byte ScrCmd_nop
-	.4byte ScrCmd_finishdeclare
+	.4byte ScrCmd_declareitem
 	.4byte ScrCmd_declaretrainer
 	.4byte ScrCmd_declarewildmon
 	

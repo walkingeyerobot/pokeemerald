@@ -6,6 +6,7 @@
 #define MAX_OBJECTS 10
 #define POSSIBLE_STARTERS 108
 #define POSSIBLE_TRAINERS 18
+#define POSSIBLE_ITEMS 61
 #define TOTAL_ROOMS 7
 #define TOTAL_WARPS 12
 #define MAT1 0x8f7011ee
@@ -66,6 +67,7 @@ struct ShuffledTrainerInfo {
 union ShuffledObject {
     struct ShuffledTrainerInfo t;
     struct WildMon wm;
+    u16 itemId;
 };
 
 struct RoomInfo {
@@ -87,5 +89,7 @@ u8 GetAdjustedWildMonLevel(u8 objNum);
 u16 GetAdjustedWildMonSpecies(u8 objNum);
 void NotifyShufflerChangedRoom();
 void RedirectShuffledWarp(struct WarpData *warp);
+void DeclareItem(u16 objNum);
+u16 AdjustItem(u16 index);
 
 #endif // GUARD_SHUFFLER_H
