@@ -1281,13 +1281,13 @@ static void OpponentHandleDrawTrainerPic(void)
     else if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
     {
         if (gActiveBattler != 1)
-            trainerPicId = RedirectTrainer(gTrainerBattleOpponent_B).trainerPic;
+            trainerPicId = RedirectTrainer(gTrainerBattleOpponent_B)->trainerPic;
         else
-            trainerPicId = RedirectTrainer(gTrainerBattleOpponent_A).trainerPic;
+            trainerPicId = RedirectTrainer(gTrainerBattleOpponent_A)->trainerPic;
     }
     else
     {
-        trainerPicId = RedirectTrainer(gTrainerBattleOpponent_A).trainerPic;
+        trainerPicId = RedirectTrainer(gTrainerBattleOpponent_A)->trainerPic;
     }
 
     if (gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_TWO_OPPONENTS) && !BATTLE_TWO_VS_ONE_OPPONENT)
@@ -1365,13 +1365,13 @@ static void OpponentHandleTrainerSlide(void)
     else if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
     {
         if (gActiveBattler != 1)
-            trainerPicId = RedirectTrainer(gTrainerBattleOpponent_B).trainerPic;
+            trainerPicId = RedirectTrainer(gTrainerBattleOpponent_B)->trainerPic;
         else
-            trainerPicId = RedirectTrainer(gTrainerBattleOpponent_A).trainerPic;
+            trainerPicId = RedirectTrainer(gTrainerBattleOpponent_A)->trainerPic;
     }
     else
     {
-        trainerPicId = RedirectTrainer(gTrainerBattleOpponent_A).trainerPic;
+        trainerPicId = RedirectTrainer(gTrainerBattleOpponent_A)->trainerPic;
     }
 
     DecompressTrainerFrontPic(trainerPicId, gActiveBattler);

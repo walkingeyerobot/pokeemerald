@@ -2881,7 +2881,7 @@ static const u8 *BattleStringGetOpponentClassByTrainerId(u16 trainerId)
     else if (gBattleTypeFlags & BATTLE_TYPE_EREADER_TRAINER)
         toCpy = gTrainerClassNames[GetEreaderTrainerClassId()];
     else
-        toCpy = gTrainerClassNames[RedirectTrainer(trainerId).trainerClass];
+        toCpy = gTrainerClassNames[RedirectTrainer(trainerId)->trainerClass];
 
     return toCpy;
 }
