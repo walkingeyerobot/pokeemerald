@@ -1,23 +1,43 @@
+#ifdef __wasm__
+#include "gba_wasm.h"
+#include <stdio.h>
+#include <string.h>
+#else
 #include "global.h"
+#endif
+
 #include "shuffler.h"
-#include "random.h"
 #include "tinymt32.h"
 #include "data.h"
+#include "global.fieldmap.h"
+
+#ifndef __wasm__
+#include "random.h"
 #include "battle_setup.h"
 #include "item.h"
+#endif
+
 #include "constants/battle_ai.h"
 #include "constants/event_objects.h"
 #include "constants/items.h"
 #include "constants/map_groups.h"
+#include "constants/pokemon.h"
+#include "constants/species.h"
 #include "constants/trainers.h"
-
-#include "printf.h"
-#include "mgba.h"
 
 #include "data/shuffle_trainers.h"
 #include "data/shuffle_starters.h"
 #include "data/shuffle_rooms.h"
 #include "data/shuffle_items.h"
+
+#ifdef __wasm__
+#include "data/text/species_names.h"
+#define MYLOG(f_, ...) printf("GBA: "); printf((f_), ##__VA_ARGS__); printf("\n")
+#else
+#include "printf.h"
+#include "mgba.h"
+#define MYLOG(f_, ...) mgba_printf(MGBA_LOG_INFO, (f_), ##__VA_ARGS__)
+#endif
 
 EWRAM_DATA int seed;
 EWRAM_DATA tinymt32_t currentRoomSeed;
@@ -33,14 +53,29 @@ EWRAM_DATA union ShuffledObject AdjustedObjects[MAX_OBJECTS];
 EWRAM_DATA struct WarpData realWarps[TOTAL_WARPS][4] = {};
 EWRAM_DATA u8 distances[TOTAL_ROOMS];
 
-void Shuffle() {
+#ifdef __wasm__
+int bagItems[50];
+int lastBagItem = -1;
+void AddBagItem(int item, int qty) {
+    for (int i = 0; i < qty; i++) {
+        if (lastBagItem == 49) {
+            MYLOG("bag full");
+            return;
+        }
+        lastBagItem++;
+        bagItems[lastBagItem] = item;
+    }
+}
+#endif
+
+void Shuffle(u32 s) {
     tinymt32_t tinymt;
     tinymt.mat1 = MAT1;
     tinymt.mat2 = MAT2;
     tinymt.tmat = TMAT;
-    seed = Random32();
+    seed = 69;
     tinymt32_init(&tinymt, seed);
-    mgba_printf(MGBA_LOG_INFO, "seed: %u", seed);
+    MYLOG("seed: %u", seed);
 
     int r;
     for (int i = 0; i < TOTAL_ROOMS; i++) {
@@ -125,7 +160,7 @@ void SetCurrentRoomSeed() {
         }
     }
     if (broke == 0) {
-        mgba_printf(MGBA_LOG_INFO, "never broke!");
+        MYLOG("never broke!");
     }
     currentRoomSeed.mat1 = MAT1;
     currentRoomSeed.mat2 = MAT2;
@@ -134,6 +169,7 @@ void SetCurrentRoomSeed() {
 }
 
 void MirrorMapData() {
+#ifndef __wasm__
     u16 currentRoom = gSaveBlock1Ptr->location.mapNum | (gSaveBlock1Ptr->location.mapGroup << 8);
     if (CurrentAdjustedRoom != currentRoom) {
         CurrentAdjustedRoom = currentRoom;
@@ -144,7 +180,7 @@ void MirrorMapData() {
         
         u8 num_objs = AdjustedMapEvents.objectEventCount;
         if (num_objs > MAX_OBJECTS) {
-            mgba_printf(MGBA_LOG_INFO, "num_objs > MAX_OBJECTS, shit is broken: %d", num_objs);
+            MYLOG("num_objs > MAX_OBJECTS, shit is broken: %d", num_objs);
         } else {
             size_t objs_bytes = num_objs * sizeof(struct ObjectEventTemplate);
             memcpy(&AdjustedTemplates, AdjustedMapEvents.objectEvents, objs_bytes);
@@ -153,6 +189,7 @@ void MirrorMapData() {
     }
 
     gMapHeader.events = &AdjustedMapEvents;
+#endif
 }
 
 void DeclareTrainer(u8 objNum) {
@@ -160,50 +197,54 @@ void DeclareTrainer(u8 objNum) {
 
     int i = tinymt32_generate_uint32(&currentRoomSeed) % POSSIBLE_TRAINERS;
 
-    struct TrainerTemplate tt = qTrainers[i];
+#ifdef __wasm__
+    const struct TrainerTemplate *tt = qTrainers[i];
+#else
+    const struct TrainerTemplate *tt = &qTrainers[i];
+#endif
 
     AdjustedObjects[objNum].t.trainer.aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY;
     AdjustedObjects[objNum].t.trainer.doubleBattle = FALSE;
-    AdjustedObjects[objNum].t.trainer.encounterMusic_gender = tt.encounterMusic_gender;
-    AdjustedObjects[objNum].t.trainer.trainerClass = tt.trainerClass;
-    AdjustedObjects[objNum].t.trainer.trainerPic = tt.trainerPic;
-    if (tt.rarity == 0) {
-        AdjustedObjects[objNum].t.trainer.partyFlags = tt.partyFlags;
-        AdjustedObjects[objNum].t.trainer.partySize = tt.partySize;
+    AdjustedObjects[objNum].t.trainer.encounterMusic_gender = tt->encounterMusic_gender;
+    AdjustedObjects[objNum].t.trainer.trainerClass = tt->trainerClass;
+    AdjustedObjects[objNum].t.trainer.trainerPic = tt->trainerPic;
+    if (tt->rarity == 0) {
+        AdjustedObjects[objNum].t.trainer.partyFlags = tt->partyFlags;
+        AdjustedObjects[objNum].t.trainer.partySize = tt->partySize;
 
-        int move_bytes = tt.partySize;
-        switch (tt.partyFlags & 3) {
+        int move_bytes = tt->partySize;
+        switch (tt->partyFlags & 3) {
             case 0:
                 move_bytes *= sizeof(struct TrainerMonNoItemDefaultMoves);
-                memcpy(&AdjustedObjects[objNum].t.party, tt.party.NoItemDefaultMoves, move_bytes);
-                for (int i = 0; i < tt.partySize; i++) {
+                memcpy(&AdjustedObjects[objNum].t.party, tt->party.NoItemDefaultMoves, move_bytes);
+                for (int i = 0; i < tt->partySize; i++) {
                     AdjustedObjects[objNum].t.party.NoItemDefaultMoves[i].lvl = distances[CurrentAdjustedRoomIndex] + 1;
                 }
-                AdjustedObjects[objNum].t.trainer.party.NoItemDefaultMoves = &AdjustedObjects[objNum].t.party;
+                AdjustedObjects[objNum].t.trainer.party.NoItemDefaultMoves = AdjustedObjects[objNum].t.party.NoItemDefaultMoves;
                 break;
             case F_TRAINER_PARTY_CUSTOM_MOVESET:
                 move_bytes *= sizeof(struct TrainerMonNoItemCustomMoves);
-                memcpy(&AdjustedObjects[objNum].t.party, tt.party.NoItemCustomMoves, move_bytes);
-                for (int i = 0; i < tt.partySize; i++) {
+                memcpy(&AdjustedObjects[objNum].t.party, tt->party.NoItemCustomMoves, move_bytes);
+                for (int i = 0; i < tt->partySize; i++) {
                     AdjustedObjects[objNum].t.party.NoItemCustomMoves[i].lvl = distances[CurrentAdjustedRoomIndex] + 1;
                 }
-                AdjustedObjects[objNum].t.trainer.party.NoItemCustomMoves = &AdjustedObjects[objNum].t.party;
+                AdjustedObjects[objNum].t.trainer.party.NoItemCustomMoves = AdjustedObjects[objNum].t.party.NoItemCustomMoves;
                 break;
             case F_TRAINER_PARTY_HELD_ITEM:
                 move_bytes *= sizeof(struct TrainerMonItemDefaultMoves);
-                memcpy(&AdjustedObjects[objNum].t.party, tt.party.ItemDefaultMoves, move_bytes);
-                for (int i = 0; i < tt.partySize; i++) {
+                memcpy(&AdjustedObjects[objNum].t.party, tt->party.ItemDefaultMoves, move_bytes);
+                for (int i = 0; i < tt->partySize; i++) {
                     AdjustedObjects[objNum].t.party.ItemDefaultMoves[i].lvl = distances[CurrentAdjustedRoomIndex] + 1;
                 }
-                AdjustedObjects[objNum].t.trainer.party.ItemDefaultMoves = &AdjustedObjects[objNum].t.party;
+                AdjustedObjects[objNum].t.trainer.party.ItemDefaultMoves = AdjustedObjects[objNum].t.party.ItemDefaultMoves;
                 break;
             case F_TRAINER_PARTY_HELD_ITEM | F_TRAINER_PARTY_CUSTOM_MOVESET:
                 move_bytes *= sizeof(struct TrainerMonItemCustomMoves);
-                memcpy(&AdjustedObjects[objNum].t.party, tt.party.ItemCustomMoves, move_bytes);
-                for (int i = 0; i < tt.partySize; i++) {
+                memcpy(&AdjustedObjects[objNum].t.party, tt->party.ItemCustomMoves, move_bytes);
+                for (int i = 0; i < tt->partySize; i++) {
                     AdjustedObjects[objNum].t.party.ItemCustomMoves[i].lvl = distances[CurrentAdjustedRoomIndex] + 1;
                 }
-                AdjustedObjects[objNum].t.trainer.party.ItemCustomMoves = &AdjustedObjects[objNum].t.party;
+                AdjustedObjects[objNum].t.trainer.party.ItemCustomMoves = AdjustedObjects[objNum].t.party.ItemCustomMoves;
                 break;
         }
     } else {
@@ -213,17 +254,33 @@ void DeclareTrainer(u8 objNum) {
             AdjustedObjects[objNum].t.party.NoItemDefaultMoves[i].iv = 0;
             AdjustedObjects[objNum].t.party.NoItemDefaultMoves[i].lvl = distances[CurrentAdjustedRoomIndex] + 1;
             int r = tinymt32_generate_uint32(&currentRoomSeed) % 20;
-            int s = TrainerMonTypes[tt.type1][r];
+            int s = TrainerMonTypes[tt->type1][r];
             AdjustedObjects[objNum].t.party.NoItemDefaultMoves[i].species = s;
         }
-        AdjustedObjects[objNum].t.trainer.party.NoItemDefaultMoves = &AdjustedObjects[objNum].t.party.NoItemDefaultMoves;
+        AdjustedObjects[objNum].t.trainer.party.NoItemDefaultMoves = AdjustedObjects[objNum].t.party.NoItemDefaultMoves;
     }
-    AdjustedObjects[objNum].t.defeatText = tt.defeatText;
-    AdjustedObjects[objNum].t.introText = tt.introText;
-    AdjustedObjects[objNum].t.name = tt.trainerName;
-    AdjustedTemplates[objNum].graphicsId = tt.graphicsId;
+    AdjustedObjects[objNum].t.defeatText = tt->defeatText;
+    AdjustedObjects[objNum].t.introText = tt->introText;
+    AdjustedObjects[objNum].t.name = tt->trainerName;
+    AdjustedTemplates[objNum].graphicsId = tt->graphicsId;
 }
 
+void DeclareWildMon(u8 objNum) {
+    MirrorMapData();
+    int i = tinymt32_generate_uint32(&currentRoomSeed) % 809;
+    AdjustedObjects[objNum].wm.NoItemDefaultMoves.iv = 15;
+    AdjustedObjects[objNum].wm.NoItemDefaultMoves.lvl = distances[CurrentAdjustedRoomIndex] + 1;
+    AdjustedObjects[objNum].wm.NoItemDefaultMoves.species = i + 1;
+    AdjustedTemplates[objNum].graphicsId = OBJ_EVENT_GFX_POKEMON_001 + i;
+}
+
+void DeclareItem(u16 objNum) {
+    MirrorMapData();
+    int i = tinymt32_generate_uint32(&currentRoomSeed) % POSSIBLE_ITEMS;
+    AdjustedObjects[objNum].itemId = possibleItems[i];
+}
+
+#ifndef __wasm__
 const u8 *GetAdjustedTrainerIntroText(u16 objNum) {
     if (objNum < MAX_OBJECTS) {
         return AdjustedObjects[objNum].t.introText;
@@ -249,27 +306,18 @@ const u8 *GetAdjustedTrainerName(u16 index) {
 u16 GetAdjustedTrainerFlag(u16 index) {
     u16 objNum = index - 1;
     if (objNum >= AdjustedMapEvents.objectEventCount) {
-        mgba_printf(MGBA_LOG_INFO, "problem with trainer flags");
+        MYLOG("problem with trainer flags");
         return TRAINER_FLAGS_START + index;
     }
     return TRAINER_FLAGS_START + AdjustedMapEvents.objectEvents[objNum].flagId;
 }
 
-struct Trainer RedirectTrainer(u16 index) {
+const struct Trainer *RedirectTrainer(u16 index) {
     u16 objNum = index - 1;
     if (objNum < MAX_OBJECTS) {
-        return AdjustedObjects[objNum].t.trainer;
+        return &AdjustedObjects[objNum].t.trainer;
     }
-    return gTrainers[index];
-}
-
-void DeclareWildMon(u8 objNum) {
-    MirrorMapData();
-    int i = tinymt32_generate_uint32(&currentRoomSeed) % 809;
-    AdjustedObjects[objNum].wm.NoItemDefaultMoves.iv = 15;
-    AdjustedObjects[objNum].wm.NoItemDefaultMoves.lvl = distances[CurrentAdjustedRoomIndex] + 1;
-    AdjustedObjects[objNum].wm.NoItemDefaultMoves.species = i + 1;
-    AdjustedTemplates[objNum].graphicsId = OBJ_EVENT_GFX_POKEMON_001 + i;
+    return &gTrainers[index];
 }
 
 u8 GetAdjustedWildMonLevel(u8 objNum) {
@@ -310,9 +358,9 @@ void RedirectShuffledWarp(struct WarpData *warp) {
     }
     if (fromIndex == -1) {
         if (warp->mapGroup == 0 && warp->mapNum == 0 && warp->warpId == 0 && warp->x == 0 && warp->y == 0) {
-            mgba_printf(MGBA_LOG_INFO, "white out warp");
+            MYLOG("white out warp");
         } else {
-            mgba_printf(MGBA_LOG_INFO, "unknown warp {%d, %d, %d, %d, %d}", warp->mapGroup, warp->mapNum, warp->warpId, warp->x, warp->y);
+            MYLOG("unknown warp {%d, %d, %d, %d, %d}", warp->mapGroup, warp->mapNum, warp->warpId, warp->x, warp->y);
         }
         return;
     }
@@ -325,13 +373,8 @@ void RedirectShuffledWarp(struct WarpData *warp) {
     warp->y = w.y;
 }
 
-void DeclareItem(u16 objNum) {
-    MirrorMapData();
-    int i = tinymt32_generate_uint32(&currentRoomSeed) % POSSIBLE_ITEMS;
-    AdjustedObjects[objNum].itemId = possibleItems[i];
-}
-
 u16 AdjustItem(u16 index) {
     u16 objNum = index - 1;
     return AdjustedObjects[objNum].itemId;
 }
+#endif

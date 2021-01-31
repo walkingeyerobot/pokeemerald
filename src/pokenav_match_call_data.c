@@ -1090,8 +1090,8 @@ static void MatchCall_GetNameAndDescByRematchIdx(u32 idx, const u8 **desc, const
 {
     // const struct Trainer *trainer = gTrainers + GetTrainerIdxByRematchIdx(idx);
     u16 i = GetTrainerIdxByRematchIdx(idx);
-    *desc = gTrainerClassNames[RedirectTrainer(i).trainerClass];
-    *name = RedirectTrainer(i).trainerName;
+    *desc = gTrainerClassNames[RedirectTrainer(i)->trainerClass];
+    *name = RedirectTrainer(i)->trainerName;
 }
 
 const u8 *MatchCall_GetOverrideFlavorText(u32 idx, u32 offset)

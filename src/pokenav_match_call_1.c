@@ -332,7 +332,7 @@ int GetMatchCallTrainerPic(int index)
     if (!state->matchCallEntries[index].isSpecialTrainer)
     {
         index = GetTrainerIdxByRematchIdx(state->matchCallEntries[index].headerId);
-        return RedirectTrainer(index).trainerPic;
+        return RedirectTrainer(index)->trainerPic;
     }
 
     headerId = state->matchCallEntries[index].headerId;
@@ -340,7 +340,7 @@ int GetMatchCallTrainerPic(int index)
     if (index != REMATCH_TABLE_ENTRIES)
     {
         index = GetTrainerIdxByRematchIdx(index);
-        return RedirectTrainer(index).trainerPic;
+        return RedirectTrainer(index)->trainerPic;
     }
 
     index = MatchCall_GetOverrideFacilityClass(headerId);
@@ -403,9 +403,9 @@ void BufferMatchCallNameAndDesc(struct PokenavMatchCallEntries *matchCallEntry, 
     {
         int index = GetTrainerIdxByRematchIdx(matchCallEntry->headerId);
         //const struct Trainer *trainer = &gTrainers[index];
-        int class = RedirectTrainer(index).trainerClass;
+        int class = RedirectTrainer(index)->trainerClass;
         className = gTrainerClassNames[class];
-        trainerName = RedirectTrainer(index).trainerName;
+        trainerName = RedirectTrainer(index)->trainerName;
     }
     else
     {

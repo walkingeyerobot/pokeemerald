@@ -23,7 +23,7 @@ struct TrainerTemplate {
     u8 trainerClass;
     u8 encounterMusic_gender;
     u8 trainerPic;
-    u8* trainerName;
+    const u8* trainerName;
     //u16 items[4];
     //bool8 doubleBattle;
     //u32 aiFlags;
@@ -34,8 +34,8 @@ struct TrainerTemplate {
     u8 type2;
     u8 rarity;
 
-    u8* introText;
-    u8* defeatText;
+    const u8* introText;
+    const u8* defeatText;
     u16 graphicsId;
 };
 
@@ -59,9 +59,9 @@ struct WildMon {
 struct ShuffledTrainerInfo {
     struct Trainer trainer;
     union TrainerMonParty party;
-    u8* introText;
-    u8* defeatText;
-    u8* name;
+    const u8* introText;
+    const u8* defeatText;
+    const u8* name;
 };
 
 union ShuffledObject {
@@ -76,14 +76,17 @@ struct RoomInfo {
 };
 
 extern u16 realStarterMon[3];
+#ifdef __wasm__
+extern const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1];
+#endif
 
-void Shuffle();
+void Shuffle(u32 s);
 void DeclareTrainer(u8 objNum);
 const u8 *GetAdjustedTrainerIntroText(u16 objNum);
 const u8 *GetAdjustedTrainerDefeatText(u16 objNum);
 const u8 *GetAdjustedTrainerName(u16 index);
 u16 GetAdjustedTrainerFlag(u16 objNum);
-struct Trainer RedirectTrainer(u16 index);
+const struct Trainer *RedirectTrainer(u16 index);
 void DeclareWildMon(u8 objNum);
 u8 GetAdjustedWildMonLevel(u8 objNum);
 u16 GetAdjustedWildMonSpecies(u8 objNum);

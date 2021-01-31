@@ -93,9 +93,9 @@ EWRAM_DATA u16 gTrainerBattleOpponent_A = 0;
 EWRAM_DATA u16 gTrainerBattleOpponent_B = 0;
 EWRAM_DATA u16 gPartnerTrainerId = 0;
 EWRAM_DATA static u16 sTrainerObjectEventLocalId = 0;
-EWRAM_DATA static u8 *sTrainerAIntroSpeech = NULL;
+EWRAM_DATA static const u8 *sTrainerAIntroSpeech = NULL;
 EWRAM_DATA static u8 *sTrainerBIntroSpeech = NULL;
-EWRAM_DATA static u8 *sTrainerADefeatSpeech = NULL;
+EWRAM_DATA static const u8 *sTrainerADefeatSpeech = NULL;
 EWRAM_DATA static u8 *sTrainerBDefeatSpeech = NULL;
 EWRAM_DATA static u8 *sTrainerVictorySpeech = NULL;
 EWRAM_DATA static u8 *sTrainerCannotBattleSpeech = NULL;
@@ -757,17 +757,17 @@ static u8 GetSumOfEnemyPartyLevel(u16 opponentId, u8 numMons)
     u8 sum;
     u32 count = numMons;
 
-    if (RedirectTrainer(opponentId).partySize < count)
-        count = RedirectTrainer(opponentId).partySize;
+    if (RedirectTrainer(opponentId)->partySize < count)
+        count = RedirectTrainer(opponentId)->partySize;
 
     sum = 0;
 
-    switch (RedirectTrainer(opponentId).partyFlags)
+    switch (RedirectTrainer(opponentId)->partyFlags)
     {
     case 0:
         {
             const struct TrainerMonNoItemDefaultMoves *party;
-            party = RedirectTrainer(opponentId).party.NoItemDefaultMoves;
+            party = RedirectTrainer(opponentId)->party.NoItemDefaultMoves;
             for (i = 0; i < count; i++)
                 sum += party[i].lvl;
         }
@@ -775,7 +775,7 @@ static u8 GetSumOfEnemyPartyLevel(u16 opponentId, u8 numMons)
     case F_TRAINER_PARTY_CUSTOM_MOVESET:
         {
             const struct TrainerMonNoItemCustomMoves *party;
-            party = RedirectTrainer(opponentId).party.NoItemCustomMoves;
+            party = RedirectTrainer(opponentId)->party.NoItemCustomMoves;
             for (i = 0; i < count; i++)
                 sum += party[i].lvl;
         }
@@ -783,7 +783,7 @@ static u8 GetSumOfEnemyPartyLevel(u16 opponentId, u8 numMons)
     case F_TRAINER_PARTY_HELD_ITEM:
         {
             const struct TrainerMonItemDefaultMoves *party;
-            party = RedirectTrainer(opponentId).party.ItemDefaultMoves;
+            party = RedirectTrainer(opponentId)->party.ItemDefaultMoves;
             for (i = 0; i < count; i++)
                 sum += party[i].lvl;
         }
@@ -791,7 +791,7 @@ static u8 GetSumOfEnemyPartyLevel(u16 opponentId, u8 numMons)
     case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM:
         {
             const struct TrainerMonItemCustomMoves *party;
-            party = RedirectTrainer(opponentId).party.ItemCustomMoves;
+            party = RedirectTrainer(opponentId)->party.ItemCustomMoves;
             for (i = 0; i < count; i++)
                 sum += party[i].lvl;
         }
@@ -833,7 +833,7 @@ u8 GetTrainerBattleTransition(void)
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
         return B_TRANSITION_CHAMPION;
 
-    u8 trainerClass = RedirectTrainer(gTrainerBattleOpponent_A).trainerClass;
+    u8 trainerClass = RedirectTrainer(gTrainerBattleOpponent_A)->trainerClass;
 
     if (trainerClass == TRAINER_CLASS_ELITE_FOUR)
     {
@@ -861,7 +861,7 @@ u8 GetTrainerBattleTransition(void)
         || trainerClass == TRAINER_CLASS_AQUA_ADMIN)
         return B_TRANSITION_AQUA;
 
-    if (RedirectTrainer(gTrainerBattleOpponent_A).doubleBattle == TRUE)
+    if (RedirectTrainer(gTrainerBattleOpponent_A)->doubleBattle == TRUE)
         minPartyCount = 2; // double battles always at least have 2 pokemon.
     else
         minPartyCount = 1;

@@ -23,7 +23,6 @@
 #include "field_message_box.h"
 #include "tv.h"
 #include "battle_factory.h"
-#include "shuffler.h"
 #include "constants/apprentice.h"
 #include "constants/battle_dome.h"
 #include "constants/battle_frontier.h"
@@ -1456,11 +1455,11 @@ u8 GetFrontierOpponentClass(u16 trainerId)
     }
     else if (trainerId == TRAINER_STEVEN_PARTNER)
     {
-        trainerClass = RedirectTrainer(TRAINER_STEVEN).trainerClass;
+        trainerClass = gTrainers[TRAINER_STEVEN].trainerClass;
     }
     else if (trainerId >= TRAINER_CUSTOM_PARTNER)
     {
-        trainerClass = RedirectTrainer(trainerId - TRAINER_CUSTOM_PARTNER).trainerClass;
+        trainerClass = gTrainers[trainerId - TRAINER_CUSTOM_PARTNER].trainerClass;
     }
     else if (trainerId < FRONTIER_TRAINERS_COUNT)
     {
@@ -1541,12 +1540,12 @@ void GetFrontierTrainerName(u8 *dst, u16 trainerId)
     else if (trainerId == TRAINER_STEVEN_PARTNER)
     {
         for (i = 0; i < PLAYER_NAME_LENGTH; i++)
-            dst[i] = RedirectTrainer(TRAINER_STEVEN).trainerName[i];
+            dst[i] = gTrainers[TRAINER_STEVEN].trainerName[i];
     }
     else if (trainerId >= TRAINER_CUSTOM_PARTNER)
     {
-        for (i = 0; RedirectTrainer(trainerId - TRAINER_CUSTOM_PARTNER).trainerName[i] != EOS; i++)
-            dst[i] = RedirectTrainer(trainerId - TRAINER_CUSTOM_PARTNER).trainerName[i];
+        for (i = 0; gTrainers[trainerId - TRAINER_CUSTOM_PARTNER].trainerName[i] != EOS; i++)
+            dst[i] = gTrainers[trainerId - TRAINER_CUSTOM_PARTNER].trainerName[i];
     }
     else if (trainerId < FRONTIER_TRAINERS_COUNT)
     {
@@ -3025,7 +3024,7 @@ static void FillPartnerParty(u16 trainerId)
                 SetMonData(&gPlayerParty[MULTI_PARTY_SIZE + i], MON_DATA_HP_EV + j, &sStevenMons[i].evs[j]);
             for (j = 0; j < MAX_MON_MOVES; j++)
                 SetMonMoveSlot(&gPlayerParty[MULTI_PARTY_SIZE + i], sStevenMons[i].moves[j], j);
-            SetMonData(&gPlayerParty[MULTI_PARTY_SIZE + i], MON_DATA_OT_NAME, RedirectTrainer(TRAINER_STEVEN).trainerName);
+            SetMonData(&gPlayerParty[MULTI_PARTY_SIZE + i], MON_DATA_OT_NAME, gTrainers[TRAINER_STEVEN].trainerName);
             j = MALE;
             SetMonData(&gPlayerParty[MULTI_PARTY_SIZE + i], MON_DATA_OT_GENDER, &j);
             CalculateMonStats(&gPlayerParty[MULTI_PARTY_SIZE + i]);
@@ -3038,25 +3037,25 @@ static void FillPartnerParty(u16 trainerId)
         for (i = 0; i < 3; i++)
             ZeroMonData(&gPlayerParty[i + 3]);
 
-        for (i = 0; i < 3 && i < RedirectTrainer(trainerId - TRAINER_CUSTOM_PARTNER).partySize; i++)
+        for (i = 0; i < 3 && i < gTrainers[trainerId - TRAINER_CUSTOM_PARTNER].partySize; i++)
         {
             do
             {
                 j = Random32();
             } while (IsShinyOtIdPersonality(otID, j));
 
-            switch (RedirectTrainer(trainerId - TRAINER_CUSTOM_PARTNER).partyFlags)
+            switch (gTrainers[trainerId - TRAINER_CUSTOM_PARTNER].partyFlags)
             {
             case 0:
             {
-                const struct TrainerMonNoItemDefaultMoves *partyData = RedirectTrainer(trainerId - TRAINER_CUSTOM_PARTNER).party.NoItemDefaultMoves;
+                const struct TrainerMonNoItemDefaultMoves *partyData = gTrainers[trainerId - TRAINER_CUSTOM_PARTNER].party.NoItemDefaultMoves;
 
                 CreateMon(&gPlayerParty[i + 3], partyData[i].species, partyData[i].lvl, partyData[i].iv * 31 / 255, TRUE, j, TRUE, otID);
                 break;
             }
             case F_TRAINER_PARTY_CUSTOM_MOVESET:
             {
-                const struct TrainerMonNoItemCustomMoves *partyData = RedirectTrainer(trainerId - TRAINER_CUSTOM_PARTNER).party.NoItemCustomMoves;
+                const struct TrainerMonNoItemCustomMoves *partyData = gTrainers[trainerId - TRAINER_CUSTOM_PARTNER].party.NoItemCustomMoves;
 
                 CreateMon(&gPlayerParty[i + 3], partyData[i].species, partyData[i].lvl, partyData[i].iv * 31 / 255, TRUE, j, TRUE, otID);
 
@@ -3069,7 +3068,7 @@ static void FillPartnerParty(u16 trainerId)
             }
             case F_TRAINER_PARTY_HELD_ITEM:
             {
-                const struct TrainerMonItemDefaultMoves *partyData = RedirectTrainer(trainerId - TRAINER_CUSTOM_PARTNER).party.ItemDefaultMoves;
+                const struct TrainerMonItemDefaultMoves *partyData = gTrainers[trainerId - TRAINER_CUSTOM_PARTNER].party.ItemDefaultMoves;
 
                 CreateMon(&gPlayerParty[i + 3], partyData[i].species, partyData[i].lvl, partyData[i].iv * 31 / 255, TRUE, j, TRUE, otID);
 
@@ -3078,7 +3077,7 @@ static void FillPartnerParty(u16 trainerId)
             }
             case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM:
             {
-                const struct TrainerMonItemCustomMoves *partyData = RedirectTrainer(trainerId - TRAINER_CUSTOM_PARTNER).party.ItemCustomMoves;
+                const struct TrainerMonItemCustomMoves *partyData = gTrainers[trainerId - TRAINER_CUSTOM_PARTNER].party.ItemCustomMoves;
 
                 CreateMon(&gPlayerParty[i + 3], partyData[i].species, partyData[i].lvl, partyData[i].iv * 31 / 255, TRUE, j, TRUE, otID);
 
@@ -3093,7 +3092,7 @@ static void FillPartnerParty(u16 trainerId)
             }
             }
 
-            StringCopy(trainerName, RedirectTrainer(trainerId - TRAINER_CUSTOM_PARTNER).trainerName);
+            StringCopy(trainerName, gTrainers[trainerId - TRAINER_CUSTOM_PARTNER].trainerName);
             SetMonData(&gPlayerParty[i + 3], MON_DATA_OT_NAME, trainerName);
         }
     }

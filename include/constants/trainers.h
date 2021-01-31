@@ -1,8 +1,13 @@
 #ifndef GUARD_TRAINERS_H
 #define GUARD_TRAINERS_H
 
+#ifdef __wasm__
+#include "opponents.h"
+#include "battle_frontier_trainers.h"
+#else
 #include "constants/opponents.h"
 #include "constants/battle_frontier_trainers.h"
+#endif
 
 // Special Trainer Ids.
 //      0-299 are frontier trainers
