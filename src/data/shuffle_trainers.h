@@ -728,7 +728,7 @@ static const int TrainerMonTypes[19][20] = {
         SPECIES_SLOWPOKE_GALARIAN,
         SPECIES_DROWZEE,
         SPECIES_EXEGGCUTE,
-        SPECIES_MIMEJR,
+        SPECIES_MIME_JR,
         SPECIES_MR_MIME_GALARIAN,
         SPECIES_SMOOCHUM,
         SPECIES_ARTICUNO_GALARIAN,
@@ -812,7 +812,7 @@ static const int TrainerMonTypes[19][20] = {
     [TYPE_FAIRY] = {
         SPECIES_CLEFFA,
         SPECIES_IGGLYBUFF,
-        SPECIES_MIMEJR,
+        SPECIES_MIME_JR,
         SPECIES_TOGEPI,
         SPECIES_AZURILL,
         SPECIES_SNUBBULL,
