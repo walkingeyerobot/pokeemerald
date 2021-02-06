@@ -4992,7 +4992,7 @@ BattleScript_FaintedMonTryChooseAnother:
 	switchhandleorder BS_FAINTED, 0x2
 	jumpifnotbattletype BATTLE_TYPE_TRAINER, BattleScript_FaintedMonChooseAnother
 	jumpifbattletype BATTLE_TYPE_LINK, BattleScript_FaintedMonChooseAnother
-	jumpifbattletype BATTLE_TYPE_x2000000, BattleScript_FaintedMonChooseAnother
+	jumpifbattletype BATTLE_TYPE_RECORDED_LINK, BattleScript_FaintedMonChooseAnother
 	jumpifbattletype BATTLE_TYPE_FRONTIER, BattleScript_FaintedMonChooseAnother
 	jumpifbattletype BATTLE_TYPE_DOUBLE, BattleScript_FaintedMonChooseAnother
 	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_x400000, BattleScript_FaintedMonChooseAnother
@@ -5119,7 +5119,7 @@ BattleScript_LocalBattleLostPrintTrainersWinText::
 	trainerslidein BS_ATTACKER
 	waitstate
 	printstring STRINGID_TRAINER1WINTEXT
-	jumpifbattletype BATTLE_TYPE_x800000, BattleScript_LocalBattleLostDoTrainer2WinText
+	jumpifbattletype BATTLE_TYPE_TOWER_LINK_MULTI, BattleScript_LocalBattleLostDoTrainer2WinText
 	jumpifnotbattletype BATTLE_TYPE_TWO_OPPONENTS, BattleScript_LocalBattleLostEnd_
 BattleScript_LocalBattleLostDoTrainer2WinText::
 	trainerslideout B_POSITION_OPPONENT_LEFT
@@ -6437,7 +6437,7 @@ BattleScript_MoveUsedIsConfusedNoMore::
 	return
 
 BattleScript_PrintPayDayMoneyString::
-	printstring STRINGID_PKMNPICKEDUPITEM
+	printstring STRINGID_PLAYERPICKEDUPMONEY
 	waitmessage 0x40
 	return
 
@@ -6837,12 +6837,12 @@ BattleScript_IntimidateActivatesLoop:
 	jumpifability BS_TARGET, ABILITY_CLEAR_BODY, BattleScript_IntimidatePrevented
 	jumpifability BS_TARGET, ABILITY_HYPER_CUTTER, BattleScript_IntimidatePrevented
 	jumpifability BS_TARGET, ABILITY_WHITE_SMOKE, BattleScript_IntimidatePrevented
-#if B_UPDATED_INTIMIDATE >= GEN_8
+.if B_UPDATED_INTIMIDATE >= GEN_8
 	jumpifability BS_TARGET, ABILITY_INNER_FOCUS, BattleScript_IntimidatePrevented
 	jumpifability BS_TARGET, ABILITY_SCRAPPY, BattleScript_IntimidatePrevented
 	jumpifability BS_TARGET, ABILITY_OWN_TEMPO, BattleScript_IntimidatePrevented
 	jumpifability BS_TARGET, ABILITY_OBLIVIOUS, BattleScript_IntimidatePrevented
-#endif
+.endif
 	statbuffchange STAT_BUFF_NOT_PROTECT_AFFECTED | STAT_BUFF_ALLOW_PTR, BattleScript_IntimidateActivatesLoopIncrement
 	jumpifbyte CMP_GREATER_THAN, cMULTISTRING_CHOOSER, 0x1, BattleScript_IntimidateActivatesLoopIncrement
 	setgraphicalstatchangevalues
@@ -7766,6 +7766,25 @@ BattleScript_PrintPlayerForfeitedLinkBattle::
 	atk57
 	waitmessage 0x40
 	end2
+
+BattleScript_TotemFlaredToLife::
+	playanimation BS_ATTACKER, B_ANIM_TOTEM_FLARE, NULL
+	printstring STRINGID_AURAFLAREDTOLIFE
+	waitmessage 0x40
+	goto BattleScript_ApplyTotemVarBoost
+
+BattleScript_TotemVar::
+	gettotemboost BattleScript_ApplyTotemVarBoost
+BattleScript_TotemVarEnd:
+	end2
+BattleScript_ApplyTotemVarBoost:
+	statbuffchange STAT_BUFF_ALLOW_PTR, BattleScript_TotemVarEnd
+	setgraphicalstatchangevalues
+	playanimation BS_SCRIPTING, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+BattleScript_TotemVarPrintStatMsg:
+	printfromtable gStatUpStringIds
+	waitmessage 0x40
+	goto BattleScript_TotemVar  @loop until stats bitfield is empty
 
 BattleScript_AnnounceAirLockCloudNine::
 	call BattleScript_AbilityPopUp

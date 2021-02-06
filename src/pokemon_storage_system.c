@@ -5169,7 +5169,7 @@ static u16 sub_80CC124(u16 species, u32 personality)
     sPSSData->field_B58[i] = species;
     sPSSData->field_B08[i]++;
     var = 16 * i;
-    CpuCopy32(GetMonIconTiles(species, TRUE, personality), (void*)(OBJ_VRAM0) + var * 32, 0x200);
+    CpuCopy32(GetMonIconTiles(species, personality), (void*)(OBJ_VRAM0) + var * 32, 0x200);
 
     return var;
 }
@@ -8335,7 +8335,7 @@ static void sub_80D07B0(u8 arg0, u8 arg1)
 
     if (species != SPECIES_NONE)
     {
-        const u8 *iconGfx = GetMonIconPtr(species, personality, 1);
+        const u8 *iconGfx = GetMonIconPtr(species, personality);
         u8 index = GetValidMonIconPalIndex(species) + 8;
 
         BlitBitmapRectToWindow4BitTo8Bit(sPSSData->field_2200,
@@ -8389,7 +8389,7 @@ static u8 sub_80D0894(void)
 
 static void sub_80D08CC(void)
 {
-    s32 i, j, r8, r9;
+    s32 i, j;
     s32 rowCount, columnCount;
     u8 boxId;
     u8 monArrayId;

@@ -76,7 +76,7 @@ static EWRAM_DATA u16 gTrainerId = 0;
 static void UpdateLinkAndCallCallbacks(void);
 static void InitMainCallbacks(void);
 static void CallCallbacks(void);
-//static void SeedRngWithRtc(void);
+static void SeedRngWithRtc(void);
 static void ReadKeys(void);
 void InitIntrHandlers(void);
 static void WaitForVBlank(void);
@@ -103,7 +103,9 @@ void AgbMain()
     CheckForFlashMemory();
     InitMainCallbacks();
     InitMapMusic();
-    //SeedRngWithRtc(); see comment at SeedRngWithRtc declaration below
+#ifdef BUGFIX
+    SeedRngWithRtc(); // see comment at SeedRngWithRtc definition below
+#endif
     ClearDma3Requests();
     ResetBgs();
     SetDefaultFontsPointer();
@@ -215,13 +217,15 @@ void EnableVCountIntrAtLine150(void)
     EnableInterrupts(INTR_FLAG_VCOUNT);
 }
 
-// oops! FRLG commented this out to remove RTC, however Emerald didnt undo this!
-//static void SeedRngWithRtc(void)
-//{
-//    u32 seed = RtcGetMinuteCount();
-//    seed = (seed >> 16) ^ (seed & 0xFFFF);
-//    SeedRng(seed);
-//}
+// FRLG commented this out to remove RTC, however Emerald didn't undo this!
+#ifdef BUGFIX
+static void SeedRngWithRtc(void)
+{
+    u32 seed = RtcGetMinuteCount();
+    seed = (seed >> 16) ^ (seed & 0xFFFF);
+    SeedRng(seed);
+}
+#endif
 
 void InitKeys(void)
 {
@@ -296,7 +300,7 @@ void InitIntrHandlers(void)
 
     REG_IME = 1;
 
-    EnableInterrupts(0x1);
+    EnableInterrupts(INTR_FLAG_VBLANK);
 }
 
 void SetVBlankCallback(IntrCallback callback)
