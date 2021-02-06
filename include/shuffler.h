@@ -20,13 +20,10 @@
 
 struct TrainerTemplate {
     u8 partyFlags;
-    u8 trainerClass;
+    u8 trainerClass; // No longer used for displaying class name but still controls the transition animation and some music.
     u8 encounterMusic_gender;
     u8 trainerPic;
     const u8* trainerName;
-    //u16 items[4];
-    //bool8 doubleBattle;
-    //u32 aiFlags;
     u8 partySize;
     
     union TrainerMonPtr party;
