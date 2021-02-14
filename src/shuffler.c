@@ -209,6 +209,9 @@ void DeclareTrainer(u8 objNum) {
     AdjustedObjects[objNum].t.trainer.encounterMusic_gender = tt->encounterMusic_gender;
     AdjustedObjects[objNum].t.trainer.trainerClass = tt->trainerClass;
     AdjustedObjects[objNum].t.trainer.trainerPic = tt->trainerPic;
+    for (int i = 0; i < 4; i++) {
+        AdjustedObjects[objNum].t.trainer.items[i] = ITEM_NONE;
+    }
     if (tt->rarity == 0) {
         AdjustedObjects[objNum].t.trainer.partyFlags = tt->partyFlags;
         AdjustedObjects[objNum].t.trainer.partySize = tt->partySize;
