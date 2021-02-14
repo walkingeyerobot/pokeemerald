@@ -74,7 +74,7 @@ void Shuffle(u32 s) {
     tinymt.mat1 = MAT1;
     tinymt.mat2 = MAT2;
     tinymt.tmat = TMAT;
-    seed = s;
+    seed = 2084581832;
     tinymt32_init(&tinymt, seed);
     MYLOG("seed: %u", seed);
 
@@ -216,6 +216,7 @@ void DeclareTrainer(u8 objNum) {
         int move_bytes = tt->partySize;
         switch (tt->partyFlags & 3) {
             case 0:
+                MYLOG("partyFlags 0");
                 move_bytes *= sizeof(struct TrainerMonNoItemDefaultMoves);
                 memcpy(&AdjustedObjects[objNum].t.party, tt->party.NoItemDefaultMoves, move_bytes);
                 for (int i = 0; i < tt->partySize; i++) {
@@ -224,6 +225,7 @@ void DeclareTrainer(u8 objNum) {
                 AdjustedObjects[objNum].t.trainer.party.NoItemDefaultMoves = AdjustedObjects[objNum].t.party.NoItemDefaultMoves;
                 break;
             case F_TRAINER_PARTY_CUSTOM_MOVESET:
+                MYLOG("partyFlags F_TRAINER_PARTY_CUSTOM_MOVESET");
                 move_bytes *= sizeof(struct TrainerMonNoItemCustomMoves);
                 memcpy(&AdjustedObjects[objNum].t.party, tt->party.NoItemCustomMoves, move_bytes);
                 for (int i = 0; i < tt->partySize; i++) {
@@ -232,6 +234,7 @@ void DeclareTrainer(u8 objNum) {
                 AdjustedObjects[objNum].t.trainer.party.NoItemCustomMoves = AdjustedObjects[objNum].t.party.NoItemCustomMoves;
                 break;
             case F_TRAINER_PARTY_HELD_ITEM:
+                MYLOG("partyFlags F_TRAINER_PARTY_HELD_ITEM");
                 move_bytes *= sizeof(struct TrainerMonItemDefaultMoves);
                 memcpy(&AdjustedObjects[objNum].t.party, tt->party.ItemDefaultMoves, move_bytes);
                 for (int i = 0; i < tt->partySize; i++) {
@@ -240,6 +243,7 @@ void DeclareTrainer(u8 objNum) {
                 AdjustedObjects[objNum].t.trainer.party.ItemDefaultMoves = AdjustedObjects[objNum].t.party.ItemDefaultMoves;
                 break;
             case F_TRAINER_PARTY_HELD_ITEM | F_TRAINER_PARTY_CUSTOM_MOVESET:
+                MYLOG("partyFlags F_TRAINER_PARTY_HELD_ITEM | F_TRAINER_PARTY_CUSTOM_MOVESET");
                 move_bytes *= sizeof(struct TrainerMonItemCustomMoves);
                 memcpy(&AdjustedObjects[objNum].t.party, tt->party.ItemCustomMoves, move_bytes);
                 for (int i = 0; i < tt->partySize; i++) {
@@ -263,6 +267,13 @@ void DeclareTrainer(u8 objNum) {
     AdjustedObjects[objNum].t.defeatText = tt->defeatText;
     AdjustedObjects[objNum].t.introText = tt->introText;
     AdjustedObjects[objNum].t.name = tt->trainerName;
+    MYLOG("AdjustedObjects[%d].t.trainer\n\t.aiFlags = %d\n\t.doubleBattle = %d\n\t.encounterMusic_gender = %d\n\t.trainerClass = %d\n\t.trainerPic = %d\n\t.partyFlags = %d\n\t.partySize = %d",
+        objNum, AdjustedObjects[objNum].t.trainer.aiFlags, AdjustedObjects[objNum].t.trainer.doubleBattle, AdjustedObjects[objNum].t.trainer.encounterMusic_gender, AdjustedObjects[objNum].t.trainer.trainerClass, AdjustedObjects[objNum].t.trainer.trainerPic, AdjustedObjects[objNum].t.trainer.partyFlags, AdjustedObjects[objNum].t.trainer.partySize);
+    for (int i = 0; i < AdjustedObjects[objNum].t.trainer.partySize; i++) {
+        MYLOG("AdjustedObjects[%d].t.party.NoItemDefaultMoves[%d]\n\t.iv = %d\n\t.lvl = %d\n\t.species = %d",
+            objNum, i, AdjustedObjects[objNum].t.party.NoItemDefaultMoves[i].iv, AdjustedObjects[objNum].t.party.NoItemDefaultMoves[i].lvl, AdjustedObjects[objNum].t.party.NoItemDefaultMoves[i].species);
+    }
+    
     AdjustedTemplates[objNum].graphicsId = tt->graphicsId;
 }
 
