@@ -72,9 +72,9 @@ static const struct TrainerTemplate ttFighting = {
 };
 
 
-static const u8 ttFlyingIntroText[] = _("Toucan play at this game!");
-static const u8 ttFlyingDefeatText[] = _("I guess birds really are sky garbage.");
-static const u8 ttFlyingName[] = _("Robin");
+static const u8 ttFlyingIntroText[] = _("This is your captain speaking...\nI'm gonna kick your tail!");
+static const u8 ttFlyingDefeatText[] = _("I'm stalling out!\nMayday! Mayday!");
+static const u8 ttFlyingName[] = _("Joan Jet");
 static const struct TrainerTemplate ttFlying = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
@@ -112,9 +112,9 @@ static const struct TrainerTemplate ttPoison = {
 };
 
 
-static const u8 ttGroundIntroText[] = _("Have you been adding soil to my garden?");
-static const u8 ttGroundDefeatText[] = _("The plot thickens.");
-static const u8 ttGroundName[] = _("Harry");
+static const u8 ttGroundIntroText[] = _("Runnin' my fingers through this\nhere soil... makes me feel alive.");
+static const u8 ttGroundDefeatText[] = _("Not much left to harvest\nnow that rains stopped comin'.");
+static const u8 ttGroundName[] = _("Farmer Jed");
 static const struct TrainerTemplate ttGround = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
@@ -213,7 +213,7 @@ static const struct TrainerTemplate ttSteel = {
 
 static const u8 ttFireIntroText[] = _("Man it's a hot one.");
 static const u8 ttFireDefeatText[] = _("Like seven inches from the midday\nsun.");
-static const u8 ttFireName[] = _("Rob");
+static const u8 ttFireName[] = _("Rob Thomas ft. Santana");
 static const struct TrainerTemplate ttFire = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
@@ -233,12 +233,12 @@ static const struct TrainerTemplate ttFire = {
 
 static const u8 ttWaterIntroText[] = _("Splish splash!");
 static const u8 ttWaterDefeatText[] = _("I'm just a small child.");
-static const u8 ttWaterName[] = _("Tommy");
+static const u8 ttWaterName[] = _("Flo");
 static const struct TrainerTemplate ttWater = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
     .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
-    .trainerPic = TRAINER_PIC_TUBER_M,
+    .trainerPic = TRAINER_PIC_TUBER_F,
     .trainerName = ttWaterName,
     .partySize = 0,
     .party = {},
@@ -247,7 +247,7 @@ static const struct TrainerTemplate ttWater = {
     .rarity = 1,
     .introText = ttWaterIntroText,
     .defeatText = ttWaterDefeatText,
-    .graphicsId = OBJ_EVENT_GFX_TUBER_M,
+    .graphicsId = OBJ_EVENT_GFX_TUBER_F,
 };
 
 
@@ -271,9 +271,9 @@ static const struct TrainerTemplate ttGrass = {
 };
 
 
-static const u8 ttElectricIntroText[] = _("This is my shocked face.");
-static const u8 ttElectricDefeatText[] = _("I'll have to charge you double for that.");
-static const u8 ttElectricName[] = _("Jack");
+static const u8 ttElectricIntroText[] = _("I'm amped up for this fight!");
+static const u8 ttElectricDefeatText[] = _("Oh zap!\nWhat a shocking defeat!");
+static const u8 ttElectricName[] = _("Julia");
 static const struct TrainerTemplate ttElectric = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
@@ -313,7 +313,7 @@ static const struct TrainerTemplate ttPsychic = {
 
 static const u8 ttIceIntroText[] = _("ICE to meet you!");
 static const u8 ttIceDefeatText[] = _("That wasn't very ICE of you.");
-static const u8 ttIceName[] = _("Sam");
+static const u8 ttIceName[] = _("Kelvin");
 static const struct TrainerTemplate ttIce = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
@@ -331,9 +331,9 @@ static const struct TrainerTemplate ttIce = {
 };
 
 
-static const u8 ttDragonIntroText[] = _("Quit DRAGON your feet and fight me.");
-static const u8 ttDragonDefeatText[] = _("Dragons can't blow out birthday candles.");
-static const u8 ttDragonName[] = _("Drake");
+static const u8 ttDragonIntroText[] = _("Well met good sir! Let us away\nto the field of battle!");
+static const u8 ttDragonDefeatText[] = _("I have been bested\nby a worthy adversary!");
+static const u8 ttDragonName[] = _("Archmage Stanley");
 static const struct TrainerTemplate ttDragon = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
@@ -351,9 +351,9 @@ static const struct TrainerTemplate ttDragon = {
 };
 
 
-static const u8 ttDarkIntroText[] = _("I have a dark sense of humor.");
-static const u8 ttDarkDefeatText[] = _("I can't see what's so funny.");
-static const u8 ttDarkName[] = _("Donnie");
+static const u8 ttDarkIntroText[] = _("I am the son and heir\nof nothing in particular.");
+static const u8 ttDarkDefeatText[] = _("To die by your side\nis such a heavenly way to die.");
+static const u8 ttDarkName[] = _("Raven Batshade");
 static const struct TrainerTemplate ttDark = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
