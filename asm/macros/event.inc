@@ -1635,6 +1635,16 @@
 	.byte \objnum
 	.endm
 
+	.macro buffertypename out:req, type:req
+	.byte 0xe7
+	.byte \out
+	.2byte \type
+	.endm
+
+	.macro declarenpc objnum:req
+	.byte 0xe8
+	.byte \objnum
+	.endm
 
 @ Supplementary
 

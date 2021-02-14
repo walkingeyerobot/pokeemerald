@@ -744,8 +744,8 @@
 #define FLAG_HIDE_APPRENTICE                                        0x2BD // 1-4 obj 1 wild mon
 #define FLAG_HIDE_POKEMON_CENTER_2F_MYSTERY_GIFT_MAN                0x2BE // 1-4 obj 2 wild mon
 #define FLAG_HIDE_UNION_ROOM_PLAYER_1                               0x2BF // 1-4 obj 3 wild mon
-#define FLAG_HIDE_UNION_ROOM_PLAYER_2                               0x2C0
-#define FLAG_HIDE_UNION_ROOM_PLAYER_3                               0x2C1
+#define FLAG_HIDE_UNION_ROOM_PLAYER_2                               0x2C0 // 1-2 obj 1 npc
+#define FLAG_HIDE_UNION_ROOM_PLAYER_3                               0x2C1 // 1-2 obj 2 npc
 #define FLAG_HIDE_UNION_ROOM_PLAYER_4                               0x2C2
 #define FLAG_HIDE_UNION_ROOM_PLAYER_5                               0x2C3
 #define FLAG_HIDE_UNION_ROOM_PLAYER_6                               0x2C4

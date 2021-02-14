@@ -2,6 +2,7 @@
 #define GUARD_SHUFFLER_H
 
 #include "data.h"
+#include "trade.h"
 
 #define MAX_OBJECTS 10
 #define POSSIBLE_STARTERS 108
@@ -61,10 +62,23 @@ struct ShuffledTrainerInfo {
     const u8* name;
 };
 
+struct NPCTraderInfo {
+    struct InGameTrade igt;
+};
+
+struct NPCInfo {
+    u8 type;
+    union {
+        struct NPCTraderInfo trader;
+        int placeholder_do_not_use;
+    };
+};
+
 union ShuffledObject {
     struct ShuffledTrainerInfo t;
     struct WildMon wm;
     u16 itemId;
+    struct NPCInfo npc;
 };
 
 struct RoomInfo {
@@ -91,5 +105,11 @@ void NotifyShufflerChangedRoom();
 void RedirectShuffledWarp(struct WarpData *warp);
 void DeclareItem(u16 objNum);
 u16 AdjustItem(u16 index);
+u16 GetShuffledNPCType(void);
+struct InGameTrade* GetShuffledInGameTrade(u16 index);
+u16 GetNPCFlag(void);
+u16 SetNPCFlag(void);
+u16 ClearNPCFlag(void);
+void DeclareNPC(u16 objNum);
 
 #endif // GUARD_SHUFFLER_H

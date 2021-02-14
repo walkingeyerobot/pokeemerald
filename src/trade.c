@@ -32,6 +32,7 @@
 #include "random.h"
 #include "save.h"
 #include "script.h"
+#include "shuffler.h"
 #include "sound.h"
 #include "string_util.h"
 #include "strings.h"
@@ -52,23 +53,10 @@
 #include "constants/songs.h"
 #include "constants/union_room.h"
 
-#define Trade_SendData(ptr) (SendBlock(bitmask_all_link_players_but_self(), ptr->linkData, 20))
+#include "printf.h"
+#include "mgba.h"
 
-struct InGameTrade {
-    /*0x00*/ u8 nickname[POKEMON_NAME_LENGTH + 1];
-    /*0x0C*/ u16 species;
-    /*0x0E*/ u8 ivs[NUM_STATS];
-    /*0x14*/ u8 abilityNum;
-    /*0x18*/ u32 otId;
-    /*0x1C*/ u8 conditions[CONTEST_CATEGORIES_COUNT];
-    /*0x24*/ u32 personality;
-    /*0x28*/ u16 heldItem;
-    /*0x2A*/ u8 mailNum;
-    /*0x2B*/ u8 otName[11];
-    /*0x36*/ u8 otGender;
-    /*0x37*/ u8 sheen;
-    /*0x38*/ u16 requestedSpecies;
-};
+#define Trade_SendData(ptr) (SendBlock(bitmask_all_link_players_but_self(), ptr->linkData, 20))
 
 static EWRAM_DATA u8 *sMessageBoxAllocBuffer = NULL;
 
@@ -3251,7 +3239,7 @@ static void BufferTradeSceneStrings(void)
     }
     else
     {
-        ingameTrade = &sIngameTrades[gSpecialVar_0x8004];
+        ingameTrade = GetShuffledInGameTrade(gSpecialVar_0x8004);
         StringCopy(gStringVar1, ingameTrade->otName);
         StringCopy10(gStringVar3, ingameTrade->nickname);
         GetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_NICKNAME, name);
@@ -4410,10 +4398,17 @@ u16 GetInGameTradeSpeciesInfo(void)
     return inGameTrade->requestedSpecies;
 }
 
+u16 GetInGameTradeTypeInfo(void) {
+    const struct InGameTrade *inGameTrade = GetShuffledInGameTrade(gSpecialVar_0x8004);
+    StringCopy(gStringVar1, gTypeNames[inGameTrade->requestedType]);
+    StringCopy(gStringVar2, gSpeciesNames[inGameTrade->species]);
+    return inGameTrade->requestedType;
+}
+
 static void BufferInGameTradeMonName(void)
 {
     u8 nickname[32];
-    const struct InGameTrade *inGameTrade = &sIngameTrades[gSpecialVar_0x8004];
+    const struct InGameTrade *inGameTrade = GetShuffledInGameTrade(gSpecialVar_0x8004);
     GetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_NICKNAME, nickname);
     StringCopy10(gStringVar1, nickname);
     StringCopy(gStringVar2, gSpeciesNames[inGameTrade->species]);
@@ -4421,7 +4416,7 @@ static void BufferInGameTradeMonName(void)
 
 static void _CreateInGameTradePokemon(u8 whichPlayerMon, u8 whichInGameTrade)
 {
-    const struct InGameTrade *inGameTrade = &sIngameTrades[whichInGameTrade];
+    const struct InGameTrade *inGameTrade = GetShuffledInGameTrade(whichInGameTrade);
     u8 level = GetMonData(&gPlayerParty[whichPlayerMon], MON_DATA_LEVEL);
 
     struct MailStruct mail;
@@ -4491,6 +4486,17 @@ u16 GetTradeSpecies(void)
     if (GetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_IS_EGG))
         return SPECIES_NONE;
     return GetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_SPECIES);
+}
+
+u16 CompareTradeTypes(void) {
+    u16 species = GetTradeSpecies();
+    if (species == SPECIES_NONE) {
+        return 0;
+    }
+    if (gBaseStats[species].type1 == gSpecialVar_0x8009 || gBaseStats[species].type2 == gSpecialVar_0x8009) {
+        return 1;
+    }
+    return 0;
 }
 
 void CreateInGameTradePokemon(void)

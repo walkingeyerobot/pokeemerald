@@ -50,6 +50,7 @@
 #include "tv.h"
 #include "window.h"
 #include "constants/event_objects.h"
+#include "battle_main.h"
 
 #include "printf.h"
 #include "mgba.h"
@@ -1559,6 +1560,15 @@ bool8 ScrCmd_bufferspeciesname(struct ScriptContext *ctx)
     return FALSE;
 }
 
+bool8 ScrCmd_buffertypename(struct ScriptContext *ctx)
+{
+    u8 stringVarIndex = ScriptReadByte(ctx);
+    u16 type = VarGet(ScriptReadHalfword(ctx));
+
+    StringCopy(sScriptStringVars[stringVarIndex], gTypeNames[type]);
+    return FALSE;
+}
+
 bool8 ScrCmd_bufferleadmonspeciesname(struct ScriptContext *ctx)
 {
     u8 stringVarIndex = ScriptReadByte(ctx);
@@ -2350,5 +2360,11 @@ bool8 ScrCmd_declaretrainer(struct ScriptContext *ctx) {
 bool8 ScrCmd_declarewildmon(struct ScriptContext *ctx) {
     u8 objNum = ScriptReadByte(ctx) - 1;
     DeclareWildMon(objNum);
+    return TRUE;
+}
+
+bool8 ScrCmd_declarenpc(struct ScriptContext *ctx) {
+    u8 objNum = ScriptReadByte(ctx) - 1;
+    DeclareNPC(objNum);
     return TRUE;
 }

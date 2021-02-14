@@ -15,6 +15,7 @@
 #include "random.h"
 #include "battle_setup.h"
 #include "item.h"
+#include "event_data.h"
 #endif
 
 #include "constants/battle_ai.h"
@@ -280,6 +281,47 @@ void DeclareItem(u16 objNum) {
     AdjustedObjects[objNum].itemId = possibleItems[i];
 }
 
+static const u8 nickname[] = _("SHITASS");
+static const u8 traderName[] = _("TRADER JOE");
+void DeclareNPC(u16 objNum) {
+    MirrorMapData();
+    int i = 1; // randomize here
+    AdjustedObjects[objNum].npc.type = i;
+    switch(i) {
+    case 1: // Trader
+        memcpy(AdjustedObjects[objNum].npc.trader.igt.nickname, nickname, sizeof(nickname));
+        memcpy(AdjustedObjects[objNum].npc.trader.igt.otName, traderName, sizeof(traderName));
+        AdjustedObjects[objNum].npc.trader.igt.species = tinymt32_generate_uint32(&currentRoomSeed) % 809;
+        AdjustedObjects[objNum].npc.trader.igt.ivs[0] = 15;
+        AdjustedObjects[objNum].npc.trader.igt.ivs[1] = 15;
+        AdjustedObjects[objNum].npc.trader.igt.ivs[2] = 15;
+        AdjustedObjects[objNum].npc.trader.igt.ivs[3] = 15;
+        AdjustedObjects[objNum].npc.trader.igt.ivs[4] = 15;
+        AdjustedObjects[objNum].npc.trader.igt.ivs[5] = 15;
+        AdjustedObjects[objNum].npc.trader.igt.abilityNum = 0;
+        AdjustedObjects[objNum].npc.trader.igt.otId = 42069;
+        AdjustedObjects[objNum].npc.trader.igt.conditions[0] = 30;
+        AdjustedObjects[objNum].npc.trader.igt.conditions[1] = 5;
+        AdjustedObjects[objNum].npc.trader.igt.conditions[2] = 5;
+        AdjustedObjects[objNum].npc.trader.igt.conditions[3] = 5;
+        AdjustedObjects[objNum].npc.trader.igt.conditions[4] = 5;
+        AdjustedObjects[objNum].npc.trader.igt.personality = 0x84;
+        AdjustedObjects[objNum].npc.trader.igt.heldItem = possibleItems[tinymt32_generate_uint32(&currentRoomSeed) % POSSIBLE_ITEMS];
+        AdjustedObjects[objNum].npc.trader.igt.mailNum = -1;
+        AdjustedObjects[objNum].npc.trader.igt.otGender = MALE;
+        AdjustedObjects[objNum].npc.trader.igt.sheen = 10;
+        AdjustedObjects[objNum].npc.trader.igt.requestedSpecies = 0;
+        u8 type = tinymt32_generate_uint32(&currentRoomSeed) % 18;
+        if (type >= TYPE_MYSTERY) {
+            type++;
+        }
+        AdjustedObjects[objNum].npc.trader.igt.requestedType = type;
+        break;
+    default: // unknown
+        break;
+    }
+}
+
 #ifndef __wasm__
 const u8 *GetAdjustedTrainerIntroText(u16 objNum) {
     if (objNum < MAX_OBJECTS) {
@@ -377,4 +419,39 @@ u16 AdjustItem(u16 index) {
     u16 objNum = index - 1;
     return AdjustedObjects[objNum].itemId;
 }
+
+u16 GetShuffledNPCType(void) {
+    u16 objNum = gSpecialVar_0x8008 - 1;
+    return AdjustedObjects[objNum].npc.type;
+}
+
+struct InGameTrade* GetShuffledInGameTrade(u16 index) {
+    u16 objNum = index - 1;
+    return &AdjustedObjects[objNum].npc.trader.igt;
+}
+
+u16 GetNPCFlag(void) {
+    u16 objNum = gSpecialVar_0x8008 - 1;
+    u16 flagId = AdjustedTemplates[objNum].flagId;
+    return FlagGet(flagId);
+}
+
+u16 SetNPCFlag(void) {
+    u16 objNum = gSpecialVar_0x8008 - 1;
+    u16 flagId = AdjustedTemplates[objNum].flagId;
+    if (FlagSet(flagId) != 0 || FlagGet(flagId) != 1) {
+        MYLOG("NPC Flag wasn't set properly! %X", flagId);
+    }
+    return 1;
+}
+
+u16 ClearNPCFlag(void) {
+    u16 objNum = gSpecialVar_0x8008 - 1;
+    u16 flagId = AdjustedTemplates[objNum].flagId;
+    if (FlagClear(flagId) != 0 || FlagGet(flagId) != 0) {
+        MYLOG("NPC Flag wasn't cleared properly! %X", flagId);
+    }
+    return 0;
+}
+
 #endif

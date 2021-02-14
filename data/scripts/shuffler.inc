@@ -107,3 +107,107 @@ Shuffler_Item8::
 Shuffler_Item9::
 	finditem 9
 	end
+
+Shuffler_NPC1::
+	setvar VAR_0x8008, 1
+	call Shuffler_NPC_Common
+Shuffler_NPC2::
+	setvar VAR_0x8008, 2
+	call Shuffler_NPC_Common
+Shuffler_NPC3::
+	setvar VAR_0x8008, 3
+	call Shuffler_NPC_Common
+Shuffler_NPC4::
+	setvar VAR_0x8008, 4
+	call Shuffler_NPC_Common
+Shuffler_NPC5::
+	setvar VAR_0x8008, 5
+	call Shuffler_NPC_Common
+Shuffler_NPC6::
+	setvar VAR_0x8008, 6
+	call Shuffler_NPC_Common
+Shuffler_NPC7::
+	setvar VAR_0x8008, 7
+	call Shuffler_NPC_Common
+Shuffler_NPC8::
+	setvar VAR_0x8008, 8
+	call Shuffler_NPC_Common
+Shuffler_NPC9::
+	setvar VAR_0x8008, 9
+	call Shuffler_NPC_Common
+
+Shuffler_NPC_Common::
+	specialvar VAR_RESULT, GetShuffledNPCType
+	compare VAR_RESULT, 1
+	goto_if_eq Shuffler_NPC_Trader
+	@ put more compares here for different npc types
+	msgbox Shuffler_NPC_Text_Error, MSGBOX_DEFAULT
+	end
+
+Shuffler_NPC_Trader::
+	lock
+	faceplayer
+	specialvar VAR_RESULT, GetNPCFlag
+	compare VAR_RESULT, 1
+	goto_if_eq Shuffler_NPC_Trader_TradeCompleted
+	copyvar VAR_0x8004, VAR_0x8008
+	specialvar VAR_RESULT, GetInGameTradeTypeInfo
+	copyvar VAR_0x8009, VAR_RESULT
+	msgbox Shuffler_NPC_Trader_Text_Offer, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq Shuffler_NPC_Trader_DeclineTrade
+	special ChoosePartyMon
+	waitstate
+	copyvar VAR_0x800A, VAR_0x8004
+	compare VAR_0x8004, 255
+	goto_if_eq Shuffler_NPC_Trader_DeclineTrade
+	copyvar VAR_0x8005, VAR_0x800A
+	specialvar VAR_RESULT, CompareTradeTypes
+	copyvar VAR_0x800B, VAR_RESULT
+	compare VAR_RESULT, 1
+	goto_if_ne Shuffler_NPC_Trader_NotRequestedMon
+	copyvar VAR_0x8004, VAR_0x8008
+	copyvar VAR_0x8005, VAR_0x800A
+	special CreateInGameTradePokemon
+	special DoInGameTradeScene
+	waitstate
+	msgbox Shuffler_NPC_Trader_Text_PostTrade, MSGBOX_DEFAULT
+	special SetNPCFlag
+	release
+	end
+
+Shuffler_NPC_Trader_TradeCompleted::
+	msgbox Shuffler_NPC_Trader_Text_AfterTrade, MSGBOX_DEFAULT
+	release
+	end
+
+Shuffler_NPC_Trader_DeclineTrade::
+	msgbox Shuffler_NPC_Trader_Text_DeclineTrade, MSGBOX_DEFAULT
+	release
+	end
+
+Shuffler_NPC_Trader_NotRequestedMon::
+	buffertypename 0, VAR_0x8009
+	msgbox Shuffler_NPC_Trader_Text_WrongType, MSGBOX_DEFAULT
+	release
+	end
+
+Shuffler_NPC_Text_Error:
+	.string "Cannot determine npc type.\n"
+	.string "Let walkingeye know this happened.$"
+
+Shuffler_NPC_Trader_Text_AfterTrade:
+	.string "Thanks for the trade, nerd.$"
+
+Shuffler_NPC_Trader_Text_Offer:
+	.string "I'll trade you my {STR_VAR_2} for\n"
+	.string "a {STR_VAR_1} type if you want.$"
+
+Shuffler_NPC_Trader_Text_DeclineTrade:
+	.string "Ok no trade then, nerd.$"
+
+Shuffler_NPC_Trader_Text_WrongType:
+	.string "That's not a {STR_VAR_1} type, nerd.$"
+
+Shuffler_NPC_Trader_Text_PostTrade:
+	.string "Eheheh… nice.$"

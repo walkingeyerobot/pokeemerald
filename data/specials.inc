@@ -264,9 +264,11 @@ gSpecials:: @ 81DBA64
 	def_special PlayerPC
 	def_special FieldShowRegionMap
 	def_special GetInGameTradeSpeciesInfo
+	def_special GetInGameTradeTypeInfo
 	def_special CreateInGameTradePokemon
 	def_special DoInGameTradeScene
 	def_special GetTradeSpecies
+	def_special CompareTradeTypes
 	def_special GetWeekCount
 	def_special RetrieveLotteryNumber
 	def_special PickLotteryCornerTicket
@@ -536,3 +538,7 @@ gSpecials:: @ 81DBA64
 	def_special CloseDeptStoreElevatorWindow
 	def_special TrySetBattleTowerLinkType
 	def_special SetTotemBoost
+	def_special GetShuffledNPCType
+	def_special GetNPCFlag
+	def_special SetNPCFlag
+	def_special ClearNPCFlag

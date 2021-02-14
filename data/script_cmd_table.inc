@@ -231,6 +231,8 @@ gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_declareitem
 	.4byte ScrCmd_declaretrainer
 	.4byte ScrCmd_declarewildmon
+	.4byte ScrCmd_buffertypename
+	.4byte ScrCmd_declarenpc
 	
 
 gScriptCmdTableEnd:: @ 81DBA08
