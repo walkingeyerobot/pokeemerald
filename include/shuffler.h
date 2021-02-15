@@ -34,6 +34,7 @@ struct TrainerTemplate {
 
     const u8* introText;
     const u8* defeatText;
+    const u8* postbattleText;
     u16 graphicsId;
 };
 
