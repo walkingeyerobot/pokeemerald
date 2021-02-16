@@ -101,6 +101,7 @@ gStdScripts:: @ 81DC2A0
 	.4byte Std_10
 gStdScripts_End:: @ 81DC2CC
 
+	.include "data/scripts/shuffler_text.inc"
 	.include "data/scripts/shuffler.inc"
 	.include "data/maps/PetalburgCity/scripts.inc"
 	.include "data/maps/SlateportCity/scripts.inc"

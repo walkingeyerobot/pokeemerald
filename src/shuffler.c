@@ -289,7 +289,7 @@ static const u8 nickname[] = _("SHITASS");
 static const u8 traderName[] = _("TRADER JOE");
 void DeclareNPC(u16 objNum) {
     MirrorMapData();
-    int i = 1; // randomize here
+    int i = (tinymt32_generate_uint32(&currentRoomSeed) % POSSIBLE_NPCS) + 1;
     AdjustedObjects[objNum].npc.type = i;
     switch(i) {
     case 1: // Trader
@@ -320,6 +320,10 @@ void DeclareNPC(u16 objNum) {
             type++;
         }
         AdjustedObjects[objNum].npc.trader.igt.requestedType = type;
+        AdjustedTemplates[objNum].graphicsId = OBJ_EVENT_GFX_CAMPER;
+        break;
+    case 2:
+        AdjustedTemplates[objNum].graphicsId = OBJ_EVENT_GFX_NURSE;
         break;
     default: // unknown
         break;

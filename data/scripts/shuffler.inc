@@ -149,6 +149,8 @@ Shuffler_NPC_Common::
 	specialvar VAR_RESULT, GetShuffledNPCType
 	compare VAR_RESULT, 1
 	goto_if_eq Shuffler_NPC_Trader
+	compare VAR_RESULT, 2
+	goto_if_eq Shuffler_NPC_Healer
 	@ put more compares here for different npc types
 	msgbox Shuffler_NPC_Text_Error, MSGBOX_DEFAULT
 	end
@@ -201,22 +203,35 @@ Shuffler_NPC_Trader_NotRequestedMon::
 	release
 	end
 
-Shuffler_NPC_Text_Error:
-	.string "Cannot determine npc type.\n"
-	.string "Let walkingeye know this happened.$"
+Shuffler_NPC_Healer::
+	lock
+	faceplayer
+	specialvar VAR_RESULT, GetNPCFlag
+	compare VAR_RESULT, 1
+	goto_if_eq Shuffler_NPC_Healer_Goodbye
+	msgbox Shuffler_NPC_Healer_Text_AskHeal, MSGBOX_YESNO
+    compare VAR_RESULT, YES
+    goto_if_eq Shuffler_NPC_Healer_HealPkmn
+    compare VAR_RESULT, NO
+    goto_if_eq Shuffler_NPC_Healer_Goodbye
+	release
+	end
 
-Shuffler_NPC_Trader_Text_AfterTrade:
-	.string "Thanks for the trade, nerd.$"
+Shuffler_NPC_Healer_HealPkmn::
+	special SetNPCFlag
+	msgbox Shuffler_NPC_Healer_Text_DoHeal
+	@ I'm not sure how to edit field effects
+	@ such that just the healing sound plays.
+	@message gText_IllTakeYourPkmn
+	@waitmessage
+	@dofieldeffect FLDEFF_POKECENTER_HEAL
+    @waitfieldeffect FLDEFF_POKECENTER_HEAL
+	special HealPlayerParty
+	goto Shuffler_NPC_Healer_Goodbye
+	release
+	end
 
-Shuffler_NPC_Trader_Text_Offer:
-	.string "I'll trade you my {STR_VAR_2} for\n"
-	.string "a {STR_VAR_1} type if you want.$"
-
-Shuffler_NPC_Trader_Text_DeclineTrade:
-	.string "Ok no trade then, nerd.$"
-
-Shuffler_NPC_Trader_Text_WrongType:
-	.string "That's not a {STR_VAR_1} type, nerd.$"
-
-Shuffler_NPC_Trader_Text_PostTrade:
-	.string "Eheheh… nice.$"
+Shuffler_NPC_Healer_Goodbye::
+	msgbox Shuffler_NPC_Healer_Text_Done
+	release
+	end
