@@ -1646,6 +1646,12 @@
 	.byte \objnum
 	.endm
 
+	.macro bufferpostbattletext out:req, objnum:req
+	.byte 0xe9
+	.byte \out
+	.byte \objnum
+	.endm
+
 @ Supplementary
 
 	.macro goto_if_unset flag:req, dest:req

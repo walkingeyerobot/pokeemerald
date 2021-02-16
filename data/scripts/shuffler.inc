@@ -1,41 +1,50 @@
 Shuffler_Trainer1::
 	trainerbattle_single 1, 0, 0
+	bufferpostbattletext 0, 1
 	msgbox Shuffler_Text_PostBattle, MSGBOX_AUTOCLOSE
 	end
 Shuffler_Trainer2::
 	trainerbattle_single 2, 0, 0
+	bufferpostbattletext 0, 2
 	msgbox Shuffler_Text_PostBattle, MSGBOX_AUTOCLOSE
 	end
 Shuffler_Trainer3::
 	trainerbattle_single 3, 0, 0
+	bufferpostbattletext 0, 3
 	msgbox Shuffler_Text_PostBattle, MSGBOX_AUTOCLOSE
 	end
 Shuffler_Trainer4::
 	trainerbattle_single 4, 0, 0
+	bufferpostbattletext 0, 4
 	msgbox Shuffler_Text_PostBattle, MSGBOX_AUTOCLOSE
 	end
 Shuffler_Trainer5::
 	trainerbattle_single 5, 0, 0
+	bufferpostbattletext 0, 5
 	msgbox Shuffler_Text_PostBattle, MSGBOX_AUTOCLOSE
 	end
 Shuffler_Trainer6::
 	trainerbattle_single 6, 0, 0
+	bufferpostbattletext 0, 6
 	msgbox Shuffler_Text_PostBattle, MSGBOX_AUTOCLOSE
 	end
 Shuffler_Trainer7::
 	trainerbattle_single 7, 0, 0
+	bufferpostbattletext 0, 7
 	msgbox Shuffler_Text_PostBattle, MSGBOX_AUTOCLOSE
 	end
 Shuffler_Trainer8::
 	trainerbattle_single 8, 0, 0
+	bufferpostbattletext 0, 8
 	msgbox Shuffler_Text_PostBattle, MSGBOX_AUTOCLOSE
 	end
 Shuffler_Trainer9::
 	trainerbattle_single 9, 0, 0
+	bufferpostbattletext 0, 9
 	msgbox Shuffler_Text_PostBattle, MSGBOX_AUTOCLOSE
 	end
 Shuffler_Text_PostBattle:
-	.string "postbattle$"
+	.string "{STR_VAR_1}$"
 Shuffler_WildMon_Common::
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartLegendaryBattle

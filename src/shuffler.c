@@ -265,6 +265,7 @@ void DeclareTrainer(u8 objNum) {
     }
     AdjustedObjects[objNum].t.defeatText = tt->defeatText;
     AdjustedObjects[objNum].t.introText = tt->introText;
+    AdjustedObjects[objNum].t.postbattleText = tt->postbattleText;
     AdjustedObjects[objNum].t.name = tt->trainerName;
     AdjustedTemplates[objNum].graphicsId = tt->graphicsId;
 }
@@ -344,6 +345,13 @@ const u8 *GetAdjustedTrainerName(u16 index) {
     u16 objNum = index - 1;
     if (objNum < MAX_OBJECTS) {
         return AdjustedObjects[objNum].t.name;
+    }
+    return unknown_string;
+}
+
+const u8 *GetAdjustedTrainerPostbattleText(u8 objNum) {
+    if (objNum < MAX_OBJECTS) {
+        return AdjustedObjects[objNum].t.postbattleText;
     }
     return unknown_string;
 }

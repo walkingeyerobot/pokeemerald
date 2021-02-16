@@ -14,6 +14,7 @@ static const struct TrainerMonNoItemDefaultMoves tt1Party[] = {
 };
 static const u8 tt1IntroText[] = _("test intro 1");
 static const u8 tt1DefeatText[] = _("test defeat 1");
+static const u8 tt1PostbattleText[] = _("postbattle 1");
 static const u8 tt1Name[] = _("TestGuy");
 static const struct TrainerTemplate tt1 = {
     .partyFlags = 0,
@@ -28,6 +29,7 @@ static const struct TrainerTemplate tt1 = {
     .rarity = 0,
     .introText = tt1IntroText,
     .defeatText = tt1DefeatText,
+    .postbattleText = tt1PostbattleText,
     .graphicsId = OBJ_EVENT_GFX_LITTLE_BOY,
 };
 
@@ -115,6 +117,7 @@ static const struct TrainerTemplate ttPoison = {
     .rarity = 1,
     .introText = ttPoisonIntroText,
     .defeatText = ttPoisonDefeatText,
+    .postbattleText = ttPoisonPostbattleText,
     .graphicsId = OBJ_EVENT_GFX_AQUA_MEMBER_F,
 };
 

@@ -2368,3 +2368,12 @@ bool8 ScrCmd_declarenpc(struct ScriptContext *ctx) {
     DeclareNPC(objNum);
     return TRUE;
 }
+
+bool8 ScrCmd_bufferpostbattletext(struct ScriptContext *ctx)
+{
+    u8 stringVarIndex = ScriptReadByte(ctx);
+    u8 objNum = ScriptReadByte(ctx) - 1;
+
+    StringCopy(sScriptStringVars[stringVarIndex], GetAdjustedTrainerPostbattleText(objNum));
+    return FALSE;
+}
