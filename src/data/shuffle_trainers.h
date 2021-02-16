@@ -2,27 +2,34 @@ static const u8 unknown_string[] = _("unknown");
 
 static const struct TrainerMonNoItemDefaultMoves tt1Party[] = {
     {
-    .iv = 0,
-    .lvl = 1,
-    .species = SPECIES_ZUBAT,
-    },
-    {
-    .iv = 0,
-    .lvl = 1,
-    .species = SPECIES_GEODUDE,
+        .iv = 0,
+        .lvl = 1,
+        .species = SPECIES_SCRAGGY,
+    }, {
+        .iv = 0,
+        .lvl = 1,
+        .species = SPECIES_GASTLY,
+    }, {
+        .iv = 0,
+        .lvl = 1,
+        .species = SPECIES_JOLTEON,
+    }, {
+        .iv = 0,
+        .lvl = 1,
+        .species = SPECIES_DUSKULL,
     }
 };
 static const u8 tt1IntroText[] = _("test intro 1");
 static const u8 tt1DefeatText[] = _("test defeat 1");
 static const u8 tt1PostbattleText[] = _("postbattle 1");
-static const u8 tt1Name[] = _("TestGuy");
+static const u8 tt1Name[] = _("HoldemJoe");
 static const struct TrainerTemplate tt1 = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
     .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
     .trainerPic = TRAINER_PIC_HIKER,
     .trainerName = tt1Name,
-    .partySize = 2,
+    .partySize = 4,
     .party = {.NoItemDefaultMoves = tt1Party},
     .type1 = 0,
     .type2 = 0,
