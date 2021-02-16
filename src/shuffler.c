@@ -99,10 +99,11 @@ void Shuffle(u32 s) {
         i++;
     }
 
-    int allRooms[TOTAL_ROOMS - 2];
+    int allRooms[TOTAL_ROOMS - 1];
     for (int j = 0; j < TOTAL_ROOMS - 2; j++) {
         allRooms[j] = j + 1;
     }
+    allRooms[TOTAL_ROOMS - 2] = TOTAL_ROOMS - 1;
     
     for (int j = TOTAL_ROOMS - 3; j > 0; j--) {
         r = (tinymt32_generate_uint32(&tinymt) % j);
@@ -111,10 +112,9 @@ void Shuffle(u32 s) {
         allRooms[j] = t;
     }
 
-    allRooms[3] = 6;
     int currentRoomIndex = 0;
     distances[currentRoomIndex] = 0;
-    for (int j = 0; j < TOTAL_ROOMS - 3; j++) {
+    for (int j = 0; j < TOTAL_ROOMS - 1; j++) {
         int targetRoomIndex = allRooms[j];
         distances[targetRoomIndex] = distances[currentRoomIndex] + 1;
         u8 roomGroup = Rooms[targetRoomIndex].id >> 8;
