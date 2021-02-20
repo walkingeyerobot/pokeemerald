@@ -76,7 +76,7 @@ void Shuffle(u32 s) {
     tinymt.mat1 = MAT1;
     tinymt.mat2 = MAT2;
     tinymt.tmat = TMAT;
-    seed = 2684901614;
+    seed = s;
     tinymt32_init(&tinymt, seed);
     MYLOG("seed: %u", seed);
 
@@ -200,11 +200,7 @@ void DeclareTrainer(u8 objNum) {
 
     int i = tinymt32_generate_uint32(&currentRoomSeed) % POSSIBLE_TRAINERS;
 
-#ifdef __wasm__
     const struct TrainerTemplate *tt = qTrainers[i];
-#else
-    const struct TrainerTemplate *tt = &qTrainers[i];
-#endif
 
     AdjustedObjects[objNum].t.trainer.aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY;
     AdjustedObjects[objNum].t.trainer.doubleBattle = FALSE;

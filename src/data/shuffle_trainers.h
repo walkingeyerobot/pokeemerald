@@ -435,8 +435,7 @@ static const struct TrainerTemplate ttFairy = {
     .graphicsId = OBJ_EVENT_GFX_ANABEL,
 };
 
-#ifdef __wasm__
-static const struct TrainerTemplate *qTrainers[POSSIBLE_TRAINERS] = {
+static const struct TrainerTemplate* const qTrainers[POSSIBLE_TRAINERS] = {
     &ttNormal,
     &ttFighting,
     &ttFlying,
@@ -456,28 +455,6 @@ static const struct TrainerTemplate *qTrainers[POSSIBLE_TRAINERS] = {
     &ttDark,
     &ttFairy
 };
-#else
-static const struct TrainerTemplate qTrainers[POSSIBLE_TRAINERS] = {
-    ttNormal,
-    ttFighting,
-    ttFlying,
-    ttPoison,
-    ttGround,
-    ttRock,
-    ttBug,
-    ttGhost,
-    ttSteel,
-    ttFire,
-    ttWater,
-    ttGrass,
-    ttElectric,
-    ttPsychic,
-    ttIce,
-    ttDragon,
-    ttDark,
-    ttFairy
-};
-#endif
 
 static const int TrainerMonTypes[19][20] = {
     [TYPE_NORMAL] = {
