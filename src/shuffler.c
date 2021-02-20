@@ -16,8 +16,10 @@
 #include "battle_setup.h"
 #include "item.h"
 #include "event_data.h"
+#include "string_util.h"
 #endif
 
+#include "constants/battle.h"
 #include "constants/battle_ai.h"
 #include "constants/event_objects.h"
 #include "constants/items.h"
@@ -74,7 +76,7 @@ void Shuffle(u32 s) {
     tinymt.mat1 = MAT1;
     tinymt.mat2 = MAT2;
     tinymt.tmat = TMAT;
-    seed = s;
+    seed = 2684901614;
     tinymt32_init(&tinymt, seed);
     MYLOG("seed: %u", seed);
 
@@ -287,6 +289,21 @@ void DeclareItem(u16 objNum) {
 
 static const u8 nickname[] = _("SHITASS");
 static const u8 traderName[] = _("TRADER JOE");
+
+static const u8 witchEffectText0[] = _("poison a random pokemon");
+static const u8 witchRewardText0[] = _("5 rare candies");
+static const u8* const witchEffectTexts[POSSIBLE_WITCH_EFFECTS] = {
+    witchEffectText0
+};
+static const u16 witchItemRewards[POSSIBLE_WITCH_ITEM_REWARDS] = {
+    ITEM_RARE_CANDY
+};
+static const u16 witchItemQuantities[POSSIBLE_WITCH_ITEM_REWARDS] = {
+    5
+};
+static const u8* const witchItemRewardTexts[POSSIBLE_WITCH_ITEM_REWARDS] = {
+    witchRewardText0
+};
 void DeclareNPC(u16 objNum) {
     MirrorMapData();
     int i = (tinymt32_generate_uint32(&currentRoomSeed) % POSSIBLE_NPCS) + 1;
@@ -325,7 +342,29 @@ void DeclareNPC(u16 objNum) {
     case 2:
         AdjustedTemplates[objNum].graphicsId = OBJ_EVENT_GFX_NURSE;
         break;
+    case 3:
+        i = tinymt32_generate_uint32(&currentRoomSeed) % POSSIBLE_WITCH_EFFECTS;
+        AdjustedObjects[objNum].npc.witch.effect = i;
+        AdjustedObjects[objNum].npc.witch.effectText = witchEffectTexts[i];
+
+        i = tinymt32_generate_uint32(&currentRoomSeed) % POSSIBLE_WITCH_REWARD_TYPES;
+        AdjustedObjects[objNum].npc.witch.rewardType = i;
+        switch (i) {
+        case 0: // item reward
+            i = tinymt32_generate_uint32(&currentRoomSeed) % POSSIBLE_WITCH_ITEM_REWARDS;
+            AdjustedObjects[objNum].npc.witch.itemReward.item = witchItemRewards[i];
+            AdjustedObjects[objNum].npc.witch.itemReward.quantity = witchItemQuantities[i];
+            AdjustedObjects[objNum].npc.witch.rewardText = witchItemRewardTexts[i];
+            break;
+        default:
+            MYLOG("witch reward error! %d", i);
+            break;
+        }
+        AdjustedObjects[objNum].npc.witch.seed = tinymt32_generate_uint32(&currentRoomSeed);
+        AdjustedTemplates[objNum].graphicsId = OBJ_EVENT_GFX_LEAF; // replace with something more witchy
+        break;
     default: // unknown
+        MYLOG("unknown NPC!");
         break;
     }
 }
@@ -467,6 +506,54 @@ u16 ClearNPCFlag(void) {
         MYLOG("NPC Flag wasn't cleared properly! %X", flagId);
     }
     return 0;
+}
+
+u16 DoWitchDeal(void) {
+    u16 objNum = gSpecialVar_0x8008 - 1;
+
+    tinymt32_t tinymt;
+    tinymt.mat1 = MAT1;
+    tinymt.mat2 = MAT2;
+    tinymt.tmat = TMAT;
+    tinymt32_init(&tinymt, AdjustedObjects[objNum].npc.witch.seed);
+
+    int monIndicies[6] = {0, 1, 2, 3, 4, 5};
+    // TODO: right now this is easily manipulated. sort by order caught if possible first, if not sort by species id.
+    for (int j = 5; j > 0; j--) {
+        int i = tinymt32_generate_uint32(&tinymt) % j;
+        int temp = monIndicies[j];
+        monIndicies[j] = monIndicies[i];
+        monIndicies[i] = temp;
+    }
+
+    bool8 broke = FALSE;
+    int status = STATUS1_POISON;
+    for (int i = 0; i < 6; i++) {
+        int j = monIndicies[i];
+        MYLOG("i,j = %d,%d", i, j);
+        if (j >= gPlayerPartyCount) {
+            continue;
+        }
+        if (!GetMonData(&gPlayerParty[j], MON_DATA_IS_EGG) && gPlayerParty[j].hp > 0 && !(gPlayerParty[j].status & STATUS1_ANY)) {
+            SetMonData(&gPlayerParty[j], MON_DATA_STATUS, &status);
+            broke = TRUE;
+            break;
+        }
+    }
+
+    // if the user has no alive, un-poisoned, non-egg pokemon, they'll get the item for free.
+    // this is probably not what we want to happen.
+    if (broke == FALSE) {
+        MYLOG("witch never broke!");
+    }
+
+    AddBagItem(AdjustedObjects[objNum].npc.witch.itemReward.item, AdjustedObjects[objNum].npc.witch.itemReward.quantity);
+}
+
+u16 BufferWitchText(void) {
+    u16 objNum = gSpecialVar_0x8008 - 1;
+    StringCopy(gStringVar1, AdjustedObjects[objNum].npc.witch.effectText);
+    StringCopy(gStringVar2, AdjustedObjects[objNum].npc.witch.rewardText);
 }
 
 #endif

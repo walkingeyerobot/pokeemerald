@@ -542,3 +542,5 @@ gSpecials:: @ 81DBA64
 	def_special GetNPCFlag
 	def_special SetNPCFlag
 	def_special ClearNPCFlag
+	def_special BufferWitchText
+	def_special DoWitchDeal

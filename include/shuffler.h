@@ -8,7 +8,10 @@
 #define POSSIBLE_STARTERS 108
 #define POSSIBLE_TRAINERS 18
 #define POSSIBLE_ITEMS 61
-#define POSSIBLE_NPCS 2
+#define POSSIBLE_NPCS 3
+#define POSSIBLE_WITCH_ITEM_REWARDS 1
+#define POSSIBLE_WITCH_EFFECTS 1
+#define POSSIBLE_WITCH_REWARD_TYPES 1
 #define TOTAL_ROOMS 7
 #define TOTAL_WARPS 12
 #define MAT1 0x8f7011ee
@@ -69,11 +72,27 @@ struct NPCTraderInfo {
     struct InGameTrade igt;
 };
 
+struct NPCWitchItemReward {
+    u16 item;
+    u16 quantity;
+};
+
+struct NPCWitchInfo {
+    u8 effect;
+    u8 rewardType;
+    u32 seed;
+    const u8* effectText;
+    const u8* rewardText;
+    union {
+        struct NPCWitchItemReward itemReward;
+    };
+};
+
 struct NPCInfo {
     u8 type;
     union {
         struct NPCTraderInfo trader;
-        int placeholder_do_not_use;
+        struct NPCWitchInfo witch;
     };
 };
 
@@ -115,5 +134,7 @@ u16 GetNPCFlag(void);
 u16 SetNPCFlag(void);
 u16 ClearNPCFlag(void);
 void DeclareNPC(u16 objNum);
+u16 DoWitchDeal(void);
+u16 BufferWitchText(void);
 
 #endif // GUARD_SHUFFLER_H

@@ -26,3 +26,12 @@ Shuffler_NPC_Healer_Text_DoHeal:
 
 Shuffler_NPC_Healer_Text_Done:
     .string "Now go away.$"
+
+Shuffler_NPC_Witch_Text_Ask:
+	.string "If you let me {STR_VAR_1},\nI'll reward you with\p{STR_VAR_2}.\nWhat do you say?$"
+
+Shuffler_NPC_Witch_Text_DoMagic:
+	.string "Hocus Pocus! The pact is sealed!$"
+
+Shuffler_NPC_Witch_Text_Done:
+	.string "Ehehehehehehe!$"

@@ -151,6 +151,8 @@ Shuffler_NPC_Common::
 	goto_if_eq Shuffler_NPC_Trader
 	compare VAR_RESULT, 2
 	goto_if_eq Shuffler_NPC_Healer
+	compare VAR_RESULT, 3
+	goto_if_eq Shuffler_NPC_Witch
 	@ put more compares here for different npc types
 	msgbox Shuffler_NPC_Text_Error, MSGBOX_DEFAULT
 	end
@@ -200,6 +202,34 @@ Shuffler_NPC_Trader_DeclineTrade::
 Shuffler_NPC_Trader_NotRequestedMon::
 	buffertypename 0, VAR_0x8009
 	msgbox Shuffler_NPC_Trader_Text_WrongType, MSGBOX_DEFAULT
+	release
+	end
+
+Shuffler_NPC_Witch::
+	lock
+	faceplayer
+	specialvar VAR_RESULT, GetNPCFlag
+	compare VAR_RESULT, 1
+	goto_if_eq Shuffler_NPC_Witch_Goodbye
+	special BufferWitchText
+	msgbox Shuffler_NPC_Witch_Text_Ask, MSGBOX_YESNO
+	compare VAR_RESULT, YES
+	goto_if_eq Shuffler_NPC_Witch_DoMagic
+	compare VAR_RESULT, NO
+	goto_if_eq Shuffler_NPC_Witch_Goodbye
+	release
+	end
+
+Shuffler_NPC_Witch_DoMagic::
+	special SetNPCFlag
+	msgbox Shuffler_NPC_Witch_Text_DoMagic
+	special DoWitchDeal
+	goto Shuffler_NPC_Witch_Goodbye
+	release
+	end
+
+Shuffler_NPC_Witch_Goodbye::
+	msgbox Shuffler_NPC_Witch_Text_Done
 	release
 	end
 
