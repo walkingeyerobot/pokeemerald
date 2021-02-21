@@ -216,15 +216,15 @@ static const struct TrainerTemplate ttGhost = {
 };
 
 
-static const u8 ttSteelIntroText[] = _("intro text");
-static const u8 ttSteelDefeatText[] = _("defeat text");
-static const u8 ttSteelPostbattleText[] = _("postbattle text");
-static const u8 ttSteelName[] = _("Nikola");
+static const u8 ttSteelIntroText[] = _("Let's battle NOW! YOW!");
+static const u8 ttSteelDefeatText[] = _("You beat me HOW?! YOW!");
+static const u8 ttSteelPostbattleText[] = _("My jokes are too HIGHBROW! YOW!");
+static const u8 ttSteelName[] = _("David Defeis");
 static const struct TrainerTemplate ttSteel = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
     .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
-    .trainerPic = TRAINER_PIC_NINJA_BOY,
+    .trainerPic = TRAINER_PIC_GUITARIST,
     .trainerName = ttSteelName,
     .partySize = 0,
     .party = {},
@@ -234,7 +234,7 @@ static const struct TrainerTemplate ttSteel = {
     .introText = ttSteelIntroText,
     .defeatText = ttSteelDefeatText,
     .postbattleText = ttSteelPostbattleText,
-    .graphicsId = OBJ_EVENT_GFX_NINJA_BOY,
+    .graphicsId = OBJ_EVENT_GFX_MAN_5,
 };
 
 
@@ -312,7 +312,7 @@ static const struct TrainerTemplate ttElectric = {
     .partyFlags = 0,
     .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
     .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
-    .trainerPic = TRAINER_PIC_GUITARIST,
+    .trainerPic = TRAINER_PIC_NINJA_BOY,
     .trainerName = ttElectricName,
     .partySize = 0,
     .party = {},
@@ -322,7 +322,7 @@ static const struct TrainerTemplate ttElectric = {
     .introText = ttElectricIntroText,
     .defeatText = ttElectricDefeatText,
     .postbattleText = ttElectricPostbattleText,
-    .graphicsId = OBJ_EVENT_GFX_MAN_5,
+    .graphicsId = OBJ_EVENT_GFX_NINJA_BOY,
 };
 
 
