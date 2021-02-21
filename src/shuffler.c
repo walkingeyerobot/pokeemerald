@@ -526,7 +526,6 @@ u16 DoWitchDeal(void) {
     int status = STATUS1_POISON;
     for (int i = 0; i < 6; i++) {
         int j = monIndicies[i];
-        MYLOG("i,j = %d,%d", i, j);
         if (j >= gPlayerPartyCount) {
             continue;
         }
